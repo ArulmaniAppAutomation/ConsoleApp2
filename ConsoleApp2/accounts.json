@@ -1,0 +1,16 @@
+{
+  "accounts": [
+    {
+      "environment": "CTiP",
+      "IbizaUser": "admin@AppSHRunner48.onmicrosoft.com",
+      "IbizaUserCode": "k_Wm3Law!^2]Ssnr%_h;",
+      "GraphUser":"admin@AppSHRunner48.onmicrosoft.com",
+      "GraphUserCode": "k_Wm3Law!^2]Ssnr%_h;",
+      "tenantid":"c0219094-a70e-402c-8dd2-fd89f7d64010",
+      "clientid":"b0af13d0-fee5-4714-9645-2be77815ce74",
+      "clientSecret":"9cb04e4b-703f-49a3-af80-964cb1733e66",
+      "certName": "IntuneAutoPE1",
+      "certCode": "110348"
+    }
+  ]
+}
