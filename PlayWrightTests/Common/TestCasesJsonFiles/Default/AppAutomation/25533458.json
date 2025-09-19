@@ -1,0 +1,287 @@
+{
+  "AppAutomationMenuItem": "Apps",
+  "AppAutomationCaseName": "LobAppTest",
+  "AppAutomationType": "macOSLob",
+  "Type": "AppAutomation",
+  "Name": "LobPKGRegressionUpdate",
+  "Scenarios": [
+    {
+      "Name": "select app type",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Apps.ByPlatform.AllAppsUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "GoToMainPageAsync"
+            },
+            {
+              "ControlType": "ClickAddButtonAsync"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Select app type",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.PopUp.SelectAppTypeUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "SelectAppTypeAsync",
+              "Value": [ "Line-of-business app", "Other" ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "select App package",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Apps.ByPlatform.AllAppsUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "ClickSelectAppPackageFileButtonAsync"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "App information select app package file",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.PopUp.UploadFileUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "UploadFile",
+              "OperationValue": "AppAutomation\\VersionOne\\SkypeForBusinessInstaller-16.16.0.102.pkg"
+            },
+            {
+              "ControlType": "ClickOKButtonAsync"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Set App information",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Apps.ByPlatform.AllAppsUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "SetAppInformationNameAsync",
+              "OperationValue": "25533458LobPKGRegressionUpdate"
+            },
+            {
+              "ControlType": "SetAppInformationDescriptionAsync",
+              "OperationValue": "UI Automation testing"
+            },
+            {
+              "ControlType": "SetAppInformationPublisherAsync",
+              "OperationValue": "AppLifeEx"
+            },
+            {
+              "ControlType": "SetAppInformationUrlAsync",
+              "OperationValue": "https://www.Microsoft.com"
+            },
+            {
+              "ControlType": "ClickNextButtonAsync"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Set App Assignments",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Apps.ByPlatform.AllAppsUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "ClickAvailableForEnrolledDevicesAllUsersAsync"
+            },
+            {
+              "ControlType": "ClickAvailableForEnrolledDevicesAddGroupAsync",
+              "OperationValue": "Iwuser0"
+            },
+            {
+              "ControlType": "ClickAvailableForEnrolledDevicesAddGroupAsync",
+              "OperationValue": "Iwuser1"
+            },
+            {
+              "ControlType": "ClickNextButtonAsync"
+            },
+            {
+              "ControlType": "ClickCreateButtonAsync"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "App Verify",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Apps.ByPlatform.AllAppsUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "initAppAutomationVerifyResult"
+            },
+            {
+              "ControlType": "VerifyPropertyAsync",
+              "Value": [ "Name", "25533458LobPKGRegressionUpdate" ]
+            },
+            {
+              "ControlType": "VerifyPropertyAsync",
+              "Value": [ "Publisher", "AppLifeEx" ]
+            },
+            {
+              "ControlType": "VerifyPropertyAsync",
+              "Value": [
+                "Information URL",
+                "https://www.Microsoft.com"
+              ]
+            },
+            {
+              "ControlType": "VerifyPropertyAssignmentsAsync",
+              "Value": [ "Available for enrolled devices", "All users" ]
+            },
+            {
+              "ControlType": "VerifyPropertyAssignmentsAsync",
+              "Value": [ "Available for enrolled devices", "Iwuser0" ]
+            },
+            {
+              "ControlType": "VerifyPropertyAssignmentsAsync",
+              "Value": [ "Available for enrolled devices", "Iwuser1" ]
+            },
+            {
+              "ControlType": "SuccessAppAutomationVerifyResult"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Update App Informateion",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Apps.ByPlatform.AllAppsUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "InitAppAutomationAppUpdated"
+            },
+            {
+              "ControlType": "ClickAppInformationEditButtonAsync"
+            },
+            {
+              "ControlType": "SetAppInformationPublisherAsync",
+              "OperationValue": "AppLifeEx Updated"
+            },
+            {
+              "ControlType": "SetAppInformationUrlAsync",
+              "OperationValue": "https://www.windows.com"
+            },
+            {
+              "ControlType": "ClickSelectFileToUpdateButtonAsync"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "App information select app package file",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.PopUp.UploadFileUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "UploadFile",
+              "OperationValue": "AppAutomation\\VersionTwo\\SkypeForBusinessInstaller-16.15.0.166.pkg"
+            },
+            {
+              "ControlType": "ClickOKButtonAsync"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Update App Information",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Apps.ByPlatform.AllAppsUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "ClickReviewSaveButtonAsync"
+            },
+            {
+              "ControlType": "ClickSaveButtonAsync"
+            },
+            {
+              "ControlType": "SuccessAppAutomationAppUpdated"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "App Verify",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Apps.ByPlatform.AllAppsUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "initAppAutomationVerifyResult"
+            },
+            {
+              "ControlType": "VerifyPropertyAsync",
+              "Value": [ "Name", "25533458LobPKGRegressionUpdate" ]
+            },
+            {
+              "ControlType": "VerifyPropertyAsync",
+              "Value": [ "Publisher", "AppLifeEx Updated" ]
+            },
+            {
+              "ControlType": "VerifyPropertyAsync",
+              "Value": [
+                "Information URL",
+                "https://www.windows.com"
+              ]
+            },
+            {
+              "ControlType": "VerifyDeviceInstallStatusAsync"
+            },
+            {
+              "ControlType": "VerifyUserInstallStatusAsync"
+            },
+            {
+              "ControlType": "VerifyMonitorAppInstallStatusAsync"
+            },
+            {
+              "ControlType": "SuccessAppAutomationVerifyResult"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "App delete",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Apps.ByPlatform.AllAppsUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "GoToMainPageAsync"
+            },
+            {
+              "ControlType": "DeleteAppByNameAsync"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

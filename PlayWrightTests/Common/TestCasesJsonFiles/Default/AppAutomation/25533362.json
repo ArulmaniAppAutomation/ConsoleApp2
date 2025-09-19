@@ -1,0 +1,194 @@
+{
+  "AppAutomationMenuItem": "Apps",
+  "AppAutomationCaseName": "LobAppTest",
+  "AppAutomationType": "WindowsLob",
+  "Type": "AppAutomation",
+  "Name": "LobMSIRegression",
+  "Scenarios": [
+    {
+      "Name": "select app type",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Apps.ByPlatform.AllAppsUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "GoToMainPageAsync"
+            },
+            {
+              "ControlType": "ClickAddButtonAsync"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Select app type",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.PopUp.SelectAppTypeUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "SelectAppTypeAsync",
+              "Value": [ "Line-of-business app", "Other" ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "select App package",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Apps.ByPlatform.AllAppsUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "ClickSelectAppPackageFileButtonAsync"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "App information select app package file",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.PopUp.UploadFileUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "UploadFile",
+              "OperationValue": "AppAutomation\\VersionOne\\npp.installer.msi"
+            },
+            {
+              "ControlType": "ClickOKButtonAsync"
+            }
+          ]
+        }
+      ]
+    },
+
+    {
+      "Name": "Set App information",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Apps.ByPlatform.AllAppsUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "SetAppInformationNameAsync",
+              "OperationValue": "25533362LobMSIRegression"
+            },
+            {
+              "ControlType": "SetAppInformationDescriptionAsync",
+              "OperationValue": "UI Automation testing"
+            },
+            {
+              "ControlType": "SetAppInformationPublisherAsync",
+              "OperationValue": "AppLifeEx"
+            },
+            {
+              "ControlType": "SetAppInformationUrlAsync",
+              "OperationValue": "https://www.windows.com"
+            },
+            {
+              "ControlType": "ClickNextButtonAsync"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Set App Assignments",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Apps.ByPlatform.AllAppsUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "ClickAvailableForEnrolledDevicesAllUsersAsync"
+            },
+            {
+              "ControlType": "ClickAvailableForEnrolledDevicesAddGroupAsync",
+              "OperationValue": "Admin"
+            },
+            {
+              "ControlType": "ClickAvailableForEnrolledDevicesAddGroupAsync",
+              "OperationValue": "Iwuser1"
+            },          
+            {
+              "ControlType": "ClickNextButtonAsync"
+            },
+            {
+              "ControlType": "ClickCreateButtonAsync"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "App Verify",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Apps.ByPlatform.AllAppsUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "initAppAutomationVerifyResult"
+            },
+            {
+              "ControlType": "VerifyPropertyAsync",
+              "Value": [ "Name", "25533362LobMSIRegression" ]
+            },
+            {
+              "ControlType": "VerifyPropertyAsync",
+              "Value": [ "Publisher", "AppLifeEx" ]
+            },
+            {
+              "ControlType": "VerifyPropertyAsync",
+              "Value": [
+                "Information URL",
+                "https://www.windows.com"
+              ]
+            },
+            {
+              "ControlType": "VerifyPropertyAssignmentsAsync",
+              "Value": [ "Available for enrolled devices", "All users" ]
+            },
+            {
+              "ControlType": "VerifyPropertyAssignmentsAsync",
+              "Value": [ "Available for enrolled devices", "Admin" ]
+            },
+            {
+              "ControlType": "VerifyPropertyAssignmentsAsync",
+              "Value": [ "Available for enrolled devices", "Iwuser1" ]
+            },
+            {
+              "ControlType": "VerifyDeviceInstallStatusAsync"
+            },
+            {
+              "ControlType": "VerifyUserInstallStatusAsync"
+            },
+            {
+              "ControlType": "VerifyMonitorAppInstallStatusAsync"
+            },
+            {
+              "ControlType": "SuccessAppAutomationVerifyResult"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "App delete",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Apps.ByPlatform.AllAppsUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "GoToMainPageAsync"
+            },
+            {
+              "ControlType": "DeleteAppByNameAsync"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,589 @@
+{
+  "AppAutomationMenuItem": "Apps",
+  "AppAutomationCaseName": "Win32AppTest",
+  "AppAutomationType": "Windows app (Win32)",
+  "Type": "AppAutomation",
+  "Name": "General test with several settings in each tab",
+  "Scenarios": [
+    {
+      "Name": "Check and create filter Include",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Devices.FiltersUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "CheckFilterIsExistOrNotAsync",
+              "OperationValue": "Include"
+            },
+            {
+              "ControlType": "ClickCreateManagedDevicesAsync"
+            },
+            {
+              "ControlType": "SetBasicsFilterNameAsync",
+              "OperationValue": "Include"
+            },
+            {
+              "ControlType": "SelectBasicsPlatformAsync",
+              "OperationValue": "Windows 10 and later"
+            },
+            {
+              "ControlType": "ClickNextBtnAsync"
+            },
+            {
+              "ControlType": "SelectRulesPropertyAsync",
+              "OperationValue": "osVersion (OS version)"
+            },
+            {
+              "ControlType": "SelectRulesOperatorAsync",
+              "OperationValue": "StartsWith"
+            },
+            {
+              "ControlType": "SetRulesValueAsync",
+              "OperationValue": "11"
+            },
+            {
+              "ControlType": "ClickNextBtnAsync"
+            },
+            {
+              "ControlType": "ClickNextBtnAsync"
+            },
+            {
+              "ControlType": "ClickCreateBtnAsync"
+            },
+            {
+              "ControlType": "VerifyFilterCreateSuccessfullyAsync"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Check and create filter Exclude",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Devices.FiltersUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "CheckFilterIsExistOrNotAsync",
+              "OperationValue": "Exclude"
+            },
+            {
+              "ControlType": "ClickCreateManagedDevicesAsync"
+            },
+            {
+              "ControlType": "SetBasicsFilterNameAsync",
+              "OperationValue": "Exclude"
+            },
+            {
+              "ControlType": "SelectBasicsPlatformAsync",
+              "OperationValue": "Windows 10 and later"
+            },
+            {
+              "ControlType": "ClickNextBtnAsync"
+            },
+            {
+              "ControlType": "SelectRulesPropertyAsync",
+              "OperationValue": "deviceName (Device name)"
+            },
+            {
+              "ControlType": "SelectRulesOperatorAsync",
+              "OperationValue": "Contains"
+            },
+            {
+              "ControlType": "SetRulesValueAsync",
+              "OperationValue": "HW"
+            },
+            {
+              "ControlType": "ClickNextBtnAsync"
+            },
+            {
+              "ControlType": "ClickNextBtnAsync"
+            },
+            {
+              "ControlType": "ClickCreateBtnAsync"
+            },
+            {
+              "ControlType": "VerifyFilterCreateSuccessfullyAsync"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Go to App page and create Windows app(Win32) apps",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Apps.ByPlatform.WindowsUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "GoToMainPageAsync"
+            },
+            {
+              "ControlType": "ClickAddButtonAsync"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Select app type",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.PopUp.SelectAppTypeUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "SelectAppTypeAsync",
+              "OperationValue": "Windows app (Win32)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "App information select app package file",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Apps.ByPlatform.WindowsUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "ClickSelectAppPackageFileButtonAsync"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "App information select app package file",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.PopUp.UploadFileUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "UploadFile",
+              "OperationValue": "AppAutomation\\VersionOne\\Spoil.intunewin"
+            },
+            {
+              "ControlType": "ClickOKButtonAsync"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "App information set app information",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Apps.ByPlatform.WindowsUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "SetAppInformationNameAsync",
+              "OperationValue": "25533612Generated from TestCaseName"
+            },
+            {
+              "ControlType": "SetAppInformationDescriptionAsync",
+              "OperationValue": "UI Automation testing"
+            },
+            {
+              "ControlType": "SetAppInformationPublisherAsync",
+              "OperationValue": "Win32AppLifeEx"
+            },
+            {
+              "ControlType": "ClickNextButtonAsync"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "App information set Program",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Apps.ByPlatform.WindowsUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "ClickNextButtonAsync"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "App information set Requirements",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Apps.ByPlatform.WindowsUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "SetOperationSystemArchitectureAsync",
+              "Value": [ "64-bit" ]
+            },
+            {
+              "ControlType": "SetOperationSystemArchitectureAsync",
+              "Value": [ "32-bit" ]
+            },
+            {
+              "ControlType": "SetMinimumOperationSystemAsync",
+              "Value": [ "Windows 10 21H1" ]
+            },
+            {
+              "ControlType": "ClickNextButtonAsync"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "App information set Detection rules",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Apps.ByPlatform.WindowsUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "SetRulesFormatAsync",
+              "OperationValue": "Use a custom detection script"
+            },
+            {
+              "ControlType": "SelectScriptFileAsync",
+              "OperationValue": "detect.ps1"
+            },
+            {
+              "ControlType": "SetRunScriptAs32BitProcessOn64BitClientsAsync",
+              "OperationValue": "Yes"
+            },
+            {
+              "ControlType": "SetEnforceScriptSignatureCheckAndRunScriptSilentlyAsync",
+              "OperationValue": "Yes"
+            },
+            {
+              "ControlType": "ClickNextButtonAsync"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "App information set Dependencies",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Apps.ByPlatform.WindowsUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "ClickNextButtonAsync"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "App information set Supersedence",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Apps.ByPlatform.WindowsUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "InitAppAutomationAPPSupersede"
+            },
+            {
+              "ControlType": "ClickSupersedenceAddButtonAsync"
+            },
+            {
+              "ControlType": "SelectSupersedenceAppsAsync",
+              "Value": [ "test-supersedence1", "Yes" ]
+            },
+            {
+              "ControlType": "SuccessAppAutomationAPPSupersede"
+            },
+            {
+              "ControlType": "ClickNextButtonAsync"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "App information set Assignments",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Apps.ByPlatform.WindowsUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "InitAppAutomationAppAssignment"
+            },
+            {
+              "ControlType": "ClickRequiredAddAllDevicesAsync"
+            },
+            {
+              "ControlType": "ClickRequiredAddAllUsersAsync"
+            },
+            {
+              "ControlType": "ClickRequiredAddGroupAsync",
+              "OperationValue": "IWuser0"
+            },
+            {
+              "ControlType": "ClickRequiredAddGroupAsync",
+              "OperationValue": "IWuser1"
+            },
+            {
+              "ControlType": "ClickRequiredAllDevicesFilterModeAsync"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Add filters for All device group",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.PopUp.AssignmentGroupFilterUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "SelectBehaveAsync",
+              "OperationValue": "Exclude filtered devices in assignment"
+            },
+            {
+              "ControlType": "SelectSpecialFilterAsync",
+              "OperationValue": "Exclude"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "App information set Assignments",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Apps.ByPlatform.WindowsUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "ClickRequiredAllUsersFilterModeAsync"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Add filters for All Users group",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.PopUp.AssignmentGroupFilterUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "SelectBehaveAsync",
+              "OperationValue": "Include filtered devices in assignment"
+            },
+            {
+              "ControlType": "SelectSpecialFilterAsync",
+              "OperationValue": "Include"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "App information set Assignments",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Apps.ByPlatform.WindowsUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "ClickRequiredAddGroupFilterModeAsync",
+              "OperationValue": "IWuser0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Add filters for IWuser0 group",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.PopUp.AssignmentGroupFilterUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "SelectBehaveAsync",
+              "OperationValue": "Include filtered devices in assignment"
+            },
+            {
+              "ControlType": "SelectSpecialFilterAsync",
+              "OperationValue": "Include"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "App information set Assignments",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Apps.ByPlatform.WindowsUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "ClickRequiredAddGroupFilterModeAsync",
+              "OperationValue": "IWuser1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Add filters for IWuser1 group",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.PopUp.AssignmentGroupFilterUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "SelectBehaveAsync",
+              "OperationValue": "Exclude filtered devices in assignment"
+            },
+            {
+              "ControlType": "SelectSpecialFilterAsync",
+              "OperationValue": "Exclude"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "App information Review and create",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Apps.ByPlatform.WindowsUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "controltype": "MarkAssignmentsCompleteAsync"
+            },
+            {
+              "controltype": "ClickNextButtonAsync"
+            },
+            {
+              "ControlType": "ClickCreateButtonAsync"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "App Verify",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Apps.ByPlatform.WindowsUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "initAppAutomationVerifyResult"
+            },
+            {
+              "ControlType": "VerifyPropertyAsync",
+              "Value": [ "Name", "25533612Generated from TestCaseName" ]
+            },
+            {
+              "ControlType": "VerifyPropertyAsync",
+              "Value": [ "Publisher", "Win32AppLifeEx" ]
+            },
+            {
+              "ControlType": "VerifyPropertyAsync",
+              "Value": [ "Operating system architecture", "x64" ]
+            },
+            {
+              "ControlType": "VerifyPropertyAsync",
+              "Value": [
+                "Minimum operating system",
+                "Windows 10 21H1"
+              ]
+            },
+            {
+              "ControlType": "VerifyPropertyAsync",
+              "Value": [
+                "Run script as 32-bit process on 64-bit clients",
+                "Yes"
+              ]
+            },
+            {
+              "ControlType": "VerifyPropertyAsync",
+              "Value": [
+                "Enforce script signature check and run script silently",
+                "Yes"
+              ]
+            },
+            {
+              "ControlType": "VerifyPropertyAsync",
+              "Value": [
+                "Rules format",
+                "Use a custom detection script"
+              ]
+            },
+            {
+              "ControlType": "VerifyPropertyAsync",
+              "Value": [
+                "Supersedence",
+                "test-supersedence1"
+              ]
+            },
+            {
+              "ControlType": "VerifyPropertyAssignmentsGridDataCellAsync",
+              "Value": [ "Required", "All devices", "Filter mode", "Exclude" ]
+            },
+            {
+              "ControlType": "VerifyPropertyAssignmentsGridDataCellAsync",
+              "Value": [ "Required", "All users", "Filter mode", "Include" ]
+            },
+            {
+              "ControlType": "VerifyPropertyAssignmentsGridDataCellAsync",
+              "Value": [ "Required", "IWuser0", "Filter mode", "Include" ]
+            },
+            {
+              "ControlType": "VerifyPropertyAssignmentsGridDataCellAsync",
+              "Value": [ "Required", "IWuser1", "Filter mode", "Exclude" ]
+            },
+            {
+              "ControlType": "VerifyDeviceInstallStatusAsync"
+            },
+            {
+              "ControlType": "VerifyUserInstallStatusAsync"
+            },
+            {
+              "ControlType": "VerifyMonitorAppInstallStatusAsync"
+            },
+            {
+              "ControlType": "SuccessAppAutomationVerifyResult"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "App delete",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Apps.ByPlatform.WindowsUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "GoToMainPageAsync"
+            },
+            {
+              "ControlType": "ClickAppsNameToShowDetailAsync"
+            },
+            {
+              "ControlType": "ClickSupersedenceEditButtonAsync"
+            },
+            {
+              "ControlType": "DeleteSupersedenceAppsAsync",
+              "OperationValue": "test-supersedence1"
+            },
+            {
+              "ControlType": "ClickReviewSaveButtonAsync"
+            },
+            {
+              "ControlType": "ClickSaveButtonAsync"
+            },
+            {
+              "ControlType": "GoToMainPageAsync"
+            },
+            {
+              "ControlType": "DeleteAppByNameAsync"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+    }

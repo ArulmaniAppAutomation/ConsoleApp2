@@ -1,0 +1,198 @@
+{
+  "AppAutomationMenuItem": "Apps",
+  "AppAutomationCaseName": "BuiltInAppTest",
+  "AppAutomationType": "Android built in app",
+  "Type": "AppAutomation",
+  "Name": "Android built in Regression Test",
+  "Scenarios": [
+    {
+      "Name": "select app type",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Apps.ByPlatform.AllAppsUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "GoToMainPageAsync"
+            },
+            {
+              "ControlType": "ClickAddButtonAsync"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Select app type",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.PopUp.SelectAppTypeUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "SelectAppTypeAsync",
+              "OperationValue": "Built-In app"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "select App",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Apps.ByPlatform.AllAppsUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "ClickAppInformationSelectAppButtonAsync"
+            },
+            {
+              "ControlType": "SelectBuiltInAppsAsync",
+              "Value": [ "Word", "Android" ]
+            },
+            {
+              "ControlType": "ClickNextButtonAsync"
+            },
+            {
+              "ControlType": "ClickCreateButtonWithoutAppNameAsync"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Update App information",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Apps.ByPlatform.AllAppsUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "InitAppAutomationAppUpdated"
+            },
+            {
+              "ControlType": "ClickAppInformationEditButtonAsync"
+            },
+            {
+              "ControlType": "SetAppInformationNameAsync",
+              "OperationValue": "25533242Generated from TestCaseName"
+            },
+            {
+              "ControlType": "SetAppInformationUrlAsync",
+              "OperationValue": "https://www.microsoft.com"
+            },
+            {
+              "ControlType": "SetAppInformationDeveloperAsync",
+              "OperationValue": "Microsoft"
+            },
+            {
+              "ControlType": "ClickReviewSaveButtonAsync"
+            },
+            {
+              "ControlType": "ClickSaveButtonAsync"
+            },
+            {
+              "ControlType": "SuccessAppAutomationAppUpdated"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Update App Assignments",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Apps.ByPlatform.AllAppsUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "InitAppAutomationAppUpdated"
+            },
+            {
+              "ControlType": "ClickAssignmentEditButtonAsync"
+            },
+            {
+              "ControlType": "ClickRequiredAddAllDevicesAsync"
+            },
+            {
+              "ControlType": "ClickRequiredAddGroupAsync",
+              "OperationValue": "iwuser0"
+            },
+            {
+              "ControlType": "ClickReviewSaveButtonAsync"
+            },
+            {
+              "ControlType": "ClickSaveButtonAsync"
+            },
+            {
+              "ControlType": "SuccessAppAutomationAppUpdated"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "App Verify",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Apps.ByPlatform.AllAppsUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "initAppAutomationVerifyResult"
+            },
+            {
+              "ControlType": "VerifyPropertyAsync",
+              "Value": [ "Name", "25533242Generated from TestCaseName" ]
+            },
+            {
+              "ControlType": "VerifyPropertyAsync",
+              "Value": [
+                "Information URL",
+                "https://www.microsoft.com"
+              ]
+            },
+            {
+              "ControlType": "VerifyPropertyAsync",
+              "Value": [
+                "Developer",
+                "Microsoft"
+              ]
+            },
+            {
+              "ControlType": "VerifyPropertyAssignmentsAsync",
+              "Value": [ "Required", "All devices" ]
+            },
+            {
+              "ControlType": "VerifyPropertyAssignmentsAsync",
+              "Value": [ "Required", "iwuser0" ]
+            },
+            {
+              "ControlType": "VerifyDeviceInstallStatusAsync"
+            },
+            {
+              "ControlType": "VerifyUserInstallStatusAsync"
+            },
+            {
+              "ControlType": "VerifyMonitorAppInstallStatusAsync"
+            },
+            {
+              "ControlType": "SuccessAppAutomationVerifyResult"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "App delete",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Apps.ByPlatform.AllAppsUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "GoToMainPageAsync"
+            },
+            {
+              "ControlType": "DeleteAppByNameAsync"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

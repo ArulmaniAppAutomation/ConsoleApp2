@@ -1,0 +1,236 @@
+{
+  "AppAutomationMenuItem": "Apps",
+  "AppAutomationCaseName": "Windows10previewTest",
+  "AppAutomationType": "Windows 10 (preview)",
+  "Type": "AppAutomation",
+  "Name": "Set all standard fields",
+  "Scenarios": [
+    {
+      "Name": "select app type",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Apps.ByPlatform.AllAppsUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "GoToMainPageAsync"
+            },
+            {
+              "ControlType": "ClickAddButtonAsync"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Select app type",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.PopUp.SelectAppTypeUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "SelectAppTypeAsync",
+              "Value": [ "Windows 10 and later", "Microsoft Edge, version 77 and later" ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Set App information",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Apps.ByPlatform.AllAppsUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "SetAppInformationNameAsync",
+              "OperationValue": "25533710Set all standard fields"
+            },
+            {
+              "ControlType": "SetAppInformationDescriptionAsync",
+              "OperationValue": "UI Automation testing"
+            },
+            {
+              "ControlType": "SetAppInformationUrlAsync",
+              "OperationValue": "https://www.microsoft.com/"
+            },
+            {
+              "ControlType": "SetAppInformationPrivacyURLAsync",
+              "OperationValue": "https://www.microsoft.com/"
+            },
+            {
+              "ControlType": "SetAppInformationNotesAsync",
+              "OperationValue": "Microsoft"
+            },
+            {
+              "ControlType": "ClickNextButtonAsync"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Set App Settings",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Apps.ByPlatform.AllAppsUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "SetAppSettingChannelAsync",
+              "OperationValue": "Beta"
+            },
+            {
+              "ControlType": "ClickNextButtonAsync"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Set App Assignments",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Apps.ByPlatform.AllAppsUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "ClickAvailableForEnrolledDevicesAllUsersAsync"
+            },
+            {
+              "ControlType": "ClickNextButtonAsync"
+            },
+            {
+              "ControlType": "ClickCreateButtonWithoutWaitForUploadAsync"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "App Verify",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Apps.ByPlatform.AllAppsUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "initAppAutomationVerifyResult"
+            },
+            {
+              "ControlType": "VerifyPropertyAsync",
+              "Value": [ "Name", "25533710Set all standard fields" ]
+            },
+            {
+              "ControlType": "VerifyPropertyAsync",
+              "Value": [ "Description", "UI Automation testing" ]
+            },
+            {
+              "ControlType": "VerifyPropertyAsync",
+              "Value": [ "Information URL", "https://www.microsoft.com/" ]
+            },
+            {
+              "ControlType": "VerifyPropertyAsync",
+              "Value": [ "Privacy URL", "https://www.microsoft.com/" ]
+            },
+            {
+              "ControlType": "VerifyPropertyAsync",
+              "Value": [ "Notes", "Microsoft" ]
+            },
+            {
+              "ControlType": "VerifyPropertyAssignmentsAsync",
+              "Value": [ "Available for enrolled devices", "All users" ]
+            },
+            {
+              "ControlType": "SuccessAppAutomationVerifyResult"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Update app information",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Apps.ByPlatform.AllAppsUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "InitAppAutomationAppUpdated"
+            },
+            {
+              "ControlType": "ClickAppInformationEditButtonAsync"
+            },
+            {
+              "ControlType": "SetAppInformationUrlAsync",
+              "OperationValue": "https://www.bing.com/"
+            },
+            {
+              "ControlType": "SetAppInformationPrivacyURLAsync",
+              "OperationValue": "https://www.windows.com/"
+            },
+            {
+              "ControlType": "ClickReviewSaveButtonAsync"
+            },
+            {
+              "ControlType": "ClickSaveButtonAsync"
+            },
+            {
+              "ControlType": "SuccessAppAutomationAppUpdated"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "App Verify",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Apps.ByPlatform.AllAppsUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "initAppAutomationVerifyResult"
+            },
+            {
+              "ControlType": "VerifyPropertyAsync",
+              "Value": [
+                "Information URL",
+                "https://www.bing.com/"
+              ]
+            },
+            {
+              "ControlType": "VerifyPropertyAsync",
+              "Value": [
+                "Privacy URL",
+                "https://www.windows.com/"
+              ]
+            },
+            {
+              "ControlType": "VerifyDeviceInstallStatusAsync"
+            },
+            {
+              "ControlType": "VerifyUserInstallStatusAsync"
+            },
+            {
+              "ControlType": "VerifyMonitorAppInstallStatusAsync"
+            },
+            {
+              "ControlType": "SuccessAppAutomationVerifyResult"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "App delete",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Apps.ByPlatform.AllAppsUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "GoToMainPageAsync"
+            },
+            {
+              "ControlType": "DeleteAppByNameAsync"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

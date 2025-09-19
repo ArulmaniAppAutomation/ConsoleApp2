@@ -1,0 +1,229 @@
+{
+  "AppAutomationMenuItem": "S mode Supplemental Policy Result",
+  "AppAutomationCaseName": "SupplementalPolicyTest",
+  "AppAutomationType": "",
+  "Type": "AppAutomation",
+  "Name": "Supplemental policy: Create a Supplemental Policy.",
+  "Scenarios": [
+    {
+      "Name": "Create Supplemental policy ",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Apps.Policy.SModeSupplementalPoliciesUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "GoToMainPageAsync"
+            },
+            {
+              "ControlType": "ClearHistoryDataByKeywordAsync",
+              "OperationValue": "25542715SupplementalPolicy"
+            },
+            {
+              "ControlType": "ClickCreatePolicyButtonAsync"
+            }
+          ]
+        },
+        {
+          "TabConfigInfos": [
+            {
+              "TabName": "Basics",
+              "ConfigInfo": [
+                {
+                  "ControlType": "InitAppAutomationAppCreation"
+                },
+                {
+                  "ControlType": "SetBasicsUploadPolicyFileAsync",
+                  "OperationValue": "AppAutomation\\SupplementalPolicy\\SupplementalPolicy_3.p7b"
+                },
+                {
+                  "ControlType": "SetBasicsProfileNameAsync",
+                  "OperationValue": "25542715SupplementalPolicyOne"
+                },
+                {
+                  "ControlType": "SetBasicsDescriptionAsync",
+                  "OperationValue": "Decription"
+                },
+                {
+                  "ControlType": "ClickNextToBtnAsync"
+                }
+              ]
+            },
+            {
+              "TabName": "Assignments",
+              "ConfigInfo": [
+                {
+                  "ControlType": "InitAppAutomationAppAssignment"
+                },
+                {
+                  "ControlType": "ClickIncludedAddAllDevicesButtonAsync"
+                },
+                {
+                  "ControlType": "ClickExcludedAddGroupsButtonAsync"
+                },
+                {
+                  "ControlType": "SetExcludedSelectGroupsAsync",
+                  "OperationValue": "Admin"
+                },
+                {
+                  "ControlType": "SuccessAppAutomationAppAssignment"
+                },
+                {
+                  "ControlType": "ClickNextToBtnAsync"
+                }
+              ]
+            },
+            {
+              "TabName": "Review + Create",
+              "ConfigInfo": [
+                {
+                  "ControlType": "ClickCreateBtnAsync"
+                },
+                {
+                  "ControlType": "VerifyProfileCreatedSuccessfullyOrNotAsync"
+                },
+                {
+                  "ControlType": "SuccessAppAutomationAppCreation"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Create Supplemental policy - Verify Values",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Apps.Policy.SModeSupplementalPoliciesUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "GoToMainPageAsync"
+            },
+            {
+              "ControlType": "SelectPolicyAsync"
+            },
+            {
+              "ControlType": "ClickPropertiesAsync"
+            }
+          ]
+        },
+        {
+          "TabConfigInfos": [
+            {
+              "TabName": "Properties",
+              "ConfigInfo": [
+                {
+                  "ControlType": "initAppAutomationVerifyResult"
+                },
+                {
+                  "ControlType": "VerifyBasicsNameValueAsync"
+                },
+                {
+                  "ControlType": "VerifyBasicsDescriptionValueAsync",
+                  "OperationValue": "Decription"
+                },
+                {
+                  "ControlType": "VerifyPolicyFileNameValueAsync",
+                  "OperationValue": "SupplementalPolicy_3.p7b"
+                },
+                {
+                  "ControlType": "VerifyAssignmentsIncludedGroupsAsync",
+                  "OperationValue": "All devices"
+                },
+                {
+                  "ControlType": "VerifyAssignmentsExcludedGroupsAsync",
+                  "OperationValue": "Admin"
+                },
+                {
+                  "ControlType": "SuccessAppAutomationVerifyResult"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Supplemental policy update",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Apps.Policy.SModeSupplementalPoliciesUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "ClickBasicsEditButtonAsync"
+            }
+          ]
+        },
+        {
+          "TabConfigInfos": [
+            {
+              "TabName": "Basics",
+              "ConfigInfo": [
+                {
+                  "ControlType": "InitAppAutomationAppUpdated"
+                },
+                {
+                  "ControlType": "UpdateBasicsPolicyNameAsync",
+                  "OperationValue": "25542715SupplementalPolicyTwo"
+                },
+                {
+                  "ControlType": "SetBasicsDescriptionAsync",
+                  "OperationValue": "DecriptionEdited"
+                },
+                {
+                  "ControlType": "SetBasicsUploadPolicyFileAsync",
+                  "OperationValue": "AppAutomation\\SupplementalPolicy\\SupplementalPolicy_3_v2.p7b"
+                },
+                {
+                  "ControlType": "ClickReviewSaveBtnAsync"
+                },
+                {
+                  "ControlType": "ClickSaveBtnAsync"
+                },
+                {
+                  "ControlType": "VerifyProfileUpdatedSuccessfullyOrNotAsync"
+                },
+                {
+                  "ControlType": "SuccessAppAutomationAppUpdated"
+                },
+                {
+                  "ControlType": "VerifyBasicsNameValueAsync"
+                },
+                {
+                  "ControlType": "VerifyBasicsDescriptionValueAsync",
+                  "OperationValue": "DecriptionEdited"
+                },
+                {
+                  "ControlType": "VerifyPolicyFileNameValueAsync",
+                  "OperationValue": "SupplementalPolicy_3_v2.p7b"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Supplemental policy delete",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Apps.Policy.SModeSupplementalPoliciesUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "InitAppAutomationAppDelete"
+            },
+            {
+              "ControlType": "GoToMainPageAsync"
+            },
+            {
+              "ControlType": "ClearDataAsync"
+            },
+            {
+              "ControlType": "SuccessAppAutomationAppDelete"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

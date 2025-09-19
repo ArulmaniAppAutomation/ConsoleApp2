@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="log4net" Version="3.2.0" />
+  </ItemGroup>
+	<PackageReference Include="Microsoft.Playwright" Version="1.48.0" />
+	<PackageReference Include="Microsoft.Playwright.NUnit" Version="1.48.0" />
+	<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+	
+
+	<ItemGroup>
+		<Reference Include="LogMgrTaskFactory">
+			<HintPath>..\package\LogMgrTaskFactory\LogMgrTaskFactory.dll</HintPath>
+		</Reference>
+		<Reference Include="EWags.TaskFactory">
+			<HintPath>..\package\CMSherlockTaskFactory\EWags.TaskFactory.dll</HintPath>
+		</Reference>
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Update="log4net.config">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+
+</Project>

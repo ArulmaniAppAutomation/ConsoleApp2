@@ -1,0 +1,244 @@
+{
+  "AppAutomationMenuItem": "Apps",
+  "AppAutomationCaseName": "MacOSOfficeTest",
+  "AppAutomationType": "macOS",
+  "Type": "AppAutomation",
+  "Name": "MacOSRegression1",
+  "Scenarios": [
+    {
+      "Name": "select app type",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Apps.ByPlatform.AllAppsUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "GoToMainPageAsync"
+            },
+            {
+              "ControlType": "ClickAddButtonAsync"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Select app type",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.PopUp.SelectAppTypeUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "SelectAppTypeAsync",
+              "Value": [ "macOS" ,"Microsoft 365 Apps"]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Set App information",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Apps.ByPlatform.AllAppsUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "SetAppInformationSuiteNameAsync",
+              "OperationValue": "25533540MacOSRegression1"
+            },
+            {
+              "ControlType": "SetAppInformationSuiteDescriptionAsync",
+              "OperationValue": "UI Automation testing"
+            },
+            {
+              "ControlType": "SetAppInformationUrlAsync",
+              "OperationValue": "https://www.apple.com"
+            },
+            {
+              "ControlType": "SetAppInformationPrivacyURLAsync",
+              "OperationValue": "https://www.apple.com"
+            },
+
+            {
+              "ControlType": "SetAppInformationNotesAsync",
+              "OperationValue": "ios test"
+            },
+            {
+              "ControlType": "SetAppInformationCategoryAsync",
+              "Value": [ "Data management", "Business" ]
+            },
+            {
+              "ControlType": "ClickNextButtonAsync"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Set App Assignments",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Apps.ByPlatform.AllAppsUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "ClickRequiredAddAllDevicesAsync"
+            },
+            {
+              "ControlType": "ClickRequiredAddGroupAsync",
+              "OperationValue": "Admin"
+            },
+            {
+              "ControlType": "ClickNextButtonAsync"
+            },
+            {
+              "ControlType": "ClickCreateButtonWithoutWaitForUploadAsync"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "App Verify",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Apps.ByPlatform.AllAppsUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "initAppAutomationVerifyResult"
+            },
+            {
+              "ControlType": "VerifyPropertyAsync",
+              "Value": [ "Name", "25533540MacOSRegression1" ]
+            },
+            {
+              "ControlType": "VerifyPropertyAsync",
+              "Value": [ "Description", "UI Automation testing" ]
+            },
+
+            {
+              "ControlType": "VerifyPropertyAsync",
+              "Value": [ "Information URL", "https://www.apple.com" ]
+            },
+            {
+              "ControlType": "VerifyPropertyAsync",
+              "Value": [ "Privacy URL", "https://www.apple.com" ]
+            },
+            {
+              "ControlType": "VerifyPropertyAsync",
+              "Value": [ "Notes", "ios test" ]
+            },
+            {
+              "ControlType": "VerifyPropertyAsync",
+              "Value": [ "Category", "Data management" ]
+            },
+            {
+              "ControlType": "VerifyPropertyAsync",
+              "Value": [ "Category", "Business" ]
+            },
+
+
+            {
+              "ControlType": "VerifyPropertyAssignmentsAsync",
+              "Value": [ "Required", "All devices" ]
+            },
+            {
+              "ControlType": "VerifyPropertyAssignmentsAsync",
+              "Value": [ "Required", "Admin" ]
+            },
+            {
+              "ControlType": "SuccessAppAutomationVerifyResult"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Update app information",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Apps.ByPlatform.AllAppsUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "InitAppAutomationAppUpdated"
+            },
+            {
+              "ControlType": "ClickAppInformationEditButtonAsync"
+            },
+            {
+              "ControlType": "SetAppInformationCategoryAsync",
+              "Value": [ "Productivity", "Business" ]
+            },
+            {
+              "ControlType": "SetAppInformationUrlAsync",
+              "OperationValue": "https://www.microsoft.com"
+            },
+            {
+              "ControlType": "ClickReviewSaveButtonAsync"
+            },
+            {
+              "ControlType": "ClickSaveButtonAsync"
+            },
+            {
+              "ControlType": "SuccessAppAutomationAppUpdated"
+            }
+          ]
+        }
+      ]
+    },  
+    {
+      "Name": "App Verify",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Apps.ByPlatform.AllAppsUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "initAppAutomationVerifyResult"
+            },
+            {
+              "ControlType": "VerifyPropertyAsync",
+              "Value": [ "Category", "Productivity" ]
+            },
+            {
+              "ControlType": "VerifyPropertyAsync",
+              "Value": [ "Category", "Business" ]
+            },
+            {
+              "ControlType": "VerifyPropertyAsync",
+              "Value": [
+                "Information URL",
+                "https://www.microsoft.com"
+              ]
+            },
+            {
+              "ControlType": "VerifyDeviceInstallStatusAsync"
+            },
+            {
+              "ControlType": "VerifyUserInstallStatusAsync"
+            },
+            {
+              "ControlType": "VerifyMonitorAppInstallStatusAsync"
+            },
+            {
+              "ControlType": "SuccessAppAutomationVerifyResult"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "App delete",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Apps.ByPlatform.AllAppsUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "GoToMainPageAsync"
+            },
+            {
+              "ControlType": "DeleteAppByNameAsync"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

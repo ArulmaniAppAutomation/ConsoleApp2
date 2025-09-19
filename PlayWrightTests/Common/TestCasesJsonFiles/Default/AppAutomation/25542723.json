@@ -1,0 +1,24 @@
+{
+  "AppAutomationMenuItem": "Download File",
+  "AppAutomationCaseName": "DownloadFile",
+  "AppAutomationType": "",
+  "AppAutomationDownLoadEnv": "CNP",
+  "Type": "AppAutomation",
+  "Name": "DownloadFile",
+  "Scenarios": [
+    {
+      "Name": "select app type",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Apps.ByPlatform.AllAppsUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "DownLoadFileByUrl",
+              "OperationValue": "https://cnpswd.manage.microsoftonline.cn/339944ef-8b78-4af9-a496-0ddaf9eb5513/0a3bc314-3c07-4415-963f-f248502570fc/3639c0ba-f821-4edf-a9ef-2232fde59e6a.intunewin.bin"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

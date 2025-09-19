@@ -1,0 +1,38 @@
+{
+  "AppAutomationMenuItem": "Windows Enterprise Cert Result",
+  "AppAutomationCaseName": "WindowsEnterpriseCertTest",
+  "AppAutomationType": "",
+  "Type": "AppAutomation",
+  "Name": "Windows enterprise certificate: Upload a WindowsEnterpriseCert.",
+  "Scenarios": [
+    {
+      "Name": "Upload Windows Enterprise Certificate and verify successfully uploaded",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.TenantAdministration.ConnectorsAndTokens.Windows.WindowsEnterpriseCertificateUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "GoToMainPageAsync"
+            },
+            {
+              "ControlType": "initAppAutomationVerifyResult"
+            },
+            {
+              "ControlType": "UploadCodeSigningCertificateFileAsync",
+              "OperationValue": "AppAutomation\\WindowsEnterpriseCert\\Contoso1_cer.cer"
+            },
+            {
+              "ControlType": "ClickUploadButtonAsync"
+            },
+            {
+              "ControlType": "VerifyCertificateUploadedSuccessWithNotificationAsync"
+            },
+            {
+              "ControlType": "SuccessAppAutomationVerifyResult"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

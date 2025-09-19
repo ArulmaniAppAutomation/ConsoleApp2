@@ -1,0 +1,23 @@
+{
+  "AppAutomationMenuItem": "Delete APP",
+  "AppAutomationCaseName": "DeleteAPP",
+  "AppAutomationType": "",
+  "Type": "AppAutomation",
+  "Name": "Delete rebundant Apps",
+  "Scenarios": [
+    {
+      "Name": "Delete app",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Apps.ByPlatform.AllAppsUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "DeleteAllRebundantAppsAsync",
+              "Value": [ "npp.7.5.7.Installer.intunewin", "Orca", "test-supersedence1", "test-supersedence2", "2G - SCCM Test App - Simple" ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

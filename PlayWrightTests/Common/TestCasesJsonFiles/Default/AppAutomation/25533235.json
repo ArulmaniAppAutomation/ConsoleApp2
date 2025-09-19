@@ -1,0 +1,192 @@
+{
+  "AppAutomationMenuItem": "Apps",
+  "AppAutomationCaseName": "BuiltInAppTest",
+  "AppAutomationType": "IOS built in app",
+  "Type": "AppAutomation",
+  "Name": "iOS built in RegressionTest",
+  "Scenarios": [
+    {
+      "Name": "select app type",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Apps.ByPlatform.IOSIPadOSUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "GoToMainPageAsync"
+            },
+            {
+              "ControlType": "ClickAddButtonAsync"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Select app type",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.PopUp.SelectAppTypeUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "SelectAppTypeAsync",
+              "Value": [ "Built-In app" ,"Other"]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "select App",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Apps.ByPlatform.IOSIPadOSUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "ClickAppInformationSelectAppButtonAsync"
+            },
+            {
+              "ControlType": "SelectBuiltInAppsAsync",
+              "Value": [ "Excel" ,"iOS"]
+            },
+            {
+              "ControlType": "ClickNextButtonAsync"
+            },
+            {
+              "ControlType": "ClickCreateButtonWithoutAppNameAsync"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Edit App information",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Apps.ByPlatform.IOSIPadOSUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "InitAppAutomationAppUpdated"
+            },
+            {
+              "ControlType": "ClickAppInformationEditButtonAsync"
+            },
+            {
+              "ControlType": "SetAppInformationNameAsync",
+              "OperationValue": "25533235Generated from TestCaseName"
+            },
+            {
+              "ControlType": "SetAppInformationUrlAsync",
+              "OperationValue": "https://www.microsoft.com"
+            },
+            {
+              "ControlType": "SetAppInformationDeveloperAsync",
+              "OperationValue": "Microsoft"
+            },
+            {
+              "ControlType": "ClickReviewSaveButtonAsync"
+            },
+            {
+              "ControlType": "ClickSaveButtonAsync"
+            },
+            {
+              "ControlType": "SuccessAppAutomationAppUpdated"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Edit App Assignments",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Apps.ByPlatform.IOSIPadOSUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "InitAppAutomationAppUpdated"
+            },
+            {
+              "ControlType": "ClickAssignmentEditButtonAsync"
+            },
+            {
+              "ControlType": "ClickAvailableForEnrolledDevicesAddGroupAsync",
+              "OperationValue": "Admin"
+            },
+            {
+              "ControlType": "ClickAvailableForEnrolledDevicesBehaveUninstallOnDeviceRemovalCellAsync",
+              "OperationValue": "Admin"
+            },
+            {
+              "ControlType": "SetUninstallOnDeviceRemovalAsync",
+              "OperationValue": "Yes"
+            },
+            {
+              "ControlType": "ClickReviewSaveButtonAsync"
+            },
+            {
+              "ControlType": "ClickSaveButtonAsync"
+            },
+            {
+              "ControlType": "SuccessAppAutomationAppUpdated"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "App Verify",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Apps.ByPlatform.IOSIPadOSUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "initAppAutomationVerifyResult"
+            },
+            {
+              "ControlType": "VerifyPropertyAsync",
+              "Value": [ "Name", "25533235Generated from TestCaseName" ]
+            },
+            {
+              "ControlType": "VerifyPropertyAsync",
+              "Value": [
+                "Information URL",
+                "https://www.microsoft.com"
+              ]
+            },
+            {
+              "ControlType": "VerifyPropertyAssignmentsGridDataCellAsync",
+              "Value": [ "Available for enrolled devices", "Admin", "Uninstall on device removal", "Yes" ]
+            },
+            {
+              "ControlType": "VerifyDeviceInstallStatusAsync"
+            },
+            {
+              "ControlType": "VerifyUserInstallStatusAsync"
+            },
+            {
+              "ControlType": "VerifyMonitorAppInstallStatusAsync"
+            },
+            {
+              "ControlType": "SuccessAppAutomationVerifyResult"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "App delete",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Apps.ByPlatform.IOSIPadOSUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "GoToMainPageAsync"
+            },
+            {
+              "ControlType": "DeleteAppByNameAsync"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

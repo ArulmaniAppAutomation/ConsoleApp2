@@ -1,0 +1,299 @@
+{
+  "AppAutomationMenuItem": "Apps",
+  "AppAutomationCaseName": "IosStoreAppTest",
+  "AppAutomationType": "iOS store app",
+  "Type": "AppAutomation",
+  "Name": "iOS store app all fields regression test",
+  "Scenarios": [
+    {
+      "Name": "select app type",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Apps.ByPlatform.AllAppsUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "GoToMainPageAsync"
+            },
+            {
+              "ControlType": "ClickAddButtonAsync"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Select app type",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.PopUp.SelectAppTypeUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "SelectAppTypeAsync",
+              "OperationValue": "iOS store app"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Set App information",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Apps.ByPlatform.AllAppsUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "ClickSelectTheAppStoreButtonAsync"
+            },
+            {
+              "ControlType": "SelectTheAppStoreAsync",
+              "OperationValue": "Facebook"
+            },
+            {
+              "ControlType": "SetAppInformationNameAsync",
+              "OperationValue": "25533263iOS store app all fields regression test"
+            },
+            {
+              "ControlType": "SetAppInformationDescriptionAsync",
+              "OperationValue": "UI Automation testing"
+            },
+            {
+              "ControlType": "SetAppInformationPublisherAsync",
+              "OperationValue": "AppLifeEx"
+            },
+            {
+              "ControlType": "SetShowThisAsAFeaturedAppInTheCompanyPortalAsync",
+              "OperationValue": "Yes"
+            },
+            {
+              "ControlType": "SetMinimumOperationSystemAsync",
+              "Value": [ "iOS 10.0" ]
+            },
+            {
+              "ControlType": "SetAppInformationCategoryAsync",
+              "Value": [ "Productivity" ]
+            },
+            {
+              "ControlType": "SetAppInformationUrlAsync",
+              "OperationValue": "http://info.url"
+            },
+            {
+              "ControlType": "SetAppInformationPrivacyURLAsync",
+              "OperationValue": "https://privacy.url"
+            },
+            {
+              "ControlType": "SetAppInformationDeveloperAsync",
+              "OperationValue": "AppLifeEx Developer Field"
+            },
+            {
+              "ControlType": "SetAppInformationOwnerAsync",
+              "OperationValue": "AppLifeEx Owner Field"
+            },
+            {
+              "ControlType": "SetAppInformationNotesAsync",
+              "OperationValue": "AppLifeEx Notes Field"
+            },
+            {
+              "ControlType": "ClickAppInformationChangeImageButtonAsync"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "App information select app package file",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.PopUp.UploadFileUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "UploadFile",
+              "OperationValue": "AppAutomation\\logo1.jpg"
+            },
+            {
+              "ControlType": "ClickOKButtonAsync"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Set App Information",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Apps.ByPlatform.AllAppsUtils",
+      "Steps": [
+        {
+          "Preparation": [           
+            {
+              "ControlType": "ClickNextButtonAsync"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Set App Assignments",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Apps.ByPlatform.AllAppsUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "ClickRequiredAddAllUsersAsync"
+            },
+            {
+              "ControlType": "ClickRequiredBehaveUninstallOnDeviceRemovalCellAsync",
+              "OperationValue": "All users"
+            },
+            {
+              "ControlType": "SetUninstallOnDeviceRemovalAsync",
+              "OperationValue": "No"
+            },
+            {
+              "ControlType": "ClickRequiredAddAllDevicesAsync"
+            },
+            {
+              "ControlType": "ClickRequiredBehaveUninstallOnDeviceRemovalCellAsync",
+              "OperationValue": "All devices"
+            },
+            {
+              "ControlType": "SetUninstallOnDeviceRemovalAsync",
+              "OperationValue": "Yes"
+            },
+            {
+              "ControlType": "ClickRequiredAddGroupAsync",
+              "OperationValue": "Iwuser0"
+            },
+            {
+              "ControlType": "ClickRequiredBehaveUninstallOnDeviceRemovalCellAsync",
+              "OperationValue": "Iwuser0"
+            },
+            {
+              "ControlType": "SetUninstallOnDeviceRemovalAsync",
+              "OperationValue": "No"
+            },
+            {
+              "ControlType": "ClickRequiredAddGroupAsync",
+              "OperationValue": "Iwuser1"
+            },
+            {
+              "ControlType": "ClickRequiredBehaveUninstallOnDeviceRemovalCellAsync",
+              "OperationValue": "Iwuser1"
+            },
+            {
+              "ControlType": "SetUninstallOnDeviceRemovalAsync",
+              "OperationValue": "Yes"
+            },
+            {
+              "ControlType": "ClickNextButtonAsync"
+            },
+            {
+              "ControlType": "ClickCreateButtonWithoutWaitForUploadAsync"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "App Verify",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Apps.ByPlatform.AllAppsUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "initAppAutomationVerifyResult"
+            },
+            {
+              "ControlType": "VerifyPropertyAsync",
+              "Value": [ "Name", "25533263iOS store app all fields regression test" ]
+            },
+            {
+              "ControlType": "VerifyPropertyAsync",
+              "Value": [ "Description", "UI Automation testing" ]
+            },
+            {
+              "ControlType": "VerifyPropertyAsync",
+              "Value": [ "Publisher", "AppLifeEx" ]
+            },
+            {
+              "ControlType": "VerifyPropertyAsync",
+              "Value": [ "Show this as a featured app in the Company Portal", "Yes" ]
+            },
+            {
+              "ControlType": "VerifyPropertyAsync",
+              "Value": [ "Minimum operating system", "iOS 10.0" ]
+            },
+            {
+              "ControlType": "VerifyPropertyAsync",
+              "Value": [ "Category", "Productivity" ]
+            },
+            {
+              "ControlType": "VerifyPropertyAsync",
+              "Value": [
+                "Information URL",
+                "http://info.url"
+              ]
+            },
+            {
+              "ControlType": "VerifyPropertyAsync",
+              "Value": [ "Privacy URL", "https://privacy.url" ]
+            },
+            {
+              "ControlType": "VerifyPropertyAsync",
+              "Value": [ "Developer", "AppLifeEx Developer Field" ]
+            },
+            {
+              "ControlType": "VerifyPropertyAsync",
+              "Value": [ "Owner", "AppLifeEx Owner Field" ]
+            },
+            {
+              "ControlType": "VerifyPropertyAsync",
+              "Value": [ "Notes", "AppLifeEx Notes Field" ]
+            },
+            {
+              "ControlType": "VerifyPropertyAssignmentsGridDataCellAsync",
+              "Value": [ "Required", "All users", "Uninstall on device removal", "No" ]
+            },
+            {
+              "ControlType": "VerifyPropertyAssignmentsGridDataCellAsync",
+              "Value": [ "Required", "All devices", "Uninstall on device removal", "Yes" ]
+            },
+            {
+              "ControlType": "VerifyPropertyAssignmentsGridDataCellAsync",
+              "Value": [ "Required", "Iwuser0", "Uninstall on device removal", "No" ]
+            },
+            {
+              "ControlType": "VerifyPropertyAssignmentsGridDataCellAsync",
+              "Value": [ "Required", "Iwuser1", "Uninstall on device removal", "Yes" ]
+            },
+            {
+              "ControlType": "VerifyDeviceInstallStatusAsync"
+            },
+            {
+              "ControlType": "VerifyUserInstallStatusAsync"
+            },
+            {
+              "ControlType": "VerifyMonitorAppInstallStatusAsync"
+            },
+            {
+              "ControlType": "SuccessAppAutomationVerifyResult"
+            }
+          ]
+        }
+      ]
+    },  
+    {
+      "Name": "App delete",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Apps.ByPlatform.AllAppsUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "GoToMainPageAsync"
+            },
+            {
+              "ControlType": "DeleteAppByNameAsync"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

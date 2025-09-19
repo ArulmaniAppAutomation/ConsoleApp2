@@ -1,0 +1,24 @@
+{
+  "AppAutomationMenuItem": "Download File",
+  "AppAutomationCaseName": "DownloadFile",
+  "AppAutomationType": "",
+  "AppAutomationDownLoadEnv": "FXB",
+  "Type": "AppAutomation",
+  "Name": "DownloadFile",
+  "Scenarios": [
+    {
+      "Name": "select app type",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Apps.ByPlatform.AllAppsUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "DownLoadFileByUrl",
+              "OperationValue": "https://fxbswd.manage-ppe.microsoft.us/fb13690f-f1f8-4985-bfc6-7092b28ce708/0366abf6-74bb-4134-984d-88b37e78d15b/4f0205dc-51d4-4000-a887-cfbc52610bad.msi.bin"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

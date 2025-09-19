@@ -1,0 +1,250 @@
+{
+  "AppAutomationMenuItem": "iOS Provision Profile Result",
+  "AppAutomationCaseName": "IosProvisionProfileTest",
+  "AppAutomationType": "",
+  "Type": "AppAutomation",
+  "Name": "iOS app provisioning profiles: iOSProvisioningprofileone",
+  "Scenarios": [
+    {
+      "Name": "Create a iOS provisioning profile ",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Apps.Policy.iOSAppProvisioningProfilesUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "GoToMainPageAsync"
+            },
+            {
+              "ControlType": "ClickCreateProfileButtonAsync"
+            }
+          ]
+        },
+        {
+          "TabConfigInfos": [
+            {
+              "TabName": "Basics",
+              "ConfigInfo": [
+                {
+                  "ControlType": "InitAppAutomationAppCreation"
+                },
+                {
+                  "ControlType": "SetBasicsProfileNameAsync",
+                  "OperationValue": "25533776iOSProvisioningprofileone"
+                },
+                {
+                  "ControlType": "SetBasicsDescriptionAsync",
+                  "OperationValue": "Decription"
+                },
+                {
+                  "ControlType": "SetBasicsUploadProfileFileAsync",
+                  "OperationValue": "AppAutomation\\IosProfile\\profile1.xml"
+                },
+                {
+                  "ControlType": "ClickNextBtnAsync"
+                }
+              ]
+            },
+            {
+              "TabName": "Scope Tags",
+              "ConfigInfo": [
+                {
+                  "ControlType": "ClickNextBtnAsync"
+                }
+              ]
+            },
+            {
+              "TabName": "Assignments",
+              "ConfigInfo": [
+                {
+                  "ControlType": "InitAppAutomationAppAssignment"
+                },
+                {
+                  "ControlType": "ClickIncludedAddAllUsersButtonAsync"
+                },
+                {
+                  "ControlType": "ClickExcludedAddGroupsButtonAsync"
+                },
+                {
+                  "ControlType": "SetExcludedSelectGroupsAsync",
+                  "OperationValue": "Admin"
+                },
+                {
+                  "ControlType": "ClickExcludedAddGroupsButtonAsync"
+                },
+                {
+                  "ControlType": "SetExcludedSelectGroupsAsync",
+                  "OperationValue": "iwuser1"
+                },
+                {
+                  "ControlType": "SuccessAppAutomationAppAssignment"
+                },
+                {
+                  "ControlType": "ClickNextBtnAsync"
+                }
+              ]
+            },
+            {
+              "TabName": "Review + Create",
+              "ConfigInfo": [
+                {
+                  "ControlType": "ClickCreateBtnAsync"
+                },
+                {
+                  "ControlType": "VerifyProfileCreatedSuccessfullyOrNotAsync"
+                },
+                {
+                  "ControlType": "SuccessAppAutomationAppCreation"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Create a iOS provisioning profile - Verify Values",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Apps.Policy.iOSAppProvisioningProfilesUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "GoToMainPageAsync"
+            },
+            {
+              "ControlType": "SelectPolicyAsync"
+            },
+            {
+              "ControlType": "ClickPropertiesAsync"
+            }
+          ]
+        },
+        {
+          "TabConfigInfos": [
+            {
+              "TabName": "Properties",
+              "ConfigInfo": [
+                {
+                  "ControlType": "initAppAutomationVerifyResult"
+                },
+                {
+                  "ControlType": "VerifyBasicsNameValueAsync"
+                },
+                {
+                  "ControlType": "VerifyBasicsDescriptionValueAsync",
+                  "OperationValue": "Decription"
+                },
+                {
+                  "ControlType": "VerifyiOSAppProvisioningProfileFileNameValueAsync",
+                  "OperationValue": "profile1.xml"
+                },
+                {
+                  "ControlType": "VerifyAssignmentsIncludedGroupsAsync",
+                  "OperationValue": "All Users"
+                },
+                {
+                  "ControlType": "VerifyAssignmentsExcludedGroupsAsync",
+                  "OperationValue": "Admin"
+                },
+                {
+                  "ControlType": "VerifyAssignmentsExcludedGroupsAsync",
+                  "OperationValue": "iwuser1"
+                },
+                {
+                  "ControlType": "SuccessAppAutomationVerifyResult"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "iOS Provision update",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Apps.Policy.iOSAppProvisioningProfilesUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "ClickBasicsEditButtonAsync"
+            }
+          ]
+        },
+        {
+          "TabConfigInfos": [
+            {
+              "TabName": "Basics",
+              "ConfigInfo": [
+                {
+                  "ControlType": "InitAppAutomationAppUpdated"
+                },
+                {
+                  "ControlType": "UpdateBasicsProfileNameAsync",
+                  "OperationValue": "25533776iOSProvisioningprofiletwo"
+                },
+                {
+                  "ControlType": "SetBasicsDescriptionAsync",
+                  "OperationValue": "Decription1"
+                },
+                {
+                  "ControlType": "SetBasicsUploadProfileFileAsync",
+                  "OperationValue": "AppAutomation\\IosProfile\\profile2.xml"
+                },
+                {
+                  "ControlType": "ClickReviewSaveBtnAsync"
+                },
+                {
+                  "ControlType": "ClickSaveBtnAsync"
+                },
+                {
+                  "ControlType": "SuccessAppAutomationAppUpdated"
+                },
+                {
+                  "ControlType": "initAppAutomationVerifyResult"
+                },
+                {
+                  "ControlType": "VerifyProfileUpdatedSuccessfullyOrNotAsync"
+                },
+                {
+                  "ControlType": "VerifyBasicsNameValueAsync"
+                },
+                {
+                  "ControlType": "VerifyBasicsDescriptionValueAsync",
+                  "OperationValue": "Decription1"
+                },
+                {
+                  "ControlType": "VerifyiOSAppProvisioningProfileFileNameValueAsync",
+                  "OperationValue": "profile2.xml"
+                },
+                {
+                  "ControlType": "SuccessAppAutomationVerifyResult"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "iOS Provision delete",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Apps.Policy.iOSAppProvisioningProfilesUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "InitAppAutomationAppDelete"
+            },
+            {
+              "ControlType": "GoToMainPageAsync"
+            },
+            {
+              "ControlType": "ClearDataAsync"
+            },
+            {
+              "ControlType": "SuccessAppAutomationAppDelete"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

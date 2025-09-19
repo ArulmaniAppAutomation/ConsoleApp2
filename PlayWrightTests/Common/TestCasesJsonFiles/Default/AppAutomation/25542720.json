@@ -1,0 +1,24 @@
+{
+  "AppAutomationMenuItem": "Download File",
+  "AppAutomationCaseName": "DownloadFile",
+  "AppAutomationType": "",
+  "AppAutomationDownLoadEnv": "FXP",
+  "Type": "AppAutomation",
+  "Name": "DownloadFile",
+  "Scenarios": [
+    {
+      "Name": "select app type",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Apps.ByPlatform.AllAppsUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "DownLoadFileByUrl",
+              "OperationValue": "https://fxpswd.manage.microsoft.us/0221373b-8e2a-46cf-b554-518435be2972/c304f740-e172-4148-b077-d7dbe942937e/ea876e3f-282d-4250-a1bd-aeea4d630eae.msi.bin"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,439 @@
+{
+  "AppAutomationMenuItem": "Apps",
+  "AppAutomationCaseName": "Win32AppTest",
+  "AppAutomationType": "Windows app (Win32)",
+  "Type": "AppAutomation",
+  "Name": "Multiple Detection Rules test",
+  "Scenarios": [
+    {
+      "Name": "Go to App page and create Windows app(Win32) apps",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Apps.ByPlatform.AllAppsUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "GoToMainPageAsync"
+            },
+            {
+              "ControlType": "ClickAddButtonAsync"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Select app type",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.PopUp.SelectAppTypeUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "SelectAppTypeAsync",
+              "OperationValue": "Windows app (Win32)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "App information select app package file",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Apps.ByPlatform.AllAppsUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "ClickSelectAppPackageFileButtonAsync"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "App information select app package file",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.PopUp.UploadFileUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "UploadFile",
+              "OperationValue": "AppAutomation\\orca.intunewin"
+            },
+            {
+              "ControlType": "ClickOKButtonAsync"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "App information set app information",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Apps.ByPlatform.AllAppsUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "SetAppInformationNameAsync",
+              "OperationValue": "25533627Generated from TestCaseName"
+            },
+            {
+              "ControlType": "SetAppInformationDescriptionAsync",
+              "OperationValue": "UI Automation testing"
+            },
+            {
+              "ControlType": "SetAppInformationPublisherAsync",
+              "OperationValue": "Win32AppLifeEx"
+            },
+            {
+              "ControlType": "ClickNextButtonAsync"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "App information set Program",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Apps.ByPlatform.AllAppsUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "ClickNextButtonAsync"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "App information set Requirements",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Apps.ByPlatform.AllAppsUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "SetOperationSystemArchitectureAsync",
+              "Value": [ "32-bit" ]
+            },
+            {
+              "ControlType": "SetMinimumOperationSystemAsync",
+              "Value": [ "Windows 10 1703" ]
+            },
+            {
+              "ControlType": "SetDiskSpaceRequiredAsync",
+              "OperationValue": "10"
+            },
+            {
+              "ControlType": "SetPhysicalMemoryRequiredAsync",
+              "OperationValue": "30"
+            },
+            {
+              "ControlType": "SetMinimumNumberOfLogicalProcessorsRequiredAsync",
+              "OperationValue": "1"
+            },
+            {
+              "ControlType": "SetMinimumCPUSpeedRequiredAsync",
+              "OperationValue": "20"
+            },
+            {
+              "ControlType": "ClickNextButtonAsync"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "App information set Detection rules",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Apps.ByPlatform.AllAppsUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "SetRulesFormatAsync",
+              "OperationValue": "Manually configure detection rules"
+            },
+            {
+              "ControlType": "ClickRulesFormatAddButtonAsync"
+            },
+            {
+              "ControlType": "SetRuleTypeValueAsync",
+              "OperationValue": "MSI"
+            },
+            {
+              "ControlType": "SetMSIProductVersionCheckAsync",
+              "OperationValue": "Yes"
+            },
+            {
+              "ControlType": "SetRuleOperatorAsync",
+              "OperationValue": "Equals"
+            },
+            {
+              "ControlType": "SetRuleValueAsync",
+              "OperationValue": "2.0"
+            },
+            {
+              "ControlType": "ClickDetectionRuleOKButtonAsync"
+            },
+            {
+              "ControlType": "ClickRulesFormatAddButtonAsync"
+            },
+            {
+              "ControlType": "SetRuleTypeValueAsync",
+              "OperationValue": "File"
+            },
+            {
+              "ControlType": "SetRulePathAsync",
+              "OperationValue": "C:\\Program Files"
+            },
+            {
+              "ControlType": "SetRuleFileOrFolderAsync",
+              "OperationValue": "test.txt"
+            },
+            {
+              "ControlType": "SetRuleDetectionMethodAsync",
+              "OperationValue": "File or folder exists"
+            },
+            {
+              "ControlType": "ClickDetectionRuleOKButtonAsync"
+            },
+
+            {
+              "ControlType": "ClickRulesFormatAddButtonAsync"
+            },
+            {
+              "ControlType": "SetRuleTypeValueAsync",
+              "OperationValue": "File"
+            },
+            {
+              "ControlType": "SetRulePathAsync",
+              "OperationValue": "C:\\Program Files"
+            },
+            {
+              "ControlType": "SetRuleFileOrFolderAsync",
+              "OperationValue": "test.txt"
+            },
+            {
+              "ControlType": "SetRuleDetectionMethodAsync",
+              "OperationValue": "Date modified"
+            },
+            {
+              "ControlType": "SetRuleOperatorAsync",
+              "OperationValue": "Greater than"
+            },
+            {
+              "ControlType": "SetRuleDateTimeValueAsync",
+              "OperationValue": "2018-09-03"
+            },
+            {
+              "ControlType": "ClickDetectionRuleOKButtonAsync"
+            },
+
+
+            {
+              "ControlType": "ClickRulesFormatAddButtonAsync"
+            },
+            {
+              "ControlType": "SetRuleTypeValueAsync",
+              "OperationValue": "Registry"
+            },
+            {
+              "ControlType": "SetRuleKeyPathAsync",
+              "OperationValue": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Test"
+            },
+            {
+              "ControlType": "SetRuleValueNameAsync",
+              "OperationValue": "test"
+            },
+            {
+              "ControlType": "SetRuleDetectionMethodAsync",
+              "OperationValue": "String comparison"
+            },
+            {
+              "ControlType": "SetRuleOperatorAsync",
+              "OperationValue": "Equals"
+            },
+            {
+              "ControlType": "SetRuleValueAsync",
+              "OperationValue": "1.0"
+            },
+            {
+              "ControlType": "ClickDetectionRuleOKButtonAsync"
+            },
+
+            {
+              "ControlType": "ClickNextButtonAsync"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "App information set Dependencies",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Apps.ByPlatform.AllAppsUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "ClickNextButtonAsync"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "App information set Supersedence",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Apps.ByPlatform.AllAppsUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "ClickNextButtonAsync"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "App information set Assignments",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Apps.ByPlatform.AllAppsUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "InitAppAutomationAppAssignment"
+            },
+            {
+              "ControlType": "ClickRequiredAddAllUsersAsync"
+            },
+            {
+              "ControlType": "MarkAssignmentsCompleteAsync"
+            },
+            {
+              "ControlType": "ClickNextButtonAsync"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "App information Review",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Apps.ByPlatform.AllAppsUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "ClickCreateButtonAsync"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "App Verify",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Apps.ByPlatform.AllAppsUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "initAppAutomationVerifyResult"
+            },
+            {
+              "ControlType": "VerifyPropertyAsync",
+              "Value": [ "Name", "25533627Generated from TestCaseName" ]
+            },
+            {
+              "ControlType": "VerifyPropertyAsync",
+              "Value": [ "Publisher", "Win32AppLifeEx" ]
+            },
+            {
+              "ControlType": "VerifyPropertyAsync",
+              "Value": [ "Operating system architecture", "x86" ]
+            },
+            {
+              "ControlType": "VerifyPropertyAsync",
+              "Value": [
+                "Minimum operating system",
+                "Windows 10 1703"
+              ]
+            },
+            {
+              "ControlType": "VerifyPropertyAsync",
+              "Value": [ "Disk space required (MB)", "10" ]
+            },
+            {
+              "ControlType": "VerifyPropertyAsync",
+              "Value": [ "Physical memory required (MB)", "30" ]
+            },
+            {
+              "ControlType": "VerifyPropertyAsync",
+              "Value": [ "Minimum number of logical processors required", "1" ]
+            },
+            {
+              "ControlType": "VerifyPropertyAsync",
+              "Value": [ "Minimum CPU speed required (MHz)", "20" ]
+            },
+
+            {
+              "ControlType": "VerifyPropertyAsync",
+              "Value": [
+                "Rules format",
+                "Manually configure detection rules"
+              ]
+            },
+            {
+              "ControlType": "VerifyPropertyAsync",
+              "Value": [
+                "Detection rules",
+                "MSI"
+              ]
+            },
+            {
+              "ControlType": "VerifyPropertyAsync",
+              "Value": [
+                "Detection rules",
+                "Program Files"
+              ]
+            },
+            {
+              "ControlType": "VerifyPropertyAsync",
+              "Value": [
+                "Detection rules",
+                "HKEY_LOCAL_MACHINE"
+              ]
+            },
+            {
+              "ControlType": "VerifyPropertyAssignmentsAsync",
+              "Value": [ "Required", "All users" ]
+            },
+            {
+              "ControlType": "VerifyDeviceInstallStatusAsync"
+            },
+            {
+              "ControlType": "VerifyUserInstallStatusAsync"
+            },
+            {
+              "ControlType": "VerifyMonitorAppInstallStatusAsync"
+            },
+            {
+              "ControlType": "SuccessAppAutomationVerifyResult"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Delte App",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Apps.ByPlatform.AllAppsUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "GoToMainPageAsync"
+            },
+            {
+              "ControlType": "DeleteAppByNameAsync"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

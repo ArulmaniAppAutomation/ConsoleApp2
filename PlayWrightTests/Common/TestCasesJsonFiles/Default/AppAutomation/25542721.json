@@ -1,0 +1,24 @@
+{
+  "AppAutomationMenuItem": "Download File",
+  "AppAutomationCaseName": "DownloadFile",
+  "AppAutomationType": "",
+  "AppAutomationDownLoadEnv": "CNB",
+  "Type": "AppAutomation",
+  "Name": "DownloadFile",
+  "Scenarios": [
+    {
+      "Name": "select app type",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Apps.ByPlatform.AllAppsUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "DownLoadFileByUrl",
+              "OperationValue": "https://cnbswd.manage-ppe.microsoftonline.cn/508827fa-3e0c-4929-884e-f3a41ab0ae84/16936ffb-68f6-4606-9b18-7be2af31b4ca/15e0cc96-941f-4056-8bc5-a43f8418da91.apk.bin"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

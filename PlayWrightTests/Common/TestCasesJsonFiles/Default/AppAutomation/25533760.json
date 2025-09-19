@@ -1,0 +1,121 @@
+{
+  "AppAutomationMenuItem": "App Categories Result",
+  "AppAutomationCaseName": "AppCategoryTest",
+  "AppAutomationType": "",
+  "Type": "AppAutomation",
+  "Name": "App categories: AppCategoryTestGame",
+  "Scenarios": [
+    {
+      "Name": "App Category",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Apps.OrganizeApps.AppCategoriesUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "GoToMainPageAsync"
+            },
+            {
+              "ControlType": "ClickAddButtonAsync"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "App Category Create",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Apps.OrganizeApps.AppCategoriesUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "InitAppAutomationAppCreation"
+            },
+            {
+              "ControlType": "SetCategoryNameAsync",
+              "OperationValue": "25533760AppCategoryTestTool"
+            },
+            {
+              "ControlType": "ClickCreateButtonAsync"
+            },
+            {
+              "ControlType": "VerifyCreateSuccessfullyNotificationAsync"
+            },
+            {
+              "ControlType": "SuccessAppAutomationAppCreation"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "App Category Verify",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Apps.OrganizeApps.AppCategoriesUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "initAppAutomationVerifyResult"
+            },
+            {
+              "ControlType": "VerifyAppCategoryExistAsync"
+            },
+            {
+              "ControlType": "SuccessAppAutomationVerifyResult"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "App Category update",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Apps.OrganizeApps.AppCategoriesUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "InitAppAutomationAppUpdated"
+            },
+            {
+              "ControlType": "ClickAppCategoryNameToEditAsync"
+            },
+            {
+              "ControlType": "SetCategoryNameAsync",
+              "OperationValue": "25533760AppCategoryTestToolNew"
+            },
+            {
+              "ControlType": "ClickSaveButtonAsync"
+            },
+            {
+              "ControlType": "SuccessAppAutomationAppUpdated"
+            },
+            {
+              "ControlType": "VerifyAppCategoryExistAsync"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "App Category delete",
+      "UtilsName": "PlaywrightTests.Common.Utils.BaseUtils.Apps.OrganizeApps.AppCategoriesUtils",
+      "Steps": [
+        {
+          "Preparation": [
+            {
+              "ControlType": "InitAppAutomationAppDelete"
+            },
+            {
+              "ControlType": "GoToMainPageAsync"
+            },
+            {
+              "ControlType": "DeleteAppCategoryByNameAsync"
+            },
+            {
+              "ControlType": "SuccessAppAutomationAppDelete"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
