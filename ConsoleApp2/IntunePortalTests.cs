@@ -1,8 +1,9 @@
-using System.Threading.Tasks;
-using NUnit.Framework;
+using Account_Management.Pages;
 using ConsoleApp2.Framework;
 using ConsoleApp2.Pages;
+using NUnit.Framework;
 using System;
+using System.Threading.Tasks;
 
 namespace ConsoleApp2.Tests
 {
@@ -40,26 +41,33 @@ namespace ConsoleApp2.Tests
             }
 
             var home = new IntuneHomePage(Page, portalUrl);
+            var apps = new IntuneAppsPage(Page, portalUrl);
             await home.NavigateAsync();
             await home.LoginIfNeededAsync(account);
             // Wait for portal to load (certificate-based SSO)
             var sw = System.Diagnostics.Stopwatch.StartNew();
+            await apps.AllApps_Click();
+            await apps.app_Click();
+            await apps.CreateBUtton_Click();
+            await apps.SelectAppAsync();
            // var timeout = TimeSpan.FromMinutes(2);
-            //bool loggedIn = false;
-            //while (sw.Elapsed < timeout)
+           //bool loggedIn = false;
+           //while (sw.Elapsed < timeout)
            // {
-             //   if (await home.IsLoadedAsync())
-               // {
-                 //   loggedIn = true;
-                   // break;
-                //}
-                //await Task.Delay(1000);
-            //}
+           //   if (await home.IsLoadedAsync())
+           // {
+           //   loggedIn = true;
+           // break;
+           //}
+           //await Task.Delay(1000);
+           //}
 
-           // Assert.That(loggedIn, Is.True, "Certificate-based login failed or portal did not load.");
+            // Assert.That(loggedIn, Is.True, "Certificate-based login failed or portal did not load.");
 
-            await home.ClickDevicesAsync();
-            await home.ClickEnrollmentAsync();
+            //await home.ClickDevicesAsync();
+            //await home.ClickEnrollmentAsync();
+
+
 
             Assert.Pass("Navigated to Devices and Enrollment section using certificate-based login.");
         }

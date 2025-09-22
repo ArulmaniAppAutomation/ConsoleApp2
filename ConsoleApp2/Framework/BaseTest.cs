@@ -45,10 +45,10 @@ namespace ConsoleApp2.Framework
 
             Context = await Browser.NewContextAsync();
             Page = await Context.NewPageAsync();
-            await Page.SetViewportSizeAsync(1920, 1080);
+            //await Page.SetViewportSizeAsync(1920, 1080);
         }
 
-        [TearDown]
+       
         public async Task TearDownAsync()
         {
             if (Context != null)
@@ -70,7 +70,7 @@ namespace ConsoleApp2.Framework
             }
         }
 
-        [OneTimeTearDown]
+        
         public async Task OneTimeTearDownAsync()
         {
             if (Browser != null)
