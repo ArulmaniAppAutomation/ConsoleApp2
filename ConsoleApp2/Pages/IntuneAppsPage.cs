@@ -1,11 +1,14 @@
 ﻿//using Account_Management.Framework.ElementHelper;
+using Account_Management.Framework;
 using Microsoft.Playwright;
+using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 using Newtonsoft.Json.Linq;
 using PlaywrightTests.Common.Helper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using static Microsoft.ApplicationInsights.MetricDimensionNames.TelemetryContext;
 using static System.Net.Mime.MediaTypeNames;
@@ -23,6 +26,9 @@ namespace Account_Management.Pages
         public static string AllApps_className = "fxs-sidebar-item-link";
         public static string comBoxName = "App type";
         public static string value = "Android store app";
+
+       
+
         public IntuneAppsPage(IPage page, string portalUrl)
         {
             _page = page;
@@ -91,64 +97,99 @@ namespace Account_Management.Pages
             }
 
 
-        public async Task SelectAppAsync(string? iFrameName = "AppList.ReactView", string value= "Android store app", string? category = null,int nth=0, bool doubleCheck = false)
+        public async Task Select_AndroidAppAsync(string? iFrameName = "AppList.ReactView", string value= "Android store app", string? category = null,int nth=0, bool doubleCheck = false)
         {
+            
+            
             ILocator dropDownObject;
             IFrameLocator? frameLocator = null;
+            var element=await ElementHelper.GetByClassAndHasTextAsync(_page, "fxc-dropdown-placeholder", "Select app type");
+            element.ClickAsync();
+            //await _page.ClickAsync("//*[@id='form-label-id-2textbox']");
+            await _page.ClickAsync("//span[text()='Android store app']");
+            var select_button= _page.Locator("//span[text()='Select']");
+            await select_button.ClickAsync();
+            await _page.WaitForLoadStateAsync(LoadState.NetworkIdle);
 
-            try
+
+            await _page.ScreenshotAsync(new PageScreenshotOptions
             {
-                // Wait for the iframe to appear
-                await _page.WaitForSelectorAsync($"iframe[name='{iFrameName}']", new() { Timeout = 10000 });
-                frameLocator = _page.FrameLocator($"iframe[name='{iFrameName}']");
-            }
-            catch
+                Path = "C:\\Users\\Screenshot\\SetAppinformation.png" // Path where the screenshot will be saved
+            });
+
+            string jsonFilePath = Path.Combine(AppContext.BaseDirectory, "TestData", "androidStoreApp.txt");
+            DataLoader.LoadFromFile(jsonFilePath);
+            var appinfo_Name = DataLoader.TestCases[0].AppInfo.Name;
+            var appinfo_des = DataLoader.TestCases[0].AppInfo.Description;
+
+            var App_Name =  await ElementHelper.GetByClassAndPlaceholderAsync(_page, "azc-input", "Enter a name");
+            await App_Name.FillAsync(appinfo_Name);
+
+            await _page.ScreenshotAsync(new PageScreenshotOptions
             {
-                Console.WriteLine("⚠️ Iframe not found, continuing with main page.");
-            }
+                Path = "C:\\Users\\Screenshot\\appinfo_Name.png" // Path where the screenshot will be saved
+            });
 
-            // Use appropriate locator
-            if (frameLocator != null)
+            var App_Desciption = await ElementHelper.GetByClassAndPlaceholderAsync(_page, "azc-textarea", "Enter a description...");
+
+            await App_Desciption.FillAsync(appinfo_des);
+            await _page.ScreenshotAsync(new PageScreenshotOptions
             {
-                dropDownObject = await ElementHelper.GetByComBoxRoleAndNameAsync(frameLocator, comBoxName);
-            }
-            else
-            {
-                dropDownObject = await ElementHelper.GetByComBoxRoleAndNameAsync(_page, comBoxName);
-            }
+                Path = "C:\\Users\\Screenshot\\appdes_Name.png" // Path where the screenshot will be saved
+            });
+
+            //try
+            //{
+            //    // Wait for the iframe to appear
+            //    await _page.WaitForSelectorAsync($"iframe[name='{iFrameName}']", new() { Timeout = 10000 });
+            //    frameLocator = _page.FrameLocator($"iframe[name='{iFrameName}']");
+            //}
+            //catch
+            //{
+            //    Console.WriteLine("⚠️ Iframe not found, continuing with main page.");
+            //}
+
+            //// Use appropriate locator
+            //if (frameLocator != null)
+            //{
+            //    dropDownObject = await ElementHelper.GetByComBoxRoleAndNameAsync(frameLocator, comBoxName);
+            //}
+            //else
+            //{
+            //    dropDownObject = await ElementHelper.GetByComBoxRoleAndNameAsync(_page, comBoxName);
+            //}
+            //await _page.WaitForSelectorAsync("//*[@id='form-label-id-2textbox']", new PageWaitForSelectorOptions { Timeout = 10000 });
+
+            //await dropDownObject.Nth(nth).HoverAsync();
+            //await dropDownObject.Nth(nth).ClickAsync();
+            //if (doubleCheck)
+            //{
+            //    Thread.Sleep(1000);
+            //    var expandStatus = await dropDownObject.Nth(nth).GetAttributeAsync("aria-expanded");
+
+            //    if (expandStatus == "false")
+            //    {
+            //        await dropDownObject.Nth(nth).HoverAsync();
+            //        await dropDownObject.Nth(nth).ClickAsync();
+            //    }
+
+            //    ILocator categoryObject;
+
+            //    if (!(frameLocator == null))
+            //    {
+
+            //        categoryObject = await ElementHelper.GetByAriaLabelAsync(frameLocator, category);
+            //    }
+            //    else
+            //    {
+            //        categoryObject = await ElementHelper.GetByAriaLabelAsync(_page, category);
+            //    }
+            //    var appTypeLocators = categoryObject.Locator("~ div");
+            //    var optionObject = (await appTypeLocators.AllAsync()).First(t => t.InnerTextAsync().Result == value);
+            //    await optionObject.Nth(0).ClickAsync();
 
 
-            await dropDownObject.Nth(nth).HoverAsync();
-            await dropDownObject.Nth(nth).ClickAsync();
-            if (doubleCheck)
-            {
-                Thread.Sleep(1000);
-                var expandStatus = await dropDownObject.Nth(nth).GetAttributeAsync("aria-expanded");
-                
-                if (expandStatus == "false")
-                {
-                    await dropDownObject.Nth(nth).HoverAsync();
-                    await dropDownObject.Nth(nth).ClickAsync();
-                }
 
-                ILocator categoryObject;
-
-                if (!(frameLocator == null))
-                {
-                    
-                    categoryObject = await ElementHelper.GetByAriaLabelAsync(frameLocator, category);
-                }
-                else
-                {
-                    categoryObject = await ElementHelper.GetByAriaLabelAsync(_page, category);
-                }
-                var appTypeLocators = categoryObject.Locator("~ div");
-                var optionObject = (await appTypeLocators.AllAsync()).First(t => t.InnerTextAsync().Result == value);
-                await optionObject.Nth(0).ClickAsync();
-
-
-
-            }
 
 
 

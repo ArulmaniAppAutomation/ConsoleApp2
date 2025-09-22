@@ -1,0 +1,60 @@
+[{
+	"TestCaseName": "AndroidStoreRegression",
+	"TestCaseID": 25533151,
+	"AppType": "Android",
+	"AppInfo": {
+		"Name":"Generated from TestCaseName",
+		"Description": "UI Automation testing",
+		"Publisher": "AppLifeEx",
+		"Appstore URL": "https://play.google.com/store/apps/details?id=com.facebook.mlite",
+		"Minimum operating system": "Android 4.4 (KitKat)",
+		"Logo": ".\\TestConfig\\image\\logo1.jpg",
+		"Information URL": "https://www.windows.com",
+		"Category": "Data management,Business",
+		"Display this as a featured app in the Company Portal": "Yes"
+	},
+	"AppUpdateInfo": {
+		"Information URL": "https://www.microsoft.com",
+		"Developer": "Microsoft"
+	},
+    "AppValidation": {
+        "Description": "UI Automation testing",
+        "Publisher": "AppLifeEx",
+        "LastModifiedDateTime": null,
+        "PrivacyInformationUrl": "",
+        "InformationUrl": null,
+        "Owner": "",
+        "Developer": "",
+        "Notes": "",
+        "UploadState": 0,
+        "PublishingState": null,
+        "AppAvailability": null,
+        "AppStoreUrl": "https://play.google.com/store/apps/details?id=com.facebook.mlite",
+        "MinimumSupportedOperatingSystem": "v5_1",
+        "ApplicableDeviceType": null,
+        "FileName": null,
+        "Categories": null,
+        "LargeIcon": null
+    },
+	"AssignmentEntities": [{
+			"AssignmentType": "Required",
+			"GroupSelectType": "IncludedGroups",
+			"AssignAllUsers": true,
+			"AssignAllDevices": true,
+			"AssignGroups": [{
+				"GroupName": "Admin",
+				"InstallContext": null
+			}]
+		},
+		{
+			"AssignmentType": "Available_for_enrolled_devices",
+			"GroupSelectType": "ExcludedGroups",
+			"AssignAllUsers": false,
+			"AssignAllDevices": false,
+			"AssignGroups": [{
+				"GroupName": "IWuser0",
+				"InstallContext": null
+			}]
+		}
+	]
+}]

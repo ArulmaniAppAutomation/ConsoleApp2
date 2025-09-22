@@ -49,7 +49,7 @@ namespace ConsoleApp2.Tests
             await apps.AllApps_Click();
             await apps.app_Click();
             await apps.CreateBUtton_Click();
-            await apps.SelectAppAsync();
+            await apps.Select_AndroidAppAsync();
            // var timeout = TimeSpan.FromMinutes(2);
            //bool loggedIn = false;
            //while (sw.Elapsed < timeout)

@@ -123,13 +123,15 @@ namespace ConsoleApp2.Pages
                 return true;
             await _page.FillAsync("input[name='loginfmt']", account.IbizaUser);
             await ClickIfExistsAsync("#idSIButton9, input[type='submit'], button[type='submit']");
-            await _page.WaitForSelectorAsync("input[name='passwd']", new PageWaitForSelectorOptions { Timeout = 30000 });
-            await _page.FillAsync("input[name='passwd']", account.IbizaUserCode);
-            await ClickIfExistsAsync("#idSIButton9, input[type='submit'], button[type='submit']");
+            //await _page.WaitForSelectorAsync("input[name='passwd']", new PageWaitForSelectorOptions { Timeout = 30000 });
+            //await _page.FillAsync("input[name='passwd']", account.IbizaUserCode);
+            //await ClickIfExistsAsync("#idSIButton9, input[type='submit'], button[type='submit']");
             try
             {
-                await _page.WaitForSelectorAsync("#idSIButton9", new PageWaitForSelectorOptions { Timeout = 10000 });
-                await ClickIfExistsAsync("#idSIButton9");
+                //await _page.WaitForSelectorAsync("#idSIButton9", new PageWaitForSelectorOptions { Timeout = 10000 });
+                //await ClickIfExistsAsync("//*[@id='idSIButton9']");
+                await _page.WaitForSelectorAsync("//*[@id='idSIButton9']", new PageWaitForSelectorOptions { Timeout = 10000 });
+                await _page.ClickAsync("//*[@id='idSIButton9']");
             }
             catch { }
             try
