@@ -152,10 +152,12 @@ namespace Account_Management.Pages
                 Path = "C:\\Users\\Screenshot\\Next.png" // Path where the screenshot will be saved
             });
 
-            var All_Users = await ElementHelper.GetByClassAndHasTextAsync(_page, "ext-controls-selectLink", "+ Add all users");
-            await All_Users.ClickAsync();
-            var All_Devices = await ElementHelper.GetByClassAndHasTextAsync(_page, "ext-controls-selectLink", "+ Add all devices");
-            await All_Devices.ClickAsync();
+
+            var locator = await ElementHelper.GetByRoleAndAriaLabelAsync(_page, AriaRole.Button, "Add all users");
+            await locator.Nth(0).ClickAsync();
+
+            var All_Devices = await ElementHelper.GetByRoleAndAriaLabelAsync(_page, AriaRole.Button, "Add all devices");
+            await All_Devices.Nth(0).ClickAsync();
             await _page.ScreenshotAsync(new PageScreenshotOptions
             {
                 Path = "C:\\Users\\Screenshot\\Devices.png" // Path where the screenshot will be saved
