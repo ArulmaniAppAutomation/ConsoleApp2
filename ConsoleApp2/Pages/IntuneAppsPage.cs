@@ -122,6 +122,7 @@ namespace Account_Management.Pages
             var appinfo_Name = DataLoader.TestCases[0].AppInfo.Name;
             var appinfo_des = DataLoader.TestCases[0].AppInfo.Description;
 
+
             var App_Name =  await ElementHelper.GetByClassAndPlaceholderAsync(_page, "azc-input", "Enter a name");
             await App_Name.FillAsync(appinfo_Name);
 
@@ -137,6 +138,29 @@ namespace Account_Management.Pages
             {
                 Path = "C:\\Users\\Screenshot\\appdes_Name.png" // Path where the screenshot will be saved
             });
+            var App_Publisher = await ElementHelper.GetByClassAndPlaceholderAsync(_page, "azc-input", "Enter a publisher name");
+            await App_Publisher.FillAsync(DataLoader.TestCases[0].AppInfo.Publisher);
+            var App_url = await ElementHelper.GetByClassAndPlaceholderAsync(_page, "azc-input", "Enter a valid url similar to https://play.google.com/store/apps/details?id=com.microsoft.bing&hl=en");
+            
+            await App_url.FillAsync(DataLoader.TestCases[0].AppInfo.AppstoreURL);
+
+            var next_button = await ElementHelper.GetByRoleAndHasTextAsync(_page, AriaRole.Button, "Next");
+            await next_button.ClickAsync();
+
+            await _page.ScreenshotAsync(new PageScreenshotOptions
+            {
+                Path = "C:\\Users\\Screenshot\\Next.png" // Path where the screenshot will be saved
+            });
+
+            var All_Users = await ElementHelper.GetByClassAndHasTextAsync(_page, "ext-controls-selectLink", "+ Add all users");
+            await All_Users.ClickAsync();
+            var All_Devices = await ElementHelper.GetByClassAndHasTextAsync(_page, "ext-controls-selectLink", "+ Add all devices");
+            await All_Devices.ClickAsync();
+            await _page.ScreenshotAsync(new PageScreenshotOptions
+            {
+                Path = "C:\\Users\\Screenshot\\Devices.png" // Path where the screenshot will be saved
+            });
+
 
             //try
             //{
