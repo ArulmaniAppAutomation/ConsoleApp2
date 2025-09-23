@@ -1,0 +1,234 @@
+[
+{
+		"TestCaseName": "Supersedece app test",
+		"TestCaseID": 25533612,
+		"AppType": "Windows app (Win32)",
+		"FilePath": ".\\SampleApps\\VersionOne\\MicrosoftProductStudio.intunewin",
+		"AppInfo": {
+			"Name": "Generated from TestCaseName",
+			"Description": "UI Automation testing",
+			"Publisher": "Win32AppLifeEx"
+		},
+		"RequirementsInfo": {
+			"Operating system architecture": "64-bit",
+			"Allowed Architectures": "",
+			"Minimum operating system": "Windows 10 21H1"
+		},
+		"RulesFormat": "Manually configure detection rules",
+		"DetectionRules": [{
+				"RuleType": "MSI",
+				"RuleInfo": {
+					"MSI product version check": "No"
+				}
+		}],
+		"AssignmentEntities": [{
+			"AssignmentType": "Required",
+			"GroupSelectType": "IncludedGroups",
+			"AssignAllUsers": false,
+			"AssignAllDevices": true,
+			"AssignGroups": null
+		}],
+		"SupersedenceEntities": [{
+			"Name": "test-supersedence1",
+			"UninstallPreviousVersion": true
+		}],
+		"UpdatedSupersedenceEntities": [{
+			"Name": "test-supersedence2",
+			"UninstallPreviousVersion": false
+			}
+		]
+	},
+	{
+		"TestCaseName": "General test with several settings in each tab",
+		"TestCaseID": 25533620,
+		"AppType": "Windows app (Win32)",
+		"FilePath": ".\\SampleApps\\VersionOne\\MicrosoftProductStudio.intunewin",
+		"AppInfo": {
+			"Name": "Generated from TestCaseName",
+			"Description": "UI Automation testing",
+			"Publisher": "Win32AppLifeEx"
+		},
+		"RequirementsInfo": {
+			"Operating system architecture": "64-bit,32-bit",
+			"Allowed Architectures": "",
+			"Minimum operating system": "Windows 10 1709",
+			"Disk space required (MB)": "10",
+			"Physical memory required (MB)": "30",
+			"Minimum number of logical processors required": "1",
+			"Minimum CPU speed required (MHz)": "60"
+		},
+		"RulesFormat": "Use a custom detection script",
+		"DetectionRules": [{
+			"RuleInfo": {
+				"Script file": ".\\TestConfig\\TestScripts\\detect.ps1",
+				"Run script as 32-bit process on 64-bit clients": "Yes",
+				"Enforce script signature check and run script silently": "Yes"
+			}
+		}],
+		"AssignmentEntities": [{
+			"AssignmentType": "Required",
+			"GroupSelectType": "IncludedGroups",
+			"AssignAllUsers": false,
+			"AssignAllDevices": true,
+			"AssignGroups": null
+		}]
+	},
+	{
+		"TestCaseName": "Multiple Detection Rules test",
+		"TestCaseID": 25533627,
+		"AppType": "Windows app (Win32)",
+		"FilePath": ".\\SampleApps\\VersionOne\\orca.intunewin",
+		"AppInfo": {
+			"Name": "Generated from TestCaseName",
+			"Description": "UI Automation testing",
+			"Publisher": "Win32AppLifeEx"
+		},
+		"RequirementsInfo": {
+			"Operating system architecture": "32-bit",
+			"Allowed Architectures": "",
+			"Minimum operating system": "Windows 10 1703",
+			"Disk space required (MB)": "10",
+			"Physical memory required (MB)": "30",
+			"Minimum number of logical processors required": "1",
+			"Minimum CPU speed required (MHz)": "20"
+		},
+		"RulesFormat": "Manually configure detection rules",
+		"DetectionRules": [{
+				"RuleType": "MSI",
+				"RuleInfo": {
+					"MSI product version check": "Yes",
+					"Operator": "Equals",
+					"Value": "2.0"
+				}
+			},
+			{
+				"RuleType": "File",
+				"RuleInfo": {
+					"Path": "C:\\Program Files",
+					"File or folder": "test.txt",
+					"Detection method": "File or folder exists"
+				}
+			},
+			{
+
+				"RuleType": "File",
+				"RuleInfo": {
+					"Path": "C:\\Program Files",
+					"File or folder": "test.txt",
+					"Detection method": "Date modified",
+					"Operator": "Greater than",
+					"Value": "2018-09-03"
+				}
+			},
+			{
+				"RuleType": "Registry",
+				"RuleInfo": {
+					"Key path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Test",
+					"Value name": "test",
+					"Detection method": "String comparison",
+					"Operator": "Equals",
+					"Value": "1.0"
+				}
+			}
+		],
+		"AssignmentEntities": [{
+			"AssignmentType": "Required",
+			"GroupSelectType": "IncludedGroups",
+			"AssignAllUsers": true,
+			"AssignAllDevices": false,
+			"AssignGroups": null
+		}]
+	},
+	{
+		"TestCaseName": "Manually configure Requirement rules",
+		"TestCaseID": 25533644,
+		"AppType": "Windows app (Win32)",
+		"FilePath": ".\\SampleApps\\VersionOne\\MicrosoftProductStudio.intunewin",
+		"AppInfo": {
+			"Name": "Generated from TestCaseName",
+			"Description": "UI Automation testing",
+			"Publisher": "Win32AppLifeEx"
+		},
+		"RequirementsInfo": {
+			"Operating system architecture": "64-bit",
+			"Allowed Architectures": "",
+			"Minimum operating system": "Windows 10 1709",
+			"Disk space required (MB)": "10",
+			"Physical memory required (MB)": "30",
+			"Minimum number of logical processors required": "1",
+			"Minimum CPU speed required (MHz)": "60"
+		},
+		"RequirementRules": [{
+				"RequirementType": "Script",
+				"RequirementInfo": {
+					"Script file": ".\\TestConfig\\TestScripts\\detect.ps1",
+					"Run script as 32-bit process on 64-bit clients": "Yes",
+					"Select output data type": "Date and Time",
+					"Operator": "Equals",
+					"Value": "2018-09-03"
+				}
+			},
+			{
+				"RequirementType": "File",
+				"RequirementInfo": {
+					"Path": "C:\\Program Files",
+					"File or folder": "test.txt",
+					"Property": "File or folder does not exist"
+				}
+			},
+			{
+				"RequirementType": "File",
+				"RequirementInfo": {
+					"Path": "C:\\Program Files",
+					"File or folder": "test.txt",
+					"Property": "Date modified",
+					"Operator": "Greater than",
+					"Value": "2018-09-03"
+				}
+			},
+			{
+				"RequirementType": "Registry",
+				"RequirementInfo": {
+					"Key path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Test",
+					"Value name": "test",
+					"Registry key requirement": "String comparison",
+					"Operator": "Equals",
+					"Value": "1.0"
+				}
+			}
+		],
+		"RulesFormat": "Use a custom detection script",
+		"DetectionRules": [{
+			"RuleInfo": {
+				"Script file": ".\\TestConfig\\TestScripts\\detect.ps1",
+				"Run script as 32-bit process on 64-bit clients": "Yes",
+				"Enforce script signature check and run script silently": "Yes"
+			}
+		}],
+		"AssignmentEntities": [{
+			"AssignmentType": "Required",
+			"GroupSelectType": "IncludedGroups",
+			"AssignAllUsers": false,
+			"AssignAllDevices": true,
+			"AssignGroups": null,
+			"AllDevicesAssignFilterSetting":{
+			"FilterBehave":"Exclude",
+			"FilterName":"Exclude"
+			}
+		}],
+	"DependencyEntities": [{
+			"Name": "2G - SCCM Test App - Simple",
+			"AutomaticallyInstall": false
+		}],
+		"UpdatedDependencyEntities": [{
+			"Name": "npp.7.5.7.Installer.intunewin",
+			"AutomaticallyInstall": false
+			},
+			{
+			"Name": "Orca",
+			"AutomaticallyInstall": true
+			}
+		]
+	}
+
+]

@@ -1,17 +1,34 @@
+﻿using Account_Management.Framework;
 using Account_Management.Pages;
 using ConsoleApp2.Framework;
 using ConsoleApp2.Pages;
 using NUnit.Framework;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
-namespace ConsoleApp2.Tests
+namespace Account_Management
 {
     [TestFixture]
-    public class IntunePortalTests : BaseTest
+    [Category("Windows")]
+    public class IntuneWindowsTests:BaseTest
     {
-        [Test]
-        public async Task CanNavigateToIntunePortalAndDevicesSection()
+        public static IEnumerable<TestCaseData> GetAppTestCases()
+        {
+            var jsonFilePath = Path.Combine(AppContext.BaseDirectory, "TestData", "Win32App.txt");
+            var testCases = DataLoader.LoadFromFile(jsonFilePath);
+
+            foreach (var testCase in testCases)
+            {
+                yield return new TestCaseData(testCase)
+                    .SetName($"Win32AppTest_{testCase.TestCaseName.Replace(" ", "_")}");
+            }
+        }
+
+        [Test, TestCaseSource(nameof(GetAppTestCases))]
+        public async Task CanNavigateToIntunePortalAndDevicesSection(RootObject testCase)
         {
             var portalUrl = GetPortalUrl("CTiP");
             var account = GetAccount("CTiP");
@@ -41,26 +58,28 @@ namespace ConsoleApp2.Tests
             }
 
             var home = new IntuneHomePage(Page, portalUrl);
-            var apps = new IntuneAppsPage(Page, portalUrl);
+            var android_apps = new IntuneAppsPage(Page, portalUrl);
+            var win32_apps = new IntuneWin32Apps(Page, portalUrl);
+
             await home.NavigateAsync();
             await home.LoginIfNeededAsync(account);
             // Wait for portal to load (certificate-based SSO)
             var sw = System.Diagnostics.Stopwatch.StartNew();
-            await apps.AllApps_Click();
-            await apps.app_Click();
-            await apps.CreateBUtton_Click();
-            await apps.Select_AndroidAppAsync();
-           // var timeout = TimeSpan.FromMinutes(2);
-           //bool loggedIn = false;
-           //while (sw.Elapsed < timeout)
-           // {
-           //   if (await home.IsLoadedAsync())
-           // {
-           //   loggedIn = true;
-           // break;
-           //}
-           //await Task.Delay(1000);
-           //}
+            await android_apps.AllApps_Click();
+            await android_apps.app_Click();
+            await android_apps.CreateBUtton_Click();
+            await win32_apps.Select_Win32AppAsyncWithData(testCase);
+            // var timeout = TimeSpan.FromMinutes(2);
+            //bool loggedIn = false;
+            //while (sw.Elapsed < timeout)
+            // {
+            //   if (await home.IsLoadedAsync())
+            // {
+            //   loggedIn = true;
+            // break;
+            //}
+            //await Task.Delay(1000);
+            //}
 
             // Assert.That(loggedIn, Is.True, "Certificate-based login failed or portal did not load.");
 
@@ -72,4 +91,8 @@ namespace ConsoleApp2.Tests
             Assert.Pass("Navigated to Devices and Enrollment section using certificate-based login.");
         }
     }
+
+
+
 }
+

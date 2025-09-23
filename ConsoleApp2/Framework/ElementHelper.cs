@@ -55,7 +55,7 @@ namespace PlaywrightTests.Common.Helper
         {
             ariaLabel = ariaLabel.Replace("'", "\\'");
             var element = page.Locator($"[role='{role.ToString().ToLower()}'][aria-label{(!exact ? "*" : "")}='{ariaLabel}']");
-            return await IsExistAsync(element);
+            return element;
         }
         public static async Task<ILocator> GetByRoleAndAriaLabelAsync(IFrameLocator iframe, AriaRole role, string ariaLabel, bool exact = true, bool waitUntilElementExist = true)
         {
@@ -94,7 +94,7 @@ namespace PlaywrightTests.Common.Helper
         public static async Task<ILocator> GetByRoleAndNameAsync(IPage? page, AriaRole role, string name)
         {
             var element = page.GetByRole(role, new() { Name = name, Exact = true });
-            return await IsExistAsync(element);
+            return element;
         }
 
         public static async Task<ILocator> GetByRoleAndAriaClassAsync(IPage? page, AriaRole role, string className, bool waitUntilElementExist = true)

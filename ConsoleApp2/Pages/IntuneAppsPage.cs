@@ -97,7 +97,7 @@ namespace Account_Management.Pages
             }
 
 
-        public async Task Select_AndroidAppAsync(string? iFrameName = "AppList.ReactView", string value= "Android store app", string? category = null,int nth=0, bool doubleCheck = false)
+        public async Task Select_AndroidAppAsyncWithData(RootObject testCase)
         {
             
             
@@ -117,10 +117,15 @@ namespace Account_Management.Pages
                 Path = "C:\\Users\\Screenshot\\SetAppinformation.png" // Path where the screenshot will be saved
             });
 
-            string jsonFilePath = Path.Combine(AppContext.BaseDirectory, "TestData", "androidStoreApp.txt");
-            DataLoader.LoadFromFile(jsonFilePath);
-            var appinfo_Name = DataLoader.TestCases[0].AppInfo.Name;
-            var appinfo_des = DataLoader.TestCases[0].AppInfo.Description;
+            //string jsonFilePath = Path.Combine(AppContext.BaseDirectory, "TestData", "androidStoreApp.txt");
+            //DataLoader.LoadFromFile(jsonFilePath);
+            //var appinfo_Name = DataLoader.TestCases[0].AppInfo.Name;
+            //var appinfo_des = DataLoader.TestCases[0].AppInfo.Description;
+
+            var appinfo_Name = testCase.AppInfo.Name;
+            var appinfo_des = testCase.AppInfo.Description;
+            var publisher = testCase.AppInfo.Publisher;
+            var storeUrl = testCase.AppInfo.AppstoreURL;
 
 
             var App_Name =  await ElementHelper.GetByClassAndPlaceholderAsync(_page, "azc-input", "Enter a name");
@@ -139,10 +144,10 @@ namespace Account_Management.Pages
                 Path = "C:\\Users\\Screenshot\\appdes_Name.png" // Path where the screenshot will be saved
             });
             var App_Publisher = await ElementHelper.GetByClassAndPlaceholderAsync(_page, "azc-input", "Enter a publisher name");
-            await App_Publisher.FillAsync(DataLoader.TestCases[0].AppInfo.Publisher);
+            await App_Publisher.FillAsync(publisher);
             var App_url = await ElementHelper.GetByClassAndPlaceholderAsync(_page, "azc-input", "Enter a valid url similar to https://play.google.com/store/apps/details?id=com.microsoft.bing&hl=en");
             
-            await App_url.FillAsync(DataLoader.TestCases[0].AppInfo.AppstoreURL);
+            await App_url.FillAsync(storeUrl);
 
             var next_button = await ElementHelper.GetByRoleAndHasTextAsync(_page, AriaRole.Button, "Next");
             await next_button.ClickAsync();
@@ -164,57 +169,13 @@ namespace Account_Management.Pages
             });
 
 
-            //try
-            //{
-            //    // Wait for the iframe to appear
-            //    await _page.WaitForSelectorAsync($"iframe[name='{iFrameName}']", new() { Timeout = 10000 });
-            //    frameLocator = _page.FrameLocator($"iframe[name='{iFrameName}']");
-            //}
-            //catch
-            //{
-            //    Console.WriteLine("⚠️ Iframe not found, continuing with main page.");
-            //}
 
-            //// Use appropriate locator
-            //if (frameLocator != null)
-            //{
-            //    dropDownObject = await ElementHelper.GetByComBoxRoleAndNameAsync(frameLocator, comBoxName);
-            //}
-            //else
-            //{
-            //    dropDownObject = await ElementHelper.GetByComBoxRoleAndNameAsync(_page, comBoxName);
-            //}
-            //await _page.WaitForSelectorAsync("//*[@id='form-label-id-2textbox']", new PageWaitForSelectorOptions { Timeout = 10000 });
+           
+                   var nextButton = await ElementHelper.GetByRoleAndNameAsync(_page, AriaRole.Button, "Next");
+                        await nextButton.ClickAsync();
 
-            //await dropDownObject.Nth(nth).HoverAsync();
-            //await dropDownObject.Nth(nth).ClickAsync();
-            //if (doubleCheck)
-            //{
-            //    Thread.Sleep(1000);
-            //    var expandStatus = await dropDownObject.Nth(nth).GetAttributeAsync("aria-expanded");
-
-            //    if (expandStatus == "false")
-            //    {
-            //        await dropDownObject.Nth(nth).HoverAsync();
-            //        await dropDownObject.Nth(nth).ClickAsync();
-            //    }
-
-            //    ILocator categoryObject;
-
-            //    if (!(frameLocator == null))
-            //    {
-
-            //        categoryObject = await ElementHelper.GetByAriaLabelAsync(frameLocator, category);
-            //    }
-            //    else
-            //    {
-            //        categoryObject = await ElementHelper.GetByAriaLabelAsync(_page, category);
-            //    }
-            //    var appTypeLocators = categoryObject.Locator("~ div");
-            //    var optionObject = (await appTypeLocators.AllAsync()).First(t => t.InnerTextAsync().Result == value);
-            //    await optionObject.Nth(0).ClickAsync();
-
-
+            var createButton = await ElementHelper.GetByRoleAndNameAsync(_page, AriaRole.Button, "Create");
+            await createButton.ClickAsync();
 
 
 

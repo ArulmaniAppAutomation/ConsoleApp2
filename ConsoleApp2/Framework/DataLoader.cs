@@ -10,16 +10,13 @@ namespace Account_Management.Framework
 
     public static class DataLoader
     {
-        public static List<RootObject> TestCases { get; private set; }
-
-        // Load JSON data from file once
-        public static void LoadFromFile(string jsonFilePath)
+        public static List<RootObject> LoadFromFile(string jsonFilePath)
         {
             var json = File.ReadAllText(jsonFilePath);
-            TestCases = JsonSerializer.Deserialize<List<RootObject>>(json, new JsonSerializerOptions
+            return JsonSerializer.Deserialize<List<RootObject>>(json, new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true
-            });
+            }) ?? new();
         }
     }
 

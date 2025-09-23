@@ -1,24 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Text.Json.Serialization;
 
 namespace Account_Management.Framework
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Text.Json.Serialization;
-
     public class RootObject
     {
         public string TestCaseName { get; set; }
         public int TestCaseID { get; set; }
         public string AppType { get; set; }
+        public string FilePath { get; set; }
         public AppInfo AppInfo { get; set; }
-        public AppUpdateInfo AppUpdateInfo { get; set; }
-        public AppValidation AppValidation { get; set; }
+        public RequirementsInfo RequirementsInfo { get; set; }
+
+        public string RulesFormat { get; set; }
+
+        public List<DetectionRule> DetectionRules { get; set; }
+        public List<RequirementRule> RequirementRules { get; set; }
         public List<AssignmentEntity> AssignmentEntities { get; set; }
+        public List<SupersedenceEntity> SupersedenceEntities { get; set; }
+        public List<SupersedenceEntity> UpdatedSupersedenceEntities { get; set; }
+        public List<DependencyEntity> DependencyEntities { get; set; }
+        public List<DependencyEntity> UpdatedDependencyEntities { get; set; }
     }
 
     public class AppInfo
@@ -26,44 +29,58 @@ namespace Account_Management.Framework
         public string Name { get; set; }
         public string Description { get; set; }
         public string Publisher { get; set; }
+
         [JsonPropertyName("Appstore URL")]
         public string AppstoreURL { get; set; }
+
         [JsonPropertyName("Minimum operating system")]
         public string MinimumOperatingSystem { get; set; }
+
         public string Logo { get; set; }
+
         [JsonPropertyName("Information URL")]
         public string InformationURL { get; set; }
+
         public string Category { get; set; }
+
         [JsonPropertyName("Display this as a featured app in the Company Portal")]
         public string DisplayFeaturedApp { get; set; }
     }
 
-    public class AppUpdateInfo
+    public class RequirementsInfo
     {
-        [JsonPropertyName("Information URL")]
-        public string InformationURL { get; set; }
-        public string Developer { get; set; }
+        [JsonPropertyName("Operating system architecture")]
+        public string OperatingSystemArchitecture { get; set; }
+
+        [JsonPropertyName("Allowed Architectures")]
+        public string AllowedArchitectures { get; set; }
+
+        [JsonPropertyName("Minimum operating system")]
+        public string MinimumOperatingSystem { get; set; }
+
+        [JsonPropertyName("Disk space required (MB)")]
+        public string DiskSpaceRequiredMB { get; set; }
+
+        [JsonPropertyName("Physical memory required (MB)")]
+        public string PhysicalMemoryRequiredMB { get; set; }
+
+        [JsonPropertyName("Minimum number of logical processors required")]
+        public string MinimumLogicalProcessors { get; set; }
+
+        [JsonPropertyName("Minimum CPU speed required (MHz)")]
+        public string MinimumCPUSpeedMHz { get; set; }
     }
 
-    public class AppValidation
+    public class DetectionRule
     {
-        public string Description { get; set; }
-        public string Publisher { get; set; }
-        public string LastModifiedDateTime { get; set; }
-        public string PrivacyInformationUrl { get; set; }
-        public string InformationUrl { get; set; }
-        public string Owner { get; set; }
-        public string Developer { get; set; }
-        public string Notes { get; set; }
-        public int UploadState { get; set; }
-        public string PublishingState { get; set; }
-        public string AppAvailability { get; set; }
-        public string AppStoreUrl { get; set; }
-        public string MinimumSupportedOperatingSystem { get; set; }
-        public string ApplicableDeviceType { get; set; }
-        public string FileName { get; set; }
-        public string Categories { get; set; }
-        public string LargeIcon { get; set; }
+        public string RuleType { get; set; }
+        public Dictionary<string, string> RuleInfo { get; set; }
+    }
+
+    public class RequirementRule
+    {
+        public string RequirementType { get; set; }
+        public Dictionary<string, string> RequirementInfo { get; set; }
     }
 
     public class AssignmentEntity
@@ -73,6 +90,14 @@ namespace Account_Management.Framework
         public bool AssignAllUsers { get; set; }
         public bool AssignAllDevices { get; set; }
         public List<AssignGroup> AssignGroups { get; set; }
+
+        public AllDevicesAssignFilterSetting AllDevicesAssignFilterSetting { get; set; }
+    }
+
+    public class AllDevicesAssignFilterSetting
+    {
+        public string FilterBehave { get; set; }
+        public string FilterName { get; set; }
     }
 
     public class AssignGroup
@@ -81,4 +106,15 @@ namespace Account_Management.Framework
         public string InstallContext { get; set; }
     }
 
+    public class SupersedenceEntity
+    {
+        public string Name { get; set; }
+        public bool UninstallPreviousVersion { get; set; }
+    }
+
+    public class DependencyEntity
+    {
+        public string Name { get; set; }
+        public bool AutomaticallyInstall { get; set; }
+    }
 }
