@@ -342,7 +342,7 @@ namespace PlaywrightTests.Common.Helper
             return await IsExistAsync(element);
         }
 
-        public static async Task<ILocator> GetByClassAsync(IPage? page, string className, bool exact = false, bool waitUntilElementExist = true)
+        public static async Task<ILocator> GetByClassAsync(IPage? page, string className, bool exact = false, bool waitUntilElementExist = false)
         {
             var element = page.Locator($"[class{(exact ? "" : "*")}='{className}']");
             if (waitUntilElementExist)

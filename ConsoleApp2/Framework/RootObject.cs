@@ -11,7 +11,7 @@ namespace Account_Management.Framework
         public string AppType { get; set; }
         public string FilePath { get; set; }
         public AppInfo AppInfo { get; set; }
-        public RequirementsInfo RequirementsInfo { get; set; }
+        public  RequirementsInfo RequirementsInfo { get; set; }
 
         public string RulesFormat { get; set; }
 

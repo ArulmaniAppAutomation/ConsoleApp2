@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Account_Management
+namespace Account_Management.Tests
 {
     [TestFixture]
     [Category("Windows")]

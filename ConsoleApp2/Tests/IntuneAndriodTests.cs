@@ -6,9 +6,9 @@ using NUnit.Framework;
 using System;
 using System.Threading.Tasks;
 
-namespace ConsoleApp2.Tests
+namespace Account_Management.Tests
 {
-    [TestFixture]
+   [TestFixture]
     public class IntuneAndriodTests : BaseTest
 
 
@@ -59,8 +59,8 @@ namespace ConsoleApp2.Tests
             var home = new IntuneHomePage(Page, portalUrl);
             var apps = new IntuneAppsPage(Page, portalUrl);
             await home.NavigateAsync();
-            await home.LoginIfNeededAsync(account);
-            // Wait for portal to load (certificate-based SSO)
+           await home.LoginIfNeededAsync(account);
+            //Wait for portal to load (certificate-based SSO)
             var sw = System.Diagnostics.Stopwatch.StartNew();
             await apps.AllApps_Click();
             await apps.app_Click();

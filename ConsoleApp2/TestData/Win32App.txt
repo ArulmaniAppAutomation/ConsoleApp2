@@ -1,0 +1,42 @@
+[
+{
+		"TestCaseName": "Supersedece app test",
+		"TestCaseID": 25533612,
+		"AppType": "Windows app (Win32)",
+		"FilePath": ".\\SampleApps\\VersionOne\\MicrosoftProductStudio.intunewin",
+		"AppInfo": {
+			"Name": "Generated from TestCaseName",
+			"Description": "UI Automation testing",
+			"Publisher": "Win32AppLifeEx"
+		},
+		"RequirementsInfo": {
+			"Operating system architecture": "64-bit",
+			"Allowed Architectures": "",
+			"Minimum operating system": "Windows 10 21H1"
+		},
+		"RulesFormat": "Manually configure detection rules",
+		"DetectionRules": [{
+				"RuleType": "MSI",
+				"RuleInfo": {
+					"MSI product version check": "No"
+				}
+		}],
+		"AssignmentEntities": [{
+			"AssignmentType": "Required",
+			"GroupSelectType": "IncludedGroups",
+			"AssignAllUsers": false,
+			"AssignAllDevices": true,
+			"AssignGroups": null
+		}],
+		"SupersedenceEntities": [{
+			"Name": "test-supersedence1",
+			"UninstallPreviousVersion": true
+		}],
+		"UpdatedSupersedenceEntities": [{
+			"Name": "test-supersedence2",
+			"UninstallPreviousVersion": false
+			}
+		]
+	}
+
+]
