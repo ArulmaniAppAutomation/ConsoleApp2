@@ -88,7 +88,7 @@ namespace Account_Management.Tests
 
 
 
-            Assert.Pass("Navigated to Devices and Enrollment section using certificate-based login.");
+            //Assert.Pass("Navigated to Devices and Enrollment section using certificate-based login.");
         }
     }
 

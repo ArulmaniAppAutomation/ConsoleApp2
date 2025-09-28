@@ -12,8 +12,27 @@
 		"RequirementsInfo": {
 			"Operating system architecture": "64-bit",
 			"Allowed Architectures": "",
-			"Minimum operating system": "Windows 10 21H1"
+			"Minimum operating system": "Windows 10 21H1",
+                        "Disk space required (MB)": "10",
+			"Physical memory required (MB)": "30",
+			"Minimum number of logical processors required": "1",
+			"Minimum CPU speed required (MHz)": "20"
 		},
+              
+
+               "RequirementRules": [{
+				"RequirementType": "Script",
+				"RequirementInfo": {
+					"Script file": ".\\TestConfig\\TestScripts\\detect.ps1",
+					"Run script as 32-bit process on 64-bit clients": "Yes",
+					"Select output data type": "Date and Time",
+					"Operator": "Equals",
+					"Value": "2018-09-03"
+				}
+			}],
+
+
+
 		"RulesFormat": "Manually configure detection rules",
 		"DetectionRules": [{
 				"RuleType": "MSI",

@@ -30,7 +30,8 @@ namespace ConsoleApp2.Framework
             Browser = await PlaywrightInstance.Chromium.LaunchAsync(new BrowserTypeLaunchOptions
             {
                 Channel = "chrome",
-                Headless = false // set to true for CI
+                Headless = false //
+                              //set to true for CI
             });
         }
 
@@ -46,13 +47,34 @@ namespace ConsoleApp2.Framework
             Context = await Browser.NewContextAsync();
             Page = await Context.NewPageAsync();
             //await Page.SetViewportSizeAsync(1920, 1080);
+
+            await Context.Tracing.StartAsync(new TracingStartOptions
+            {
+                Screenshots = true,
+                Snapshots = true,
+                Sources = true
+            });
+
         }
 
-       
+        [TearDown]
         public async Task TearDownAsync()
         {
+
+            Console.WriteLine("Current working directory: " + Directory.GetCurrentDirectory());
+
+
             if (Context != null)
             {
+
+
+
+
+                await Context.Tracing.StopAsync(new TracingStopOptions
+                {
+                    Path = "trace.zip"
+                });
+
                 // Save storage state
                 try
                 {
@@ -60,15 +82,14 @@ namespace ConsoleApp2.Framework
                 }
                 catch { }
 
-                // Close context unless KeepBrowserOpen true
-                try
+                if (!(_activeAccount?.KeepBrowserOpen ?? true))
                 {
-                    if (!(_activeAccount?.KeepBrowserOpen ?? true))
-                      await Context.CloseAsync();
-                }
-                catch { }
+                    await Context.CloseAsync(); // ? Now this only runs if KeepBrowserOpen is false
+                } }
+
+                
             }
-        }
+        
 
         
         public async Task OneTimeTearDownAsync()

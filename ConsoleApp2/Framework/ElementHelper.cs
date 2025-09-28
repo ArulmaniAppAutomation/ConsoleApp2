@@ -27,7 +27,7 @@ namespace PlaywrightTests.Common.Helper
             var element = locator.GetByRole(role);
             return await IsExistAsync(element);
         }
-        public static async Task<ILocator> GetByRoleAndHasTextAsync(IPage? page, AriaRole role, string hasText, bool waitUntilElementExist = true)
+        public static async Task<ILocator> GetByRoleAndHasTextAsync(IPage? page, AriaRole role, string hasText, bool waitUntilElementExist = false)
         {
             var element = page.GetByRole(role).Filter(new LocatorFilterOptions() { HasText = hasText });
             if (waitUntilElementExist)
@@ -443,7 +443,7 @@ namespace PlaywrightTests.Common.Helper
                 return element;
             }
         }
-        public static async Task<ILocator> GetByClassAndHasTextAsync(ILocator locator, string className, string hasText, string? hasNotText = null, bool exact = false, bool waitUntilElementExist = true)
+        public static async Task<ILocator> GetByClassAndHasTextAsync(ILocator locator, string className, string hasText, string? hasNotText = null, bool exact = false, bool waitUntilElementExist = false)
         {
             var element = locator.Locator($"[class{(exact ? "" : "*")}='{className}']").Filter(string.IsNullOrEmpty(hasNotText) ? new() { HasText = hasText } : new() { HasText = hasText, HasNotText = hasNotText });
             if (waitUntilElementExist)
@@ -584,6 +584,21 @@ namespace PlaywrightTests.Common.Helper
                 element = page?.Locator($"[data-automation-key='{dataAutomationKey}']");
             return await IsExistAsync(element);
         }
+
+        public static async Task<ILocator> GetInputByLabelTextAsync(IPage page, string labelText)
+        {
+            var label = page.Locator($"label:text('{labelText}')");
+
+            // Assumes input is related to label via `for` / `aria-labelledby`
+            var inputId = await label.GetAttributeAsync("for");
+            if (inputId == null)
+                throw new Exception($"No 'for' attribute found on label '{labelText}'");
+
+            var input = page.Locator($"#{inputId}");
+            await input.WaitForAsync(new() { Timeout = 5000 }); // Strong wait
+            return input;
+        }
+
         public static async Task<ILocator> GetByClassAndDataAutomationKeyAsync(IFrameLocator iframe, string className, string dataAutomationKey, bool exact = false)
         {
             var element = iframe?.Locator($"[class{(exact ? "" : "*")}='{className}'][data-automation-key='{dataAutomationKey}']");

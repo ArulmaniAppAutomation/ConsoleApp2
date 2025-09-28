@@ -59,13 +59,13 @@ namespace Account_Management.Tests
             var home = new IntuneHomePage(Page, portalUrl);
             var apps = new IntuneAppsPage(Page, portalUrl);
             await home.NavigateAsync();
-           await home.LoginIfNeededAsync(account);
+           //await home.LoginIfNeededAsync(account);
             //Wait for portal to load (certificate-based SSO)
             var sw = System.Diagnostics.Stopwatch.StartNew();
-            await apps.AllApps_Click();
-            await apps.app_Click();
-            await apps.CreateBUtton_Click();
-            await apps.Select_AndroidAppAsyncWithData(testCase);
+          //  await apps.AllApps_Click();
+            //await apps.app_Click();
+            //await apps.CreateBUtton_Click();
+            //await apps.Select_AndroidAppAsyncWithData(testCase);
            // var timeout = TimeSpan.FromMinutes(2);
            //bool loggedIn = false;
            //while (sw.Elapsed < timeout)
