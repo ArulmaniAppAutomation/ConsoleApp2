@@ -279,30 +279,20 @@ namespace Account_Management.Pages
 
         }
 
-        public static async Task SelectReq_RulesDropDown(String Label,String ValueTOSelect)
+        public static async Task SelectReq_RulesDropDown(String DateAndTime,String Select_output)
         {
 
             try
             {
-                // Step 1: Locate the parent element by class
-                var parentLocator = await ElementHelper.GetByClassAsync(_page, "fxc-group-dropdown");
-                var specificParent = parentLocator.Nth(0);
-                // Step 2: Locate the child element by class and text within the parent
-                var childLocator = await ElementHelper.GetByClassAndHasTextAsync(specificParent, "azc-input", "Select one");
+                var dropdown = await ElementHelper.GetByComBoxRoleAndNameAsync(_page, DateAndTime);
+                await dropdown.ClickAsync();
 
-                // Step 3: Interact with the child element (e.g., click to open dropdown)
-                await childLocator.ClickAsync();
+                // Open the dropdown first (if not already open)
+                //  await dropdown.ClickAsync(); // dropdown is the element that opens the popup
 
-                // Step 1: Get the parent dropdown popup
-                var parentLocator1 = await ElementHelper.GetByClassAsync(_page, "fxc-dropdown-popup");
-
-                // Step 2: Get the child option "Date and Time" from the parent
-                var childLocator1 = await ElementHelper.GetByClassAndHasTextAsync(parentLocator1, "fxc-dropdown-option", "Date and Time");
-
-                // Step 3: Click the option
-                await childLocator1.ClickAsync();
-
-
+                // Find all popups
+                var option = await ElementHelper.GetByRoleAndNameAsync(_page, AriaRole.Treeitem, Select_output);
+                await option.ClickAsync();
 
 
 
@@ -314,8 +304,39 @@ namespace Account_Management.Pages
             }
         }
 
+        public static async Task SelectOperator_DropDown(String Operator,String equals)
+        {
 
 
+            // Locate the dropdown by its label "Operator"
+            var operatorDropdown = await ElementHelper.GetByComBoxRoleAndNameAsync(_page, Operator);
+
+            // Click the dropdown
+            await operatorDropdown.ClickAsync();
+            var option = await ElementHelper.GetByRoleAndNameAsync(_page, AriaRole.Treeitem, equals);
+            await option.ClickAsync();
+
+
+
+        }
+        public static async Task SelectCheckBox(String CheckBoxName)
+        {
+            try
+            {// Step 1: Get the radio group container by label
+                var radioGroup = await ElementHelper.GetByLableAsync(_page, "Run script as 32-bit process on 64-bit clients");
+
+                // Step 2: Find the "Yes" radio within that group
+                var yesRadio = await ElementHelper.GetByRoleAndNameAsync(radioGroup, AriaRole.Radio, "Yes");
+
+                // Step 3: Click the "Yes" radio
+                await yesRadio.ClickAsync();
+
+
+            }
+            catch (Exception ex)
+            {
+            }
+        }
         public static Dictionary<string, string> GetPropertyToUILabelMap<T>()
         {
             var result = new Dictionary<string, string>();
@@ -399,6 +420,13 @@ namespace Account_Management.Pages
                             await IntuneWin32Apps.File_Browser(appFileFullPath,key);
 
                         }
+                        else if (key.Equals("Run this script using the logged on credentials") || key.Contains("Run script as 32-bit process on 64-bit clients") || key.Contains("Associated with a 32-bit app on 64-bit clients") || key.Contains("Enforce script signature check"))
+                        {
+
+                            await IntuneWin32Apps.SelectCheckBox(key);
+
+                            //ClickExtensions.ClickLiOption(Framework, key, item.RequirementInfo[key]);
+                        }
 
                         else if (key.Equals("Property") || key.Equals("Select output data type") || key.Equals("Registry key requirement"))
                                    {
@@ -412,11 +440,15 @@ namespace Account_Management.Pages
 
                         else if (key.Equals("Operator"))
                                    {
-                                       
-                            
+
+                            await IntuneWin32Apps.SelectOperator_DropDown(key, item.RequirementInfo[key]);
+
                             //SelectExtensions.SelectOperatorDropDown(Framework, item.RequirementInfo[key], "Operator");
-                                    }
-                                
+
+
+
+                        }
+                            
 
                     }
                     //                else if (key.Equals("Operator"))

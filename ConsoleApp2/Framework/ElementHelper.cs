@@ -89,7 +89,7 @@ namespace PlaywrightTests.Common.Helper
         public static async Task<ILocator> GetByRoleAndNameAsync(ILocator parentLocator, AriaRole role, string name)
         {
             var element = parentLocator.GetByRole(role, new() { Name = name, Exact = true });
-            return await IsExistAsync(element);
+            return element;
         }
         public static async Task<ILocator> GetByRoleAndNameAsync(IPage? page, AriaRole role, string name)
         {
@@ -830,7 +830,7 @@ namespace PlaywrightTests.Common.Helper
         public static async Task<ILocator> GetByLableAsync(IPage page, string lable, bool exact = true)
         {
             var element = page.GetByLabel(lable, new() { Exact = exact });
-            return await IsExistAsync(element);
+            return element;
         }
         public static async Task<ILocator> GetByLableAsync(IFrameLocator iframe, string lable, bool exact = true)
         {
