@@ -46,7 +46,7 @@ namespace ConsoleApp2.Framework
 
             Context = await Browser.NewContextAsync();
             Page = await Context.NewPageAsync();
-            await Page.SetViewportSizeAsync(1900, 1080);
+        //    await Page.SetViewportSizeAsync(1900, 1080);
 
             await Context.Tracing.StartAsync(new TracingStartOptions
             {
