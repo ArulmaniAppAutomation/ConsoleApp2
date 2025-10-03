@@ -81,7 +81,7 @@ namespace Account_Management.Pages
             var nextButton1 = await ElementHelper.GetByRoleAndNameAsync(_page, AriaRole.Button, "Next");
             await nextButton1.ClickAsync();
             await SetRequirementsFS(testCase);
-
+            //await IntuneWin32Apps.SetDetectionRulesFS();
 
 
 
@@ -385,21 +385,28 @@ namespace Account_Management.Pages
 
         public static async Task SendKeysToItemAsync(string keys, ILocator item)
         {
-            // Move to element and click to focus
+            // Wait for item to be visible and enabled
+            await item.WaitForAsync(new() { State = WaitForSelectorState.Visible });
             await item.ScrollIntoViewIfNeededAsync();
             await item.ClickAsync();
 
             int count = 0;
             string value = await item.InputValueAsync() ?? string.Empty;
 
-            // Try up to 3 times to send keys and verify
             while (!string.Equals(value, keys, StringComparison.OrdinalIgnoreCase) && count++ < 3)
             {
-                await item.FillAsync(keys); // Playwright's FillAsync is more reliable than SendKeys
-                await item.PressAsync("Enter"); // If you need to confirm the input
+                await item.FillAsync(""); // Clear first
+                await item.TypeAsync(keys); // More reliable than FillAsync in some frameworks
+                await Task.Delay(200); // Small delay to let frontend handle the update
                 value = await item.InputValueAsync() ?? string.Empty;
+
+                Console.WriteLine($"Attempt {count}: Expected: {keys}, Actual: {value}");
             }
+
+            // Optionally press Enter if needed
+            // await item.PressAsync("Enter");
         }
+
 
 
         public static async Task SetDateTimeClear(ILocator date)
@@ -411,7 +418,7 @@ namespace Account_Management.Pages
             int count = 0;
             while (count++ < 6)
             {
-                IntuneWin32Apps.SendKeysToItemAsync(deleteTextSequence, date);
+                await IntuneWin32Apps.SendKeysToItemAsync(deleteTextSequence, date);
             }
 
 
@@ -1011,28 +1018,28 @@ namespace Account_Management.Pages
 
 
                                 // Locate the date input inside the parent element
-                                var date = await ElementHelper.GetByClassAndHasTextAsync(parent, "azc-input", "MM/DD/YYYY");
-
+                                //var date = await ElementHelper.GetByClassAndHasTextAsync(parent, "azc-input", "MM/DD/YYYY");
+                                var date = await ElementHelper.GetByClassAndPlaceholderAsync(_page, "azc-input", "MM/DD/YYYY");
                                 // Locate the time input inside the parent element
                                 var time = await ElementHelper.GetByClassAndHasTextAsync(parent, "azc-input", "h:mm:ss AM/PM");
 
 
 
-                                IntuneWin32Apps.SetDateTimeClear(date);
-                                IntuneWin32Apps.SendKeysToItemAsync(dateValue[0], date);
+                               await IntuneWin32Apps.SetDateTimeClear(date);
+                              await  IntuneWin32Apps.SendKeysToItemAsync(dateValue[0], date);
 
 
                                 if (dateValue.Length > 1)
                                 {
                                     time.ClickAsync();
-                                    IntuneWin32Apps.SetDateTimeClear(time);
-                                    IntuneWin32Apps.SendKeysToItemAsync(dateValue[1], time);
+                                    await IntuneWin32Apps.SetDateTimeClear(time);
+                                    await IntuneWin32Apps.SendKeysToItemAsync(dateValue[1], time);
                                 }
                             }
 
                             else
                             {
-                                IntuneWin32Apps.SetItemTextInCurrentBladeAsync(key, item.RequirementInfo[key]);
+                                await IntuneWin32Apps.SetItemTextInCurrentBladeAsync(key, item.RequirementInfo[key]);
                             }
 
 
@@ -1144,7 +1151,7 @@ namespace Account_Management.Pages
 
 
                                     // Locate the date input inside the parent element
-                                    var date = await ElementHelper.GetByClassAndHasTextAsync(parent, "azc-input", "MM/DD/YYYY");
+                                    var date = await ElementHelper.GetByClassAndPlaceholderAsync(_page, "azc-input", "MM/DD/YYYY");
 
                                     // Locate the time input inside the parent element
                                     var time = await ElementHelper.GetByClassAndHasTextAsync(parent, "azc-input", "h:mm:ss AM/PM");
