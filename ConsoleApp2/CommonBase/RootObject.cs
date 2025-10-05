@@ -40,6 +40,8 @@ namespace Account_Management.Framework
 
         [JsonPropertyName("Information URL")]
         public string InformationURL { get; set; }
+        [JsonPropertyName("Privacy URL")]
+        public string  PrivacyURL { get; set; }
 
         public string Category { get; set; }
 

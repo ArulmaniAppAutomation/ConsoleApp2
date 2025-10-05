@@ -18,6 +18,18 @@ namespace Account_Management.Framework
                 PropertyNameCaseInsensitive = true
             }) ?? new();
         }
+
+        public static List<Office365RootObject> LoadOffice365FromFile(string jsonFilePath)
+        {
+            var json = File.ReadAllText(jsonFilePath);
+            return JsonSerializer.Deserialize<List<Office365RootObject>>(json, new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            }) ?? new();
+        }
+
+
+
     }
 
 }
