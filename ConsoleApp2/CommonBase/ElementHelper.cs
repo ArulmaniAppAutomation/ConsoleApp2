@@ -11,6 +11,17 @@ namespace PlaywrightTests.Common.Helper
         /*
          Function name format:GetBy{ElementName/Role/Attribute/Text}[{(And{Text/Attribute})...}]Async
          */
+       
+        public static async Task broswer_launch()
+        {
+
+
+            var playwright = await Playwright.CreateAsync();
+            var browser = await playwright.Chromium.LaunchAsync();
+            var context = await browser.NewContextAsync();
+            var _page = await context.NewPageAsync();
+
+        }
         #region Get by role
         public static async Task<ILocator> GetByRoleAsync(IPage? page, AriaRole role)
         {
@@ -410,6 +421,8 @@ namespace PlaywrightTests.Common.Helper
 
         public static async Task<ILocator> GetByClassAndHasTextAsync(IPage? page, string className, string hasText, string? hasNotText = null, bool exact = false, bool waitUntilElementExist = false)
         {
+            if (page == null)
+                throw new ArgumentNullException(nameof(page), "Page cannot be null.");
             var element = page.Locator($"[class{(exact ? "" : "*")}='{className}']").Filter(string.IsNullOrEmpty(hasNotText) ? new() { HasText = hasText } : new() { HasText = hasText, HasNotText = hasNotText });
             if (waitUntilElementExist)
             {

@@ -13,7 +13,7 @@ namespace Account_Management.CommonBase
 
         protected ISiteBar siteBar;
         protected ISiteBarMenu siteBarMenu;
-        public static IPage _page;
+        public IPage _page { get; set; }
         private readonly string _portalUrl;
         public BaseCommonUtils(IPage page, string env)
         {

@@ -12,7 +12,7 @@ namespace Account_Management.CommonBase
     {
         public static IPage _page;
         private readonly string _portalUrl;
-        BaseCommonUtils base1=new BaseCommonUtils();
+       // private BaseCommonUtils base1 = new BaseCommonUtils(_page, _portalUrl);
 
         private string IFrameName = "ObjectPicker";
         public SelectGroupUtills(IPage page, string portalUrl)
@@ -49,7 +49,7 @@ namespace Account_Management.CommonBase
          //   BaseThreadSleepLong();
             await SetSearchBoxValueAsync(groupName);
             await SelectTheGroupAsync(groupName);
-            await base1.ClickSelectBtnAsync(iFrameName: IFrameName);
+            //await base1.ClickSelectBtnAsync(iFrameName: IFrameName);
         }
         private async Task SetSearchBoxValueAsync(string groupName)
         {

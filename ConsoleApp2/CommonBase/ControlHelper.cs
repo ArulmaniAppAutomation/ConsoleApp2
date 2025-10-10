@@ -9,6 +9,7 @@ namespace PlaywrightTests.Common.Helper
 {
     public class ControlHelper
     {
+        public static IPage _page;
         /// <summary>
         /// wait for the page loaded
         /// </summary>

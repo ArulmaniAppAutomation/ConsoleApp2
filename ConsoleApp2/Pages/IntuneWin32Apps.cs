@@ -1,4 +1,5 @@
 ﻿using Account_Management.Framework;
+using Account_Management.CommonBase;
 using log4net;
 using Microsoft.Playwright;
 using Microsoft.VisualStudio.TestPlatform.Common.ExtensionFramework.Utilities;
@@ -19,15 +20,16 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 namespace Account_Management.Pages
 {
-    public class IntuneWin32Apps
+    public class IntuneWin32Apps:AllAppUtills
     {
 
         public static IPage _page;
-        private readonly string _portalUrl;
-        public IntuneWin32Apps(IPage page, string portalUrl)
+        private static readonly string _portalUrl;
+       // public static AllAppUtills allAppUtills = new AllAppUtills(_page, _portalUrl);
+        public IntuneWin32Apps(IPage page, string portalUrl):base(page,portalUrl) 
         {
             _page = page;
-            _portalUrl = portalUrl;
+            
         }
         public async Task Select_Win32AppAsyncWithData(RootObject testCase)
         {
@@ -213,41 +215,40 @@ namespace Account_Management.Pages
 
         }
 
-        public static async Task Select_ReqType()
+        public static async Task Select_ReqType(string requirementType)
         {
-
-
             try
             {
+                // Click on the dropdown
                 var dropdown = await ElementHelper.GetByClassAndHasTextAsync(_page, "fxc-dropdown-placeholder", "Select one");
                 await dropdown.ClickAsync();
-                try
+
+                // Find the dropdown option that matches the given requirement type
+                var options = await _page.QuerySelectorAllAsync(".fxc-dropdown-option");
+
+                bool selected = false;
+
+                for (int i = 0; i < options.Count; i++)
                 {
-                    var scriptOption = await ElementHelper.GetByClassAndHasTextAsync(_page, "fxc-dropdown-option", "Script");
-                    await scriptOption.Nth(1).ClickAsync();
+                    var text = await options[i].InnerTextAsync();
+                    if (text.Trim().Equals(requirementType, StringComparison.OrdinalIgnoreCase))
+                    {
+                        await options[i].ClickAsync();
+                        selected = true;
+                        Console.WriteLine($"Selected requirement type: {requirementType}");
+                        break;
+                    }
                 }
 
-                catch (Exception ex)
+                if (!selected)
                 {
-                    var scriptOption = await ElementHelper.GetByClassAndHasTextAsync(_page, "fxc-dropdown-option", "Script");
-                    await scriptOption.Nth(1).ClickAsync();
-
-
+                    Console.WriteLine($"Requirement type '{requirementType}' not found in the dropdown options.");
                 }
             }
-
-
-
             catch (Exception ex)
             {
-                Console.Write("it is erroe");
-
-
+                Console.WriteLine($"[Error] Failed to select requirement type '{requirementType}': {ex.Message}");
             }
-
-
-
-
         }
 
         public static async Task File_Browser(String file_path)
@@ -909,11 +910,30 @@ namespace Account_Management.Pages
             return result;
         }
 
+        public static async Task SetRulePathAsync(string path)
+        {
+            await SetAzcInputBoxAsync("Path", path);
+        }
 
+        public static async Task SetAzcInputBoxAsync(string name, string value, string noText = null)
+        {
+            var locator = await ControlHelper.GetLocatorByClassAndHasTextAsync(Page, "fxc-weave-pccontrol fxc-section-control fxc-base msportalfx-form-formelement fxc-has-label azc-textField fxc-TextField azc-fabric azc-validationBelowCtrl", name, 0, hasNotText: noText, iframeName: IFrameName);
+            await ControlHelper.SetInputByClassAndTypeAsync(locator, "azc-input azc-formControl", "text", value, 0);
+        }
+        public static async Task SetRuleFileOrFolderAsync(string file)
+        {
+            await SetAzcInputBoxAsync("File or folder", file);
+        }
 
+        private static async Task SetRuleKeyPathAsync(string path)
+        {
+            await SetAzcInputBoxAsync("Key path", path);
+        }
 
-
-
+        private static async Task SetRuleValueNameAsync(string name)
+        {
+            await SetAzcInputBoxAsync("Value name", name);
+        }
 
         public static async Task SetRequirementsFS(RootObject entity)
         {
@@ -963,8 +983,8 @@ namespace Account_Management.Pages
                 foreach (var item in entity.RequirementRules)
                 {
                     await IntuneWin32Apps.Add_ReqRule();
-                    await IntuneWin32Apps.Select_ReqType();
-
+                    string reqType = item.RequirementType;  // Use the current item here
+                    await IntuneWin32Apps.Select_ReqType(reqType);
 
 
 
@@ -1005,6 +1025,36 @@ namespace Account_Management.Pages
 
 
                         }
+                        else if (key.Equals("Path"))
+                        {
+
+                            await IntuneWin32Apps.SetRulePathAsync(item.RequirementInfo[key]);
+
+
+                        }
+                        else if (key.Equals("File or folder"))
+                        {
+
+                            await SetRuleFileOrFolderAsync(item.RequirementInfo[key]);
+
+
+                        }
+                        else if (key.Equals("Key path"))
+                        {
+
+                            await SetRuleKeyPathAsync(item.RequirementInfo[key]);
+
+
+                        }
+                        else if (key.Equals("Value name"))
+                        {
+
+                            await SetRuleValueNameAsync(item.RequirementInfo[key]);
+
+
+                        }
+
+
 
 
                         else
@@ -1025,8 +1075,8 @@ namespace Account_Management.Pages
 
 
 
-                               await IntuneWin32Apps.SetDateTimeClear(date);
-                              await  IntuneWin32Apps.SendKeysToItemAsync(dateValue[0], date);
+                                await IntuneWin32Apps.SetDateTimeClear(date);
+                                await IntuneWin32Apps.SendKeysToItemAsync(dateValue[0], date);
 
 
                                 if (dateValue.Length > 1)
@@ -1058,17 +1108,17 @@ namespace Account_Management.Pages
 
                         }
 
+
+
+
+
+
+
+
+
+
+
                         await IntuneWin32Apps.PressActionButtonAndWaitForBladeAsync(_page, "OK", "");
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -1089,8 +1139,8 @@ namespace Account_Management.Pages
 
 
             }
-        }
 
+        }
 
 
 

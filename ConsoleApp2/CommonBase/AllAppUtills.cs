@@ -4,6 +4,7 @@ using PlaywrightTests.Common.Helper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -11,16 +12,17 @@ namespace Account_Management.CommonBase
 {
    public  class AllAppUtills:BaseCommonUtils
     {
+
         public ICommandBar commandBar;
-        public static IPage _page;
+        public static IPage Page { get; private set; }
         private readonly string _portalUrl;
-        public string? IFrameName = null;
+        public static string? IFrameName = null;
 
         public AllAppUtills(IPage page, string env):base (page,env) 
         {
-            _page=page;
-            _portalUrl=env;
-
+            Page=page;
+            _portalUrl = env;
+           
 
         }
         private int GetAssignmentBehaveNth(string behaveName)
@@ -207,6 +209,23 @@ namespace Account_Management.CommonBase
         {
             await ControlHelper.SetComBoxRoleTreeItemRoleValueAsync(_page, "Select other Office apps (license required)", values, 0, iFrameName: IFrameName);
         }
+
+
+        public  async Task SetRulePathAsync(string path)
+        {
+            await SetAzcInputBoxAsync("Path", path);
+        }
+
+        public  async Task SetAzcInputBoxAsync(string name, string value, string noText = null)
+        {
+            var locator = await ControlHelper.GetLocatorByClassAndHasTextAsync(Page, "fxc-weave-pccontrol fxc-section-control fxc-base msportalfx-form-formelement fxc-has-label azc-textField fxc-TextField azc-fabric azc-validationBelowCtrl", name, 0, hasNotText: noText, iframeName: IFrameName);
+            await ControlHelper.SetInputByClassAndTypeAsync(locator, "azc-input azc-formControl", "text", value, 0);
+        }
+        public  async Task SetRuleFileOrFolderAsync(string file)
+        {
+            await SetAzcInputBoxAsync("File or folder", file);
+        }
+
 
     }
 }
