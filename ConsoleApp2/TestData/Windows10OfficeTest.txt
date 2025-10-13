@@ -1,0 +1,76 @@
+[{
+	"TestCaseName": "Office365Regression",
+	"TestCaseID": 25533660,
+	"AppType": [ "Windows 10 and later", "Microsoft 365 Apps" ],
+	"AppInfo": {
+		"Suite Name": null,
+		"Description": "UI Automation testing",
+		"Information URL": "https://www.microsoft.com/",
+		"Privacy URL": "https://www.microsoft.com/",
+		"Notes": "Microsoft"
+	},
+	"AppUpdateInfo": {
+		"Information URL": "https://www.windows.com"
+	},
+	"AssignmentEntities": [{
+		"AssignmentType": "Required",
+		"GroupSelectType": "IncludedGroups",
+		"AssignAllUsers": false,
+		"AssignAllDevices": false,
+		"AssignGroups": [{
+			"GroupName": "Admin"
+		}]
+
+	}],
+	"excludedApps": {
+		"Access": true,
+		"Outlook": true
+	},
+	"officePlatformArchitecture": "32-bit",
+	"defaultFileFormat":"Office Open Document Format",
+	"Update channel": "Monthly Enterprise Channel",
+	"shouldUninstallOlderVersionsOfOffice": true,
+	"productIds": ["Project Online Desktop Client"],
+	"autoAcceptEula": true,
+	"useSharedComputerActivation": true,
+	"localesToInstall": ["de-de", "zh-cn"]
+},
+{
+	"TestCaseName": "Office365RegressionSpecific",
+	"TestCaseID": 25533669,
+	"AppType": "Windows 10",
+	"AppInfo": {
+		"Suite Name": null,
+		"Description": "UI Suite Description",
+		"Information URL": "https://www.microsoft.com/",
+		"Privacy URL": "https://www.msn.com/",
+		"Notes": "Microsoft"
+	},
+	"AppUpdateInfo": {
+		"Information URL": "https://www.windows.com"
+	},
+	"AssignmentEntities": [{
+		"AssignmentType": "Required",
+		"GroupSelectType": "IncludedGroups",
+		"AssignAllUsers": false,
+		"AssignAllDevices": false,
+		"AssignGroups": [{
+			"GroupName": "Admin"
+		}]
+
+	}],
+	"excludedApps": {
+		"Access": true,
+		"Excel": true
+	},
+	"officePlatformArchitecture": "64-bit",
+	"defaultFileFormat":"Office Open XML Format",
+	"Update channel": "Semi-Annual Enterprise Channel (Preview)",
+	"versionToInstall": "Specific",
+	"specificVersion": "2008-13127.20638",
+	"shouldUninstallOlderVersionsOfOffice": true,
+	"productIds": ["Project Online Desktop Client"],
+	"autoAcceptEula": true,
+	"useSharedComputerActivation": true,
+	"localesToInstall": ["de-de", "zh-cn"]
+}]

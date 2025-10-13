@@ -2,7 +2,7 @@
   {
     "TestCaseName": "AndroidStoreRegression",
     "TestCaseID": 25533151,
-    "AppType": "Android",
+    "AppType": ["Android"],
     "AppInfo": {
       "Name": "Generated from TestCaseName",
       "Description": "UI Automation testing",

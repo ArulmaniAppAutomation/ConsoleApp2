@@ -13,7 +13,7 @@ namespace Account_Management.CommonBase
 
         protected ISiteBar siteBar;
         protected ISiteBarMenu siteBarMenu;
-        public IPage _page { get; set; }
+        public static IPage _page { get; set; }
         private readonly string _portalUrl;
         public BaseCommonUtils(IPage page, string env)
         {
@@ -36,7 +36,16 @@ namespace Account_Management.CommonBase
             await RefreshCurrentPageAsync();
             await siteBar.ClickHomeAsync();
         }
-
+        public async Task ClickOKBtnAsync(string? iFrameName = null)
+        {
+            await ControlHelper.ClickByButtonRoleAndNameAsync(_page, "OK", 0, iFrameName: iFrameName);
+         //   ConsoleHelper.ColoredResult(ConsoleColor.Green, "Click \"OK\" done...");
+        }
+        public async Task ClickCloseContentBtnAsync(IPage? page, string profileName, string? iframeName = null)
+        {
+            await ControlHelper.ClickByButtonRoleAndNameAsync(page, $"Close content '{profileName}'", 0, iframeName);
+           // ConsoleHelper.ColoredResult(ConsoleColor.Green, $"Click \"Close content '{profileName}'\" done...");
+        }
 
         public void DictionaryItemProcess(Dictionary<string, string>? sources, string key, string value)
         {

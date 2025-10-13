@@ -96,7 +96,7 @@ namespace Account_Management.CommonBase
             await ControlHelper.ClickByClassAsync(dataCellLocator, "fxs-fxclick", 0);
         }
 
-        private async Task ClickRequiredAddAllDevicesAsync()
+        public  async Task ClickRequiredAddAllDevicesAsync()
         {
             await ClickAddAllDevicesButtonAsync(GetAssignmentsRequiredNth());
         }
@@ -189,17 +189,26 @@ namespace Account_Management.CommonBase
         {
             await ClickButtonByNameAsync(buttonName);
         }
-        private async Task ClickButtonByNameAsync(string name)
+        private static async Task ClickButtonByNameAsync(string name)
         {
-            await ControlHelper.ClickByClassAndHasTextAsync(buttonSectionLocator, "ms-Button", name, 0);
+
+            var locator = await GetButtonSectionLocatorAsync();
+            await ControlHelper.ClickByClassAndHasTextAsync(locator, "fxs-button", name, 0);
+
+            // await ControlHelper.ClickByClassAndHasTextAsync(buttonSectionLocator, "fxs-button", name, 0);
         }
+        private static async Task<ILocator> GetButtonSectionLocatorAsync()
+        {
+            return await ControlHelper.GetLocatorByClassAsync(_page, "ext-wizardNextButton", -1, iFrameName: IFrameName);
+        }
+
         private ILocator buttonSectionLocator
         {
             get { return GetButtonSectionLocator(); }
         }
         private ILocator GetButtonSectionLocator()
         {
-            return ControlHelper.GetLocatorByClassAsync(_page, "buttonSection", -1, iFrameName: IFrameName).Result;
+            return ControlHelper.GetLocatorByClassAsync(_page, "ext-wizardPrevButton", -1, iFrameName: IFrameName).Result;
         }
         public async Task SelectOfficeAppsByExcludeAsync(List<string> values)
         {
@@ -209,8 +218,16 @@ namespace Account_Management.CommonBase
         {
             await ControlHelper.SetComBoxRoleTreeItemRoleValueAsync(_page, "Select other Office apps (license required)", values, 0, iFrameName: IFrameName);
         }
-
-
+        public async Task SetLanguagesAsync(List<string> values)
+        {
+            await ControlHelper.ClickByButtonRoleAndHasTextAsync(_page, "No languages selected", 0, iFrameName: IFrameName);
+            await ControlHelper.ClickGridcellsByRowTextAndClassAsync(await GetPaneByRoleAsync("Languages"), "fxc-gc-selectioncheckbox azc-fill-text", values, 0);
+            await ControlHelper.ClickByButtonRoleAndHasTextAsync(_page, "OK", 0, iFrameName: IFrameName);
+        }
+        private async Task<ILocator> GetPaneByRoleAsync(string paneName)
+        {
+            return await ControlHelper.GetByRoleAndHasTextAsync(_page, AriaRole.Complementary, paneName, 0, iFrameName: IFrameName);
+        }
         public  async Task SetRulePathAsync(string path)
         {
             await SetAzcInputBoxAsync("Path", path);
@@ -226,6 +243,18 @@ namespace Account_Management.CommonBase
             await SetAzcInputBoxAsync("File or folder", file);
         }
 
+        public async Task SetArchitectureAsync(string value)
+        {
+            await ControlHelper.SelectRadioByHasTextAsync(_page, value, 0, iFrameName: IFrameName);
+        }
+        public async Task SetdefaultFileFormatAsync(string value)
+        {
+            await ControlHelper.SetComBoxRoleTreeItemRoleValueAsync(_page, "Default file format", value, 0, iFrameName: IFrameName);
+        }
+        public async Task SetUpdatechannelAsync(string value)
+        {
+            await ControlHelper.SetComBoxRoleTreeItemRoleValueAsync(_page, "Update channel", value, 0, iFrameName: IFrameName);
+        }
 
     }
 }

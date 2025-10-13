@@ -8,7 +8,9 @@ namespace Account_Management.Framework
     {
         public string TestCaseName { get; set; }
         public int TestCaseID { get; set; }
-        public string AppType { get; set; }
+        public List<string> AppType { get; set; }
+
+
         public string FilePath { get; set; }
         public AppInfo AppInfo { get; set; }
         public  RequirementsInfo RequirementsInfo { get; set; }
@@ -88,12 +90,22 @@ namespace Account_Management.Framework
     public class AssignmentEntity
     {
         public string AssignmentType { get; set; }
-        public string GroupSelectType { get; set; }
+
+        [JsonConverter(typeof(JsonStringEnumConverter))]
+        public GroupSelectType GroupSelectType { get; set; }
         public bool AssignAllUsers { get; set; }
         public bool AssignAllDevices { get; set; }
         public List<AssignGroup> AssignGroups { get; set; }
 
         public AllDevicesAssignFilterSetting AllDevicesAssignFilterSetting { get; set; }
+        public AllDevicesAssignFilterSetting AllUsersAssignFilterSetting { get; set; }
+
+    }
+    [Serializable]
+    public enum GroupSelectType
+    {
+        IncludedGroups,
+        ExcludedGroups
     }
 
     public class AllDevicesAssignFilterSetting
@@ -106,6 +118,13 @@ namespace Account_Management.Framework
     {
         public string GroupName { get; set; }
         public string InstallContext { get; set; }
+        public GroupAssignFilterSetting AssignFilters { get; set; }
+    }
+    [Serializable]
+    public class GroupAssignFilterSetting
+    {
+        public string FilterBehave { get; set; }
+        public string FilterName { get; set; }
     }
 
     public class SupersedenceEntity

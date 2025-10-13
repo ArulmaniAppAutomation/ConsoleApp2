@@ -12,23 +12,22 @@ using System.Threading.Tasks;
 namespace Account_Management.Tests
 {
     [TestFixture]
-    [Category("Windows")]
-    public class IntuneWindowsTests:BaseTest
+    public class IntuneM365AppTests:BaseTest
     {
         public static IEnumerable<TestCaseData> GetAppTestCases()
         {
-            var jsonFilePath = Path.Combine(AppContext.BaseDirectory, "TestData", "Win32App.txt");
-            var testCases = DataLoader.LoadFromFile(jsonFilePath);
+            var jsonFilePath = Path.Combine(AppContext.BaseDirectory, "TestData", "Windows10OfficeTest.txt");
+            var testCases = DataLoader.LoadOffice365FromFile(jsonFilePath);
 
             foreach (var testCase in testCases)
             {
                 yield return new TestCaseData(testCase)
-                    .SetName($"Win32AppTest_{testCase.TestCaseName.Replace(" ", "_")}");
+                    .SetName($"Windows10OfficeTest_{testCase.TestCaseName.Replace(" ", "_")}");
             }
         }
 
         [Test, TestCaseSource(nameof(GetAppTestCases))]
-        public async Task CanNavigateToIntunePortalAndDevicesSection(RootObject testCase)
+        public async Task CanNavigateToIntunePortalAndDevicesSection(Office365RootObject testCase)
         {
             var portalUrl = GetPortalUrl("CTiP");
             var account = GetAccount("CTiP");
@@ -60,16 +59,16 @@ namespace Account_Management.Tests
             var home = new IntuneHomePage(Page, portalUrl);
             var android_apps = new IntuneAppsPage(Page, portalUrl);
             var win32_apps = new IntuneWin32Apps(Page, portalUrl);
-
+            var IntuneM365Officeapps=new IntuneM365Officeapps(Page, portalUrl);
             await home.NavigateAsync();
             await home.LoginIfNeededAsync(account);
             // Wait for portal to load (certificate-based SSO)
             var sw = System.Diagnostics.Stopwatch.StartNew();
-            //await android_apps.AllApps_Click();
-            //await android_apps.app_Click();
-            //await android_apps.CreateBUtton_Click();
-            //await win32_apps.Select_Win32AppAsyncWithData(testCase);
-            //// var timeout = TimeSpan.FromMinutes(2);
+            await android_apps.AllApps_Click();
+            await android_apps.app_Click();
+            await android_apps.CreateBUtton_Click();
+            await IntuneM365Officeapps.CreateM365AppsAsync(testCase);
+            // var timeout = TimeSpan.FromMinutes(2);
             //bool loggedIn = false;
             //while (sw.Elapsed < timeout)
             // {
@@ -91,7 +90,6 @@ namespace Account_Management.Tests
             //Assert.Pass("Navigated to Devices and Enrollment section using certificate-based login.");
         }
     }
-
 
 
 }

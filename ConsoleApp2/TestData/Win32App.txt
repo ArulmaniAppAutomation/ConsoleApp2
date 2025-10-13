@@ -3,7 +3,7 @@
 {
 		"TestCaseName": "Manually configure Requirement rules",
 		"TestCaseID": 25533644,
-		"AppType": "Windows app (Win32)",
+		"AppType": ["Windows app (Win32)"],
 		"FilePath": ".\\SampleApps\\VersionOne\\MicrosoftProductStudio.intunewin",
 		"AppInfo": {
 			"Name": "Generated from TestCaseName",

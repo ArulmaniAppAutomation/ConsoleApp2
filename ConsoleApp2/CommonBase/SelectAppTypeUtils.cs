@@ -14,7 +14,7 @@ namespace Account_Management.CommonBase
         {
         }
 
-        public async Task SelectAppTypeAsync(string? appType, string? typeCategory = null)
+        public async Task SelectAppTypeAsync(string? appType, string? typeCategory)
         {
             if (string.IsNullOrEmpty(appType))
             {

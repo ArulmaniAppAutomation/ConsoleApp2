@@ -12,8 +12,9 @@ namespace Account_Management.Pages
     public class IntuneM365Officeapps :AllAppUtills
     {
         public static IPage _page;
-        private readonly string _portalUrl;
+        private static  string _portalUrl;
         WindowsUtils windows;
+        AllAppUtills All_Apps;
         SelectAppTypeUtils selectAppType;
         Office365RootObject office365 = new Office365RootObject();
         public IntuneM365Officeapps(IPage page,String env) :base (page,env)
@@ -21,25 +22,28 @@ namespace Account_Management.Pages
 
             _page = page;
             _portalUrl = env;
-
+            selectAppType = new SelectAppTypeUtils(_page, _portalUrl);
+            All_Apps=new AllAppUtills(_page, _portalUrl);
         }
 
-        public async Task CreateM365AppsAsync()
+        public async Task CreateM365AppsAsync(Office365RootObject testCase)
         {
 
+            string? typeCategory = testCase.AppType?.ElementAtOrDefault(1);
+            string? appTypeValue = testCase.AppType?.ElementAtOrDefault(0);
 
-
-            await windows.GoToMainPageAsync();
-            await selectAppType.SelectAppTypeAsync(office365.AppType);
+            // await windows.GoToMainPageAsync();
+            await selectAppType.SelectAppTypeAsync(appTypeValue, typeCategory);
           //  (bool success, Dictionary<string, string> parameters) = await SetAppinformationNameAsync(
     //  office365.AppInfo?.Name ?? "DefaultAppName",
       //async (name) => await SetAppinformationNameAsync(name)
   //);
 
 
-            await SetAppInformationDescriptionAsync(office365.AppInfo.Description);
-            await SetAppInformationUrlAsync(office365.AppInfo.InformationURL);
-            await SetAppInformationPrivacyURLAsync(office365.AppInfo.PrivacyURL);
+            await All_Apps.SetAppInformationDescriptionAsync(testCase.AppInfo.Description);
+            await All_Apps. SetAppInformationUrlAsync(testCase.AppInfo.InformationURL);
+            await All_Apps.SetAppInformationPrivacyURLAsync(testCase.AppInfo.PrivacyURL);
+            await All_Apps.ClickBottomNavigationSpecialNameButtonAsync("Next");
             if (office365.ExcludedApps != null && office365.ExcludedApps.Any(kvp => kvp.Value))
             {
                 var excludedAppNames = office365.ExcludedApps
@@ -47,13 +51,19 @@ namespace Account_Management.Pages
                     .Select(kvp => kvp.Key)
                     .ToList();
 
-                await SelectOfficeAppsByExcludeAsync(excludedAppNames);
+                await All_Apps.SelectOfficeAppsByExcludeAsync(excludedAppNames);
             }
 
-            await SelectOtherOfficeAppsAsync(office365.ProductIds);
-
-
-
+            await All_Apps. SelectOtherOfficeAppsAsync(testCase.ProductIds);
+            await All_Apps. SetArchitectureAsync(testCase.OfficePlatformArchitecture);
+            await All_Apps. SetdefaultFileFormatAsync(testCase.DefaultFileFormat);
+            await All_Apps.SetUpdatechannelAsync(testCase.UpdateChannel);
+            await All_Apps.SetLanguagesAsync(testCase.LocalesToInstall);
+            //  await SetVersionToInstallAsync(office365.VersionToInstall, office365.SpecificVersion);
+            await All_Apps.ClickBottomNavigationSpecialNameButtonAsync("Next");
+            var appHelper = new IntuneWin32Apps(_page, _portalUrl);
+            await appHelper.SetAssignmentFS(testCase);
+            await ClickBottomNavigationSpecialNameButtonAsync("Create");
         }
 
 

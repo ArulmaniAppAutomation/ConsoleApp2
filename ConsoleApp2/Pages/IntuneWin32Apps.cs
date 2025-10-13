@@ -1,10 +1,11 @@
-﻿using Account_Management.Framework;
-using Account_Management.CommonBase;
+﻿using Account_Management.CommonBase;
+using Account_Management.Framework;
 using log4net;
 using Microsoft.Playwright;
 using Microsoft.VisualStudio.TestPlatform.Common.ExtensionFramework.Utilities;
 using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 using PlaywrightTests.Common.Helper;
+using PlaywrightTests.Common.Utils.BaseUtils.PopUp;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -25,11 +26,24 @@ namespace Account_Management.Pages
 
         public static IPage _page;
         private static readonly string _portalUrl;
-       // public static AllAppUtills allAppUtills = new AllAppUtills(_page, _portalUrl);
+        public static string? IFrameName = null;
+        private static ILocator buttonSectionLocator
+        {
+            get { return GetButtonSectionLocator(); }
+        }
+        private static ILocator GetButtonSectionLocator()
+        {
+            return ControlHelper.GetLocatorByClassAsync(_page, "buttonSection", -1, iFrameName: IFrameName).Result;
+        }
+        // public static AllAppUtills allAppUtills = new AllAppUtills(_page, _portalUrl);
         public IntuneWin32Apps(IPage page, string portalUrl):base(page,portalUrl) 
         {
             _page = page;
             
+        }
+        private static async Task<ILocator> GetButtonSectionLocatorAsync()
+        {
+            return await ControlHelper.GetLocatorByClassAsync(_page, "ext-wizardNextButton", -1, iFrameName: IFrameName);
         }
         public async Task Select_Win32AppAsyncWithData(RootObject testCase)
         {
@@ -83,11 +97,12 @@ namespace Account_Management.Pages
             var nextButton1 = await ElementHelper.GetByRoleAndNameAsync(_page, AriaRole.Button, "Next");
             await nextButton1.ClickAsync();
             await SetRequirementsFS(testCase);
-            //await IntuneWin32Apps.SetDetectionRulesFS();
-
-
-
-
+            await IntuneWin32Apps.SetDetectionFS(testCase);
+            await IntuneWin32Apps.SetDependenciesFS(testCase);
+            await IntuneWin32Apps.SetSupersedenceFS(testCase);
+            var appHelper = new IntuneWin32Apps(_page,_portalUrl); // ✅ create an instance
+            await appHelper.SetAssignmentFS(testCase); // ✅ call the method on the instance
+            await ClickBottomNavigationSpecialNameButtonAsync("Create");
 
 
 
@@ -685,6 +700,44 @@ namespace Account_Management.Pages
             await targetLink.ClickAsync();
         }
 
+        public static async Task SetRulesFormatAsync(string rulesFormat)
+        {
+            await ControlHelper.SetComBoxRoleTreeItemRoleValueAsync(_page, "Rules format", rulesFormat, 0, iFrameName: IFrameName);
+        }
+        public static async Task ClickRulesFormatAddButtonAsync()
+        {
+            await ControlHelper.ClickByClassAndHasTextAsync(await GetTabPanelLocatorAsync("Detection rules"), "msportalfx-text-primary ext-controls-selectLink fxs-fxclick", "+ Add", 0);
+        }
+        public static async Task<ILocator> GetTabPanelLocatorAsync(string panelName)
+        {
+            return await ControlHelper.GetByRoleAndHasTextAsync(_page, AriaRole.Tabpanel, panelName, 0, iFrameName: IFrameName);
+        }
+        public static async Task SetMSIProductVersionCheckAsync(string isCheck)
+        {
+            await SetOptionPickerAsync("MSI product version check", isCheck);
+        }
+        public static async Task ClickDetectionRuleOKButtonAsync()
+        {
+            await ControlHelper.ClickByClassAndHasTextAsync(_page, "fxs-button fxt-button fxs-inner-solid-border fxs-portal-button-primary", "OK", 0, iFrameName: IFrameName);
+        }
+        public  static async Task SetOptionPickerAsync(string title, string value)
+        {
+            var optionPickerLocator = await ControlHelper.GetLocatorByClassAndHasTextAsync(_page, "fxc-weave-pccontrol fxc-section-control fxc-base msportalfx-form-formelement fxc-has-label", title, 0, iframeName: IFrameName);
+            await ControlHelper.ClickByClassAndHasTextAsync(optionPickerLocator, "fxs-portal-border azc-optionPicker-item", value, 0);
+
+        }
+        public static async Task ClickBottomNavigationSpecialNameButtonAsync(string buttonName)
+        {
+            await ClickButtonByNameAsync(buttonName);
+        }
+        private static async Task ClickButtonByNameAsync(string name)
+        {
+
+            var locator = await GetButtonSectionLocatorAsync();
+            await ControlHelper.ClickByClassAndHasTextAsync(locator, "fxs-button", name, 0);
+
+            // await ControlHelper.ClickByClassAndHasTextAsync(buttonSectionLocator, "fxs-button", name, 0);
+        }
         public static async Task SetDependencyFSAsync(IPage page, string appName, List<DependencyEntity> dependencyEntityList)
         {
             // 1. Click the "+ Add" button using your helper
@@ -934,6 +987,10 @@ namespace Account_Management.Pages
         {
             await SetAzcInputBoxAsync("Value name", name);
         }
+        public static async Task SetRuleTypeValueAsync(string ruleType)
+        {
+            await ControlHelper.SetComBoxRoleTreeItemRoleValueAsync(_page, "Rule type", ruleType, 0, iFrameName: IFrameName);
+        }
 
         public static async Task SetRequirementsFS(RootObject entity)
         {
@@ -1171,13 +1228,17 @@ namespace Account_Management.Pages
                     foreach (var item in entity.DetectionRules)
                     {
                         //Select Rules format
-                        IntuneWin32Apps.PressActionButtonAndWaitForBladeAsync(_page, "Add", "Detection rule", "fxc-dockedballoon");
+                       await IntuneWin32Apps.SetRulesFormatAsync(entity.RulesFormat);
+                        await ClickRulesFormatAddButtonAsync();
+
+                        // IntuneWin32Apps.PressActionButtonAndWaitForBladeAsync(_page, "Add", "Detection rule", "fxc-dockedballoon");
 
                         //wait until the page loads
 
 
                         //Select rule type
-                        IntuneWin32Apps.SelectSingleDropDownItemAsync(_page, "Rule type", item.RuleType.ToString());
+                        await SetRuleTypeValueAsync(item.RuleType);
+                        //IntuneWin32Apps.SelectSingleDropDownItemAsync(_page, "Rule type", item.RuleType.ToString());
                         foreach (var ruleInfo in item.RuleInfo.Keys)
                         {
                             if (ruleInfo.Equals("Detection method"))
@@ -1190,7 +1251,9 @@ namespace Account_Management.Pages
                             }
                             else if (ruleInfo.Equals("MSI product version check") || ruleInfo.Contains("Associated with a 32-bit"))
                             {
-                                IntuneWin32Apps.ClickLiOptionAsync(_page, ruleInfo, item.RuleInfo[ruleInfo]);
+                                await SetMSIProductVersionCheckAsync(item.RuleInfo[ruleInfo]);
+
+                               // IntuneWin32Apps.ClickLiOptionAsync(_page, ruleInfo, item.RuleInfo[ruleInfo]);
                             }
                             else
                             {
@@ -1221,19 +1284,25 @@ namespace Account_Management.Pages
                                 }
                             }
                         }
-                        IntuneWin32Apps.PressActionButtonAndWaitForBladeAsync(_page, "OK", "", "ext-actionbar-button");
+                        await  ClickDetectionRuleOKButtonAsync();
+                        //IntuneWin32Apps.PressActionButtonAndWaitForBladeAsync(_page, "OK", "", "ext-actionbar-button");
                     }
                 }
                 // ClickExtensions.PressActionButtonAndWaitForBlade(Framework, "OK", "", "ext-actionbar-button");
-                IntuneWin32Apps.PressActionButtonAndWaitForBladeAsync(_page, "OK", "", "ext-actionbar-button");
+                // ClickBottomNavigationSpecialNameButtonAsync("Next");
+
+                await IntuneWin32Apps.PressActionButtonAndWaitForBladeAsync(_page, "Next", "");
+
+
+                //  IntuneWin32Apps.PressActionButtonAndWaitForBladeAsync(_page, "Next", "", "ext-actionbar-button");
 
 
             }
 
-          
-                    
-                
-            
+
+
+
+
             catch (Exception ex)
             {
                 throw; // You should log this or wrap it in a custom exception
@@ -1279,9 +1348,174 @@ namespace Account_Management.Pages
 
         }
 
+        
+        private static async Task ClickSupersedenceAddButtonAsync()
+        {
+            await ControlHelper.ClickByClassAndHasTextAsync(await GetTabPanelLocatorAsync("Supersedence"), "msportalfx-text-primary ext-controls-selectLink fxs-fxclick", "+ Add", 0);
+        }
+        private static  async Task SetAppInstallRequirementAsync(string tabSectionName, string appName, string value)
+        {
+            var tabLocator = await GetTabPanelLocatorAsync(tabSectionName);
+            var rowContentLocator = await ControlHelper.GetLocatorByClassAndHasTextAsync(tabLocator, "fxc-gc-row-content", appName, 0);
+            await ControlHelper.ClickByClassAndHasTextAsync(rowContentLocator, "fxs-portal-border azc-optionPicker-item", value, 0);
+        }
+
+        private static async Task SelectSupersedenceAppsAsync(string apps, string isUninstallPreviousVersion)
+        {
+            SelectFromGridBySearchUtils selectFromGridBySearchUtils = new SelectFromGridBySearchUtils(_page, _portalUrl);
+            await selectFromGridBySearchUtils.SelectBySearchWithKeywordAsync("Add Apps", "Search by name, publisher", apps);
+            await SetAppInstallRequirementAsync("Supersedence", apps, isUninstallPreviousVersion);
+        }
+        public static async Task SetSupersedenceFS(RootObject entity)
+        {
+        //    var win32AppEntity = ((Win32LobApp)entity);
+            if (entity.SupersedenceEntities != null && entity.SupersedenceEntities.Count > 0)
+            {
+                try
+                {
+
+                    await ClickSupersedenceAddButtonAsync();
+                    foreach (var supersedence in entity.SupersedenceEntities)
+                    {
+                        string uninstallString = supersedence.UninstallPreviousVersion ? "true" : "false";
+                        await SelectSupersedenceAppsAsync(supersedence.Name, uninstallString);
+                    }
+
+                   // await SelectSupersedenceAppsAsync(entity.SupersedenceEntities[0], entity.SupersedenceEntities[1]);
+
+
+                    // Framework.WaitElementLoaded("When you supersede an application", "azc-formElementSubLabelContainer", "azc-formElementContainer");
+                    //    CommonAppTestHelper.SetSupersedenceFS(Framework, win32AppEntity.TestCaseName, win32AppEntity.SupersedenceEntities);
+                }
+                catch (Exception ex)
+                {
+                  //  appTestResult.ErrorMessage.AppendLine("Supersedence app failed." + ex.Message);
+                    //log.Error("Supersedence app failed." + ex.Message);
+                    throw ex;
+                }
+            }
+            IntuneWin32Apps.PressActionButtonAndWaitForBladeAsync(_page, "Next", "");
 
 
 
+
+            //  ClickExtensions.PressActionButtonAndWaitForBlade(Framework, "Next", "");
+        }
+
+
+        public  async Task SetAssignmentFS(RootObject entity)
+        {
+            
+            
+            List<AssignmentEntity> assignmentEntityList = entity.AssignmentEntities;
+            if (entity.AssignmentEntities != null)
+            {
+                foreach (var assignmentEntity in assignmentEntityList)
+                {
+                    if (assignmentEntity.AssignAllUsers == true)
+                    {
+
+
+                        if (assignmentEntity.AllUsersAssignFilterSetting != null)
+                        {
+
+
+
+
+                          //  ClickExtensions.ClickAssignFilterLink(Framework, assignmentEntity.AssignmentType.ToString().ToLower(), "All users");
+                            //CommonFilterTestHelper.SelectFilter(Framework, assignmentEntity.AllUsersAssignFilterSetting.FilterBehave, assignmentEntity.AllUsersAssignFilterSetting.FilterName);
+                       
+                        
+                        }
+                        //for ios store app
+                        //if (assignmentEntity.AllUsersIosStoreAppAssignmentSetting != null)
+                        //{
+                        //    SetExtensions.SetAssignUninstallOnDeviceRemovalFS(Framework, assignmentEntity.AssignmentType.ToString().ToLower(), "all users", assignmentEntity.AllUsersIosStoreAppAssignmentSetting.UninstallOnDeviceRemoval);
+                        //}
+                    }
+                    if (assignmentEntity.AssignAllDevices == true)
+                    {
+                        await ClickRequiredAddAllDevicesAsync();
+
+
+                        //ClickExtensions.ClickAssignGroupLink(Framework, assignmentEntity.AssignmentType.ToString().ToLower(), "Add all devices");
+                        if (assignmentEntity.AllDevicesAssignFilterSetting != null)
+                        {
+                           // ClickExtensions.ClickAssignFilterLink(Framework, assignmentEntity.AssignmentType.ToString().ToLower(), "All devices");
+                            //CommonFilterTestHelper.SelectFilter(Framework, assignmentEntity.AllDevicesAssignFilterSetting.FilterBehave, assignmentEntity.AllDevicesAssignFilterSetting.FilterName);
+                        }
+                        //for ios store app
+                        //if (assignmentEntity.AllDevicesIosStoreAppAssignmentSetting != null)
+                        //{
+                        //    SetExtensions.SetAssignUninstallOnDeviceRemovalFS(Framework, assignmentEntity.AssignmentType.ToString().ToLower(), "all devices", assignmentEntity.AllDevicesIosStoreAppAssignmentSetting.UninstallOnDeviceRemoval);
+                        //}
+                    }
+                    if (assignmentEntity.AssignGroups != null)
+                    {
+                       
+
+                        foreach (var group in assignmentEntity.AssignGroups)
+                        {
+                            //ClickExtensions.ClickAssignGroupLink(Framework, assignmentEntity.AssignmentType.ToString().ToLower(), "Add group");
+                            //Framework.WaitBladeandGridLoadComplete();
+                            //CommonAppTestHelper.SetAssignGroups(Framework, new List<AssignGroups> { group });
+                            //ClickExtensions.PressActionButtonAndWaitForBladeOnIframe(Framework, "Select", "");
+                          
+                          
+                            if (group.AssignFilters != null)
+                            {
+                               // ClickExtensions.ClickAssignFilterLink(Framework, assignmentEntity.AssignmentType.ToString().ToLower(), group.GroupName);
+                                //CommonFilterTestHelper.SelectFilter(Framework, group.AssignFilters.FilterBehave, group.AssignFilters.FilterName);
+                            }
+                        }
+
+                        if (assignmentEntity.AssignGroups.Where(item => !string.IsNullOrEmpty(item.InstallContext)).Count() > 0)
+                        {
+                            //set Install Context
+                            foreach (var group in assignmentEntity.AssignGroups)
+                            {
+                                if (group.InstallContext.Equals("Device context"))
+                                    IntuneWin32Apps.PressActionButtonAndWaitForBladeAsync(_page, "Next", "");
+                                //  SetExtensions.SetAssignInstallContextFS(Framework, group.GroupName, assignmentEntity.AssignmentType.ToString().ToLower(), group.InstallContext);
+                            }
+                        }
+
+                        //for ios store app
+                        //if (assignmentEntity.AssignGroups.Where(item => (item.IosStoreAppAssignmentSetting != null)).Count() > 0)
+                        //{
+                        //    //set Uninstall On Device Removal
+                        //    foreach (var group in assignmentEntity.AssignGroups)
+                        //    {
+                        //        SetExtensions.SetAssignUninstallOnDeviceRemovalFS(Framework, assignmentEntity.AssignmentType.ToString().ToLower(), group.GroupName, group.IosStoreAppAssignmentSetting.UninstallOnDeviceRemoval);
+                        //    }
+                        //}
+
+                        if (assignmentEntity.GroupSelectType != GroupSelectType.IncludedGroups)
+                        {
+                            foreach (var item in assignmentEntity.AssignGroups)
+                            {
+                         //       SetExtensions.SetExcludeGroupType(Framework, item.GroupName, assignmentEntity.AssignmentType.ToString().ToLower(), true);
+                            }
+                        }
+                    }
+                }
+            }
+            if (entity.AppType.Contains("Built-In app"))
+            {
+                //ClickExtensions.PressActionButtonAndWaitForBlade(Framework, "Review + save", "");
+                //  ClickExtensions.PressActionButtonAndWaitForBlade(Framework, "Save", "");
+                // verify the assignment of built in app have saved.
+                //CommonAppTestHelper.HasUpdateContentComplete(Framework);
+            }
+            else
+              
+                ClickBottomNavigationSpecialNameButtonAsync("Next");
+
+
+              //  IntuneWin32Apps.PressActionButtonAndWaitForBladeAsync(_page, "Next", "");
+            //ClickExtensions.PressActionButtonAndWaitForBlade(Framework, "Next", "");
+
+        }
 
 
 
