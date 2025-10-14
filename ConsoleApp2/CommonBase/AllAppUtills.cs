@@ -7,6 +7,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace Account_Management.CommonBase
 {
@@ -24,6 +25,38 @@ namespace Account_Management.CommonBase
             _portalUrl = env;
            
 
+        }
+        /// <summary>
+        /// Uploads an app package file via the LOB "Select app package file" flow.
+        /// Resolves relative paths against the test run base directory.
+        /// </summary>
+        public async Task UploadAppPackageFileAsync(string filePath)
+        {
+            if (string.IsNullOrEmpty(filePath))
+                return;
+
+            try
+            {
+                var packagePath = filePath;
+                if (packagePath.StartsWith(".\\") || packagePath.StartsWith("./"))
+                {
+                    packagePath = Path.Combine(AppContext.BaseDirectory, packagePath.Substring(2));
+                }
+                packagePath = Path.GetFullPath(packagePath);
+
+                var selectAppPackageFile = await ElementHelper.GetByButtonRoleAndNameAsync(_page, "Select app package file", true);
+                await selectAppPackageFile.ClickAsync();
+
+                var fileInput = await ElementHelper.GetByClassAsync(_page, "fxs-async-fileupload-overlay");
+                await fileInput.SetInputFilesAsync(packagePath);
+
+                var okButton = await ElementHelper.GetByRoleAndNameAsync(_page, AriaRole.Button, "OK");
+                await okButton.ClickAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Warning: failed to upload package file: {ex.Message}");
+            }
         }
         private int GetAssignmentBehaveNth(string behaveName)
         {

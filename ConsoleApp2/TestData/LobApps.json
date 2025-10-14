@@ -1,0 +1,152 @@
+[
+  {
+    "TestCaseName": "LobAppxRegression",
+    "TestCaseID": 25533314,
+    "AppType": ["Line-of-business app"],
+    "FilePath": ".\\SampleApps\\VersionOne\\AppxSupersedingApp.appx",
+    "AppInfo": {
+      "Name": null,
+      "Description": "UI Automation testing",
+      "Publisher": "AppLifeEx",
+      "Information URL": "https://www.windows.com"
+    },
+    "AssignmentEntities": [
+      {
+        "AssignmentType": "Required",
+        "GroupSelectType": "IncludedGroups",
+        "AssignAllUsers": true,
+        "AssignAllDevices": false,
+        "AssignGroups": [
+          {
+            "GroupName": "IWuser0",
+            "InstallContext": "Device context"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "TestCaseName": "LobMSIRegression",
+    "TestCaseID": 25533362,
+    "AppType": ["Line-of-business app"],
+    "FilePath": ".\\SampleApps\\VersionOne\\npp.installer.msi",
+    "AppInfo": {
+      "Name": null,
+      "Description": "UI Automation testing",
+      "Publisher": "AppLifeEx"
+    },
+    "AssignmentEntities": [
+      {
+        "AssignmentType": "Available_for_enrolled_devices",
+        "GroupSelectType": "IncludedGroups",
+        "AssignAllUsers": true,
+        "AssignAllDevices": false,
+        "AssignGroups": [
+          { "GroupName": "Admin" },
+          { "GroupName": "Iwuser1" }
+        ]
+      }
+    ]
+  },
+  {
+    "TestCaseName": "LobPKGRegression",
+    "TestCaseID": 25533370,
+    "AppType": ["Line-of-business app"],
+    "FilePath": ".\\SampleApps\\VersionOne\\SkypeForBusinessInstaller-16.16.0.102.pkg",
+    "AppInfo": {
+      "Name": null,
+      "Description": "UI Automation testing",
+      "Publisher": "AppLifeEx"
+    },
+    "AssignmentEntities": [
+      {
+        "AssignmentType": "Required",
+        "GroupSelectType": "IncludedGroups",
+        "AssignAllUsers": true,
+        "AssignAllDevices": false,
+        "AssignGroups": [
+          { "GroupName": "Admin" },
+          { "GroupName": "Iwuser0" }
+        ]
+      }
+    ]
+  },
+  {
+    "TestCaseName": "LobApkRegression",
+    "TestCaseID": 25533387,
+    "AppType": ["Line-of-business app"],
+    "FilePath": ".\\SampleApps\\VersionOne\\Online_Radio.apk",
+    "AppInfo": {
+      "Name": null,
+      "Description": "UI Automation testing",
+      "Targeted platform": "Android device administrator",
+      "Publisher": "AppLifeEx"
+    },
+    "AssignmentEntities": [
+      {
+        "AssignmentType": "Available_for_enrolled_devices",
+        "GroupSelectType": "IncludedGroups",
+        "AssignAllUsers": true,
+        "AssignAllDevices": false,
+        "AssignGroups": null
+      }
+    ]
+  },
+  {
+    "TestCaseName": "LobIpaRegression",
+    "TestCaseID": 25533396,
+    "AppType": ["Line-of-business app"],
+    "FilePath": ".\\SampleApps\\VersionOne\\MS Ads BetaProd.ipa",
+    "AppInfo": {
+      "Name": null,
+      "Description": "UI Automation testing",
+      "Publisher": "AppLifeEx",
+      "Minimum operating system": "iOS 8.0"
+    },
+    "AssignmentEntities": [
+      {
+        "AssignmentType": "Available_for_enrolled_devices",
+        "GroupSelectType": "IncludedGroups",
+        "AssignAllUsers": true,
+        "AssignAllDevices": false,
+        "AllUsersIosStoreAppAssignmentSetting": {
+          "UninstallOnDeviceRemoval": true
+        },
+        "AssignGroups": [
+          {
+            "GroupName": "Admin",
+            "IosStoreAppAssignmentSetting": { "UninstallOnDeviceRemoval": false }
+          },
+          {
+            "GroupName": "Iwuser1",
+            "IosStoreAppAssignmentSetting": { "UninstallOnDeviceRemoval": true }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "TestCaseName": "LobAppxbundleRegression",
+    "TestCaseID": 25533407,
+    "AppType": ["Line-of-business app"],
+    "FilePath": ".\\SampleApps\\VersionOne\\Spartan.appxbundle",
+    "AppInfo": {
+      "Name": null,
+      "Description": "UI Automation testing",
+      "Publisher": "AppLifeEx",
+      "Information URL": "https://www.windows.com"
+    },
+    "AssignmentEntities": [
+      {
+        "AssignmentType": "Required",
+        "GroupSelectType": "IncludedGroups",
+        "AssignAllUsers": true,
+        "AssignAllDevices": false,
+        "AssignGroups": [
+          { "GroupName": "Admin", "InstallContext": "Device context" },
+          { "GroupName": "Iwuser1", "InstallContext": "User context" }
+        ]
+      }
+    ]
+  }
+]

@@ -13,6 +13,7 @@ namespace Account_Management.Tests
 {
     [TestFixture]
     [Category("Windows")]
+    [Category("Win32")]
     public class IntuneWindowsTests:BaseTest
     {
         public static IEnumerable<TestCaseData> GetAppTestCases()
@@ -65,10 +66,10 @@ namespace Account_Management.Tests
             await home.LoginIfNeededAsync(account);
             // Wait for portal to load (certificate-based SSO)
             var sw = System.Diagnostics.Stopwatch.StartNew();
-            //await android_apps.AllApps_Click();
-            //await android_apps.app_Click();
-            //await android_apps.CreateBUtton_Click();
-            //await win32_apps.Select_Win32AppAsyncWithData(testCase);
+            await android_apps.AllApps_Click();
+            await android_apps.app_Click();
+            await android_apps.CreateBUtton_Click();
+            await win32_apps.Select_Win32AppAsyncWithData(testCase);
             //// var timeout = TimeSpan.FromMinutes(2);
             //bool loggedIn = false;
             //while (sw.Elapsed < timeout)

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
+using System.Text.Json;
 
 namespace Account_Management.Framework
 {
@@ -8,6 +9,8 @@ namespace Account_Management.Framework
     {
         public string TestCaseName { get; set; }
         public int TestCaseID { get; set; }
+
+        [JsonConverter(typeof(SingleOrArrayConverter<string>))]
         public List<string> AppType { get; set; }
 
 
@@ -49,6 +52,10 @@ namespace Account_Management.Framework
 
         [JsonPropertyName("Display this as a featured app in the Company Portal")]
         public string DisplayFeaturedApp { get; set; }
+
+        // Added to support lob JSON
+        [JsonPropertyName("Targeted platform")]
+        public string TargetedPlatform { get; set; }
     }
 
     public class RequirementsInfo
@@ -100,6 +107,10 @@ namespace Account_Management.Framework
         public AllDevicesAssignFilterSetting AllDevicesAssignFilterSetting { get; set; }
         public AllDevicesAssignFilterSetting AllUsersAssignFilterSetting { get; set; }
 
+        // iOS specific settings present in JSON
+        public IosStoreAppAssignmentSetting AllUsersIosStoreAppAssignmentSetting { get; set; }
+        public IosStoreAppAssignmentSetting AllDevicesIosStoreAppAssignmentSetting { get; set; }
+
     }
     [Serializable]
     public enum GroupSelectType
@@ -119,6 +130,9 @@ namespace Account_Management.Framework
         public string GroupName { get; set; }
         public string InstallContext { get; set; }
         public GroupAssignFilterSetting AssignFilters { get; set; }
+
+        // iOS specific setting
+        public IosStoreAppAssignmentSetting IosStoreAppAssignmentSetting { get; set; }
     }
     [Serializable]
     public class GroupAssignFilterSetting
@@ -137,5 +151,32 @@ namespace Account_Management.Framework
     {
         public string Name { get; set; }
         public bool AutomaticallyInstall { get; set; }
+    }
+
+    // iOS-specific helper type
+    public class IosStoreAppAssignmentSetting
+    {
+        public bool UninstallOnDeviceRemoval { get; set; }
+    }
+
+    // Converter that accepts either a JSON string or JSON array and returns List<T>
+    public class SingleOrArrayConverter<T> : JsonConverter<List<T>>
+    {
+        public override List<T> Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        {
+            if (reader.TokenType == JsonTokenType.StartArray)
+            {
+                return JsonSerializer.Deserialize<List<T>>(ref reader, options) ?? new List<T>();
+            }
+
+            // Single value
+            var item = JsonSerializer.Deserialize<T>(ref reader, options);
+            return item != null ? new List<T> { item } : new List<T>();
+        }
+
+        public override void Write(Utf8JsonWriter writer, List<T> value, JsonSerializerOptions options)
+        {
+            JsonSerializer.Serialize(writer, value, options);
+        }
     }
 }

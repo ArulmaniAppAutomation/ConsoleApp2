@@ -108,8 +108,6 @@ namespace Account_Management.Pages
 
 
 
-
-
         }
 
 
@@ -141,7 +139,6 @@ namespace Account_Management.Pages
             // Select the first option by its visible text
             var firstOption = await ElementHelper.GetByRoleAndHasTextAsync(_page, AriaRole.Treeitem, "Windows 10 1607");
             await firstOption.ClickAsync();
-
 
 
 
@@ -191,14 +188,11 @@ namespace Account_Management.Pages
 
 
 
-
             }
             catch (Exception ex)
             {
                 throw;
             }
-
-
 
 
 
@@ -440,7 +434,6 @@ namespace Account_Management.Pages
 
 
 
-
         }
 
         public static async Task SetItemTextInCurrentBladeAsync(string label, string textValue)
@@ -475,11 +468,76 @@ namespace Account_Management.Pages
             if (parent == null)
                 throw new Exception($"Could not find section with label: {label}");
 
-            // 3. Find the input inside the parent section using your helper
+            // First try to locate real input elements (input or textarea) inside the parent to avoid wrapper DIVs
+            try
+            {
+                var realInputsLocator = await ElementHelper.GetByLocatorAsync(parent, "input, textarea", isNeedSleep: false);
+                var realInputs = await realInputsLocator.AllAsync();
+                if (realInputs != null && realInputs.Count > 0)
+                {
+                    foreach (var ri in realInputs)
+                    {
+                        try
+                        {
+                            if (await ri.IsVisibleAsync() && await ri.IsEnabledAsync())
+                            {
+                                await SendKeysToItemAsync(textValue, ri);
+                                return;
+                            }
+                        }
+                        catch
+                        {
+                            // ignore and try next
+                        }
+                    }
+
+                    // fallback to first real input
+                    await SendKeysToItemAsync(textValue, realInputs.First());
+                    return;
+                }
+            }
+            catch
+            {
+                // ignore and fall back to prior method
+            }
+
+            // 3. Fallback: Find the input inside the parent using your helper (may return wrappers)
             var input = await ElementHelper.GetByClassAsync(parent, "azc-input", exact: false, waitUntilElementExist: false);
 
+            // When multiple azc-input elements are present, choose a single visible/enabled input to avoid strict mode errors
+            ILocator chosenInput = null;
+            var allInputs = await input.AllAsync();
+            if (allInputs != null && allInputs.Count > 0)
+            {
+                foreach (var inp in allInputs)
+                {
+                    try
+                    {
+                        if (await inp.IsVisibleAsync() && await inp.IsEnabledAsync())
+                        {
+                            chosenInput = inp;
+                            break;
+                        }
+                    }
+                    catch
+                    {
+                        // ignore and try next
+                    }
+                }
+
+                if (chosenInput == null)
+                {
+                    // fallback to first
+                    chosenInput = allInputs.First();
+                }
+            }
+            else
+            {
+                throw new Exception($"No inputs found for label: {label}");
+            }
+
             // 4. Set the value using Playwright's FillAsync
-            await SendKeysToItemAsync(textValue, input);
+            await SendKeysToItemAsync(textValue, chosenInput);
         }
 
 
@@ -855,6 +913,7 @@ namespace Account_Management.Pages
         }
 
 
+
         public static async Task<ILocator> SelectAndReturnRowAsync(IPage page, string itemToSelect)
         {
             Console.WriteLine($"[SelectAndReturnRow] Select value: \"{itemToSelect}\"");
@@ -1114,6 +1173,7 @@ namespace Account_Management.Pages
 
 
 
+
                         else
                         {
                             if (key.Equals("Value") && item.RequirementInfo.Keys.Any(a => a == "Select output data type" || a == "Property" || a == "Registry key requirement")
@@ -1159,10 +1219,6 @@ namespace Account_Management.Pages
 
 
 
-
-
-
-
                         }
 
 
@@ -1171,14 +1227,7 @@ namespace Account_Management.Pages
 
 
 
-
-
-
-
                         await IntuneWin32Apps.PressActionButtonAndWaitForBladeAsync(_page, "OK", "");
-
-
-
 
 
 
@@ -1302,7 +1351,6 @@ namespace Account_Management.Pages
 
 
 
-
             catch (Exception ex)
             {
                 throw; // You should log this or wrap it in a custom exception
@@ -1311,11 +1359,7 @@ namespace Account_Management.Pages
 
 
 
-
-
-
-
-
+        
 
 
 
@@ -1342,7 +1386,6 @@ namespace Account_Management.Pages
                 }
             }
             IntuneWin32Apps.PressActionButtonAndWaitForBladeAsync(_page, "Next", "");
-
 
 
 
@@ -1395,7 +1438,6 @@ namespace Account_Management.Pages
                 }
             }
             IntuneWin32Apps.PressActionButtonAndWaitForBladeAsync(_page, "Next", "");
-
 
 
 
@@ -1518,9 +1560,23 @@ namespace Account_Management.Pages
         }
 
 
-
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
