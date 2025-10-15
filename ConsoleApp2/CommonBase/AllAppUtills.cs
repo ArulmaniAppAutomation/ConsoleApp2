@@ -82,7 +82,7 @@ namespace Account_Management.CommonBase
             return GetAssignmentBehaveNth("Required");
         }
 
-        private async Task ClickRequiredAddAllUsersAsync()
+        public async Task ClickRequiredAddAllUsersAsync()
         {
             await ClickAddAllUsersButtonAsync(GetAssignmentsRequiredNth());
         }
@@ -137,7 +137,7 @@ namespace Account_Management.CommonBase
         {
             await ClickAssignmentGroupButtonAsync("+ Add all devices", nth);
         }
-        private async Task ClickRequiredAddGroupAsync(string groupName)
+        public async Task ClickRequiredAddGroupAsync(string groupName)
         {
             await ClickAddGroupButtonAsync(GetAssignmentsRequiredNth());
             SelectGroupUtills selectGroupUtils = new SelectGroupUtills(_page, _portalUrl);
@@ -149,7 +149,7 @@ namespace Account_Management.CommonBase
         }
 
 
-        private async Task ClickAvailableForEnrolledDevicesAllUsersAsync()
+        public async Task ClickAvailableForEnrolledDevicesAllUsersAsync()
         {
             await ClickAddAllUsersButtonAsync(GetAssignmentsAvailableForEnrolledDevicesNth());
         }
@@ -159,7 +159,7 @@ namespace Account_Management.CommonBase
             return GetAssignmentBehaveNth("Available for enrolled devices");
         }
 
-        private async Task ClickAvailableForEnrolledDevicesAddGroupAsync(string groupName)
+        public async Task ClickAvailableForEnrolledDevicesAddGroupAsync(string groupName)
         {
             await ClickAddGroupButtonAsync(GetAssignmentsAvailableForEnrolledDevicesNth());
             SelectGroupUtills selectGroupUtils = new SelectGroupUtills(_page, _portalUrl);
@@ -209,6 +209,18 @@ namespace Account_Management.CommonBase
         public async Task SetAppInformationInputWithAriaLabelAsync(string ariaLabel, string value)
         {
             await ControlHelper.SetInputByClassAndAriaLabelAsync(_page, "azc-input azc-formControl", ariaLabel, value, 0, iFrameName: IFrameName);
+        }
+        public async Task SetTargetedPlatformAsync(string value)
+        {
+            await SetAppInformationComboxWithAriaLabelAsync("Targeted platform", new List<string> { value });
+        }
+        public async Task SetMinimumOperationSystemAsync(string operationSystem)
+        {
+            await ControlHelper.SetComBoxRoleTreeItemRoleValueAsync(_page, "Minimum operating system", operationSystem, 0, iFrameName: IFrameName);
+        }
+        public async Task SetAppInformationComboxWithAriaLabelAsync(string ariaLabel, List<string> values)
+        {
+            await ControlHelper.SetComBoxRoleTreeItemRoleValueAsync(_page, ariaLabel, values, 0, iFrameName: IFrameName);
         }
         public async Task SetAppInformationPrivacyURLAsync(string value)
         {

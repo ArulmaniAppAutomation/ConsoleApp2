@@ -76,12 +76,21 @@ namespace Account_Management.Pages
                         // best-effort: ignore if UI element not found
                     }
                 }
+                if (!string.IsNullOrEmpty(testCase.AppInfo.TargetedPlatform))
+                    await All_Apps.SetTargetedPlatformAsync(testCase.AppInfo.TargetedPlatform);
+
+                if (!string.IsNullOrEmpty(testCase.AppInfo.MinimumOperatingSystem))
+                    await All_Apps.SetMinimumOperationSystemAsync(testCase.AppInfo.MinimumOperatingSystem);
 
                 if (!string.IsNullOrEmpty(testCase.AppInfo.InformationURL))
                     await All_Apps.SetAppInformationUrlAsync(testCase.AppInfo.InformationURL);
 
                 if (!string.IsNullOrEmpty(testCase.AppInfo.PrivacyURL))
+
                     await All_Apps.SetAppInformationPrivacyURLAsync(testCase.AppInfo.PrivacyURL);
+            
+            
+            
             }
 
             // Proceed to next step
