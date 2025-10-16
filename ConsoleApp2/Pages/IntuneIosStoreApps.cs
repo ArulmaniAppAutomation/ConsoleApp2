@@ -41,9 +41,12 @@ namespace Account_Management.Pages
             // Search and select the app from the App Store
             if (!string.IsNullOrEmpty(testCase.AppSearchString))
             {
-                await All_Apps.SetAppInformationInputWithAriaLabelAsync("Search the App Store", testCase.AppSearchString);
+                
                 // Simulate selecting the app from search results
-                await All_Apps.ClickBottomNavigationSpecialNameButtonAsync(testCase.AppSearchString);
+                await All_Apps.ClickSelectTheAppStoreButtonAsync();
+                await All_Apps.SelectTheAppStoreAsync(testCase.AppSearchString);
+
+                // await All_Apps.SetAppInformationInputWithAriaLabelAsync("Search the App Store", testCase.AppSearchString);
             }
 
             // Set basic app information
@@ -114,6 +117,7 @@ namespace Account_Management.Pages
             {
                 Console.WriteLine("No assignments in JSON - skipping assignment step.");
             }
+            await All_Apps.ClickBottomNavigationSpecialNameButtonAsync("Next");
 
             // Finalize - create
             await All_Apps.ClickBottomNavigationSpecialNameButtonAsync("Create");

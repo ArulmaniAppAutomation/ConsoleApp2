@@ -1,13 +1,14 @@
 ﻿using Account_Management.CommonBase;
 using Microsoft.Playwright;
 using PlaywrightTests.Common.Helper;
+using PlaywrightTests.Common.Utils.BaseUtils.PopUp;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
-using System.IO;
 
 namespace Account_Management.CommonBase
 {
@@ -200,7 +201,11 @@ namespace Account_Management.CommonBase
         {
             return await ControlHelper.GetLocatorByClassAndHasTextAsync(_page, "fxc-section-control", title, -1, iframeName: IFrameName);
         }
-
+        public async Task SelectTheAppStoreAsync(string name)
+        {
+            SelectFromGridBySearchUtils selectFromGridBySearchUtils = new SelectFromGridBySearchUtils(_page, _portalUrl);
+            await selectFromGridBySearchUtils.SelectBySearchWithKeywordAsync("Search the App Store", "Search the App Store", name);
+        }
         public async Task SetAppInformationUrlAsync(string value)
         {
             await SetAppInformationInputWithAriaLabelAsync("Information URL", value);
@@ -233,6 +238,18 @@ namespace Account_Management.CommonBase
         public async Task ClickBottomNavigationSpecialNameButtonAsync(string buttonName)
         {
             await ClickButtonByNameAsync(buttonName);
+        }
+        public async Task ClickSelectTheAppStoreButtonAsync()
+        {
+            await ClickAppInformationSelectFileButtonAsync("Search the App Store");
+        }
+        public async Task ClickAppInformationSelectAppButtonAsync()
+        {
+            await ClickAppInformationSelectFileButtonAsync("Select app");
+        }
+        public async Task ClickAppInformationSelectFileButtonAsync(string buttonName)
+        {
+            await ControlHelper.ClickByClassWithAriaLableAsync(_page, "msportalfx-text-primary ext-controls-selectLink", buttonName, 0, iFrameName: IFrameName);
         }
         private static async Task ClickButtonByNameAsync(string name)
         {

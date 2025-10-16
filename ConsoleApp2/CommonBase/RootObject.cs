@@ -15,9 +15,8 @@ namespace Account_Management.Framework
 
 
         public string FilePath { get; set; }
-        public string AppSearchString { get; set; } // Added for iOS Store App
+        public string? AppSearchString { get; set; }
         public AppInfo AppInfo { get; set; }
-        public AppInfo AppUpdateInfo { get; set; } // Added for update scenarios
         public RequirementsInfo RequirementsInfo { get; set; }
 
         public string RulesFormat { get; set; }
@@ -58,6 +57,11 @@ namespace Account_Management.Framework
         // Added to support lob JSON
         [JsonPropertyName("Targeted platform")]
         public string TargetedPlatform { get; set; }
+
+        // Additional fields referenced in code
+        public string Notes { get; set; }
+        public string Owner { get; set; }
+        public string Developer { get; set; }
     }
 
     public class RequirementsInfo

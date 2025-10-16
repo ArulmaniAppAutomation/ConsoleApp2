@@ -1596,10 +1596,10 @@ namespace Account_Management.Pages
                         // open add group for the correct assignment type
                         if (type == "required") await ClickRequiredAddGroupAsync(g.GroupName);
                         else await ClickAvailableForEnrolledDevicesAddGroupAsync(g.GroupName);
-
+                        
                         // reuse existing SelectGroupUtills to select group
-                        var sel = new SelectGroupUtills(_page, _portalUrl);
-                        await sel.SelectGroupAsync(g.GroupName);
+                        //var sel = new SelectGroupUtills(_page, _portalUrl);
+                        //await sel.SelectGroupAsync(g.GroupName);
 
                         if (g.AssignFilters != null)
                             await ApplyGroupFilterAsync(g.GroupName, g.AssignFilters);

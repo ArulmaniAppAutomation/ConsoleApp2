@@ -49,8 +49,13 @@ namespace Account_Management.CommonBase
          //   BaseThreadSleepLong();
             await SetSearchBoxValueAsync(groupName);
             await SelectTheGroupAsync(groupName);
-            //await base1.ClickSelectBtnAsync(iFrameName: IFrameName);
+            await ClickSelectBtnAsync(iFrameName: IFrameName);
         }
+        public async Task ClickSelectBtnAsync(string? iFrameName = null)
+        {
+            await ControlHelper.ClickByButtonRoleAndNameAsync(_page, "Select", 0, iFrameName: iFrameName);
+        }
+            
         private async Task SetSearchBoxValueAsync(string groupName)
         {
             await ControlHelper.SetInputByClassAndAriaLabelAsync(_page, "ms-SearchBox-field", "Search", groupName, 0, iFrameName: IFrameName);

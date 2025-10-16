@@ -1,0 +1,78 @@
+[{
+		"TestCaseName": "iOS store app all fields regression test",
+		"TestCaseID": 25533263,
+		"AppType": "iOS",
+		"AppSearchString": "Facebook",
+		"AppInfo": {
+			"Name": "Generated from TestCaseName",
+			"Description": "UI Automation testing",
+			"Publisher": "AppLifeEx",
+			"Display this as a featured app in the Company Portal": "Yes",
+			"Minimum operating system": "iOS 10.0",
+			"Category": "Productivity",
+			"Information URL": "http://info.url",
+			"Privacy URL": "https://privacy.url",
+			"Developer": "AppLifeEx Developer Field",
+			"Owner": "AppLifeEx Owner Field",
+			"Notes": "AppLifeEx Notes Field",
+			"Logo": ".\\TestConfig\\image\\logo1.jpg"
+		},
+		"AssignmentEntities": [{
+			"AssignmentType": "Required",
+			"GroupSelectType": "IncludedGroups",
+			"AssignAllUsers": true,
+			"AssignAllDevices": true,
+			"AllUsersIosStoreAppAssignmentSetting": {
+				"UninstallOnDeviceRemoval": false
+			},
+			"AllDevicesIosStoreAppAssignmentSetting": {
+				"UninstallOnDeviceRemoval": true
+			},
+			"AssignGroups": [{
+					"GroupName": "Iwuser0",
+					"IosStoreAppAssignmentSetting": {
+						"UninstallOnDeviceRemoval": false
+					}
+				},
+				{
+					"GroupName": "Iwuser1",
+					"IosStoreAppAssignmentSetting": {
+						"UninstallOnDeviceRemoval": true
+					}
+				}
+			]
+		}]
+	},
+	{
+		"TestCaseName": "iOS store app update regression test",
+		"TestCaseID": 25533267,
+		"AppType": "iOS",
+		"AppSearchString": "YouTube",
+		"AppInfo": {
+			"Name": "Generated from TestCaseName",
+			"Description": "UI Automation testing"
+		},
+		"AppUpdateInfo": {
+			"Description": "Changed: UI Automation testing",
+			"Publisher": "Changed: AppLifeEx",
+			"Display this as a featured app in the Company Portal": "Yes",
+			"Minimum operating system": "iOS 10.0",
+			"Category": "Data management",
+			"Information URL": "http://info.url",
+			"Privacy URL": "https://privacy.url",
+			"Developer": "Changed: AppLifeEx Developer Field",
+			"Owner": "Changed: AppLifeEx Owner Field",
+			"Notes": "Changed: AppLifeEx Notes Field",
+			"Logo": ".\\TestConfig\\image\\logo1.jpg"
+		},
+		"AssignmentEntities": [{
+			"AssignmentType": "Available_for_enrolled_devices",
+			"GroupSelectType": "IncludedGroups",
+			"AssignAllUsers": true,
+			"AssignAllDevices": false,
+			"AssignGroups": [{
+				"GroupName": "Admin"
+			}]
+		}]
+	}
+]
