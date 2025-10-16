@@ -15,8 +15,10 @@ namespace Account_Management.Framework
 
 
         public string FilePath { get; set; }
+        public string AppSearchString { get; set; } // Added for iOS Store App
         public AppInfo AppInfo { get; set; }
-        public  RequirementsInfo RequirementsInfo { get; set; }
+        public AppInfo AppUpdateInfo { get; set; } // Added for update scenarios
+        public RequirementsInfo RequirementsInfo { get; set; }
 
         public string RulesFormat { get; set; }
 
