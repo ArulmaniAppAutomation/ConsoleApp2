@@ -27,6 +27,7 @@ namespace Account_Management.Pages
         public static IPage _page;
         private static readonly string _portalUrl;
         public static string? IFrameName = null;
+        private AllAppUtills All_Apps;
         private static ILocator buttonSectionLocator
         {
             get { return GetButtonSectionLocator(); }
@@ -39,7 +40,7 @@ namespace Account_Management.Pages
         public IntuneWin32Apps(IPage page, string portalUrl) : base(page, portalUrl)
         {
             _page = page;
-
+            All_Apps = new AllAppUtills(_page, _portalUrl);
         }
         private static async Task<ILocator> GetButtonSectionLocatorAsync()
         {
@@ -66,49 +67,99 @@ namespace Account_Management.Pages
             // Locate the file input
 
 
-            var fileInput = await ElementHelper.GetByClassAsync(_page, "fxs-async-fileupload-overlay");
-
-            // 2. Upload the file using Playwright's SetInputFilesAsync
-            await fileInput.SetInputFilesAsync("C:\\Users\\v-arulmani\\source\\repos\\ConsoleApp2\\Test_Apps\\SimpleMSI.intunewin");
+            await All_Apps.UploadAppPackageFileAsync(testCase.FilePath);
 
 
+           // var okButton = await ElementHelper.GetByRoleAndNameAsync(_page, AriaRole.Button, "OK");
+            //await okButton.ClickAsync();
 
-            var okButton = await ElementHelper.GetByRoleAndNameAsync(_page, AriaRole.Button, "OK");
-            await okButton.ClickAsync();
+            var appName = testCase.AppInfo?.Name ?? testCase.TestCaseName;
+            if (!string.IsNullOrEmpty(appName))
+            {
+                try
+                {
+                    // Prefer the existing helper to set the name
+                    await All_Apps.SetAppinformationNameAsync(appName, async (n) => await All_Apps.SetAppInformationInputWithAriaLabelAsync("Name", n));
+                }
+                catch
+                {
+                    // best-effort: try direct input if helper fails
+                    try { await All_Apps.SetAppInformationInputWithAriaLabelAsync("Name", appName); } catch { }
+                }
+            }
 
-            // 1. Locate the input element
-            var nameInput = await ElementHelper.GetByClassAndAriaLableAsync(_page, "azc-input", "Name");
+            if (testCase.AppInfo != null)
+            {
+                if (!string.IsNullOrEmpty(testCase.AppInfo.Description))
+                    await All_Apps.SetAppInformationDescriptionAsync(testCase.AppInfo.Description);
 
-            // 2. Clear the input
-            await nameInput.FillAsync(""); // Clear any existing text
-
-            // 3. Enter new value
-            await nameInput.FillAsync(appinfo_Name);
-            // 1. Locate the publisher input element
-            var publisherInput = await ElementHelper.GetByClassAndAriaLableAsync(_page, "azc-input", "Publisher");
-
-            // 2. Enter the publisher name
-            await publisherInput.FillAsync(publisher);
-
-            var nextButton = await ElementHelper.GetByRoleAndNameAsync(_page, AriaRole.Button, "Next");
-            await nextButton.ClickAsync();
-
-
-            var nextButton1 = await ElementHelper.GetByRoleAndNameAsync(_page, AriaRole.Button, "Next");
-            await nextButton1.ClickAsync();
-            await SetRequirementsFS(testCase);
-            await IntuneWin32Apps.SetDetectionFS(testCase);
-            await IntuneWin32Apps.SetDependenciesFS(testCase);
-            await IntuneWin32Apps.SetSupersedenceFS(testCase);
-            var appHelper = new IntuneWin32Apps(_page, _portalUrl); // ✅ create an instance
-            await appHelper.SetAssignmentFS(testCase); // ✅ call the method on the instance
-            await ClickBottomNavigationSpecialNameButtonAsync("Create");
+                // Set Publisher from JSON if present
+                if (!string.IsNullOrEmpty(testCase.AppInfo.Publisher))
+                {
+                    try
+                    {
+                        await All_Apps.SetAppInformationInputWithAriaLabelAsync("Publisher", testCase.AppInfo.Publisher);
+                    }
+                    catch
+                    {
+                        // best-effort: ignore if UI element not found
+                    }
+                }
 
 
+                var nextButton1 = await ElementHelper.GetByRoleAndNameAsync(_page, AriaRole.Button, "Next");
+                await nextButton1.ClickAsync();
+                await SetProgramFS(testCase);
+                await SetRequirementsFS(testCase);
+                await IntuneWin32Apps.SetDetectionFS(testCase);
+                await IntuneWin32Apps.SetDependenciesFS(testCase);
+                await IntuneWin32Apps.SetSupersedenceFS(testCase);
+                var appHelper = new IntuneWin32Apps(_page, _portalUrl); // ✅ create an instance
+                await appHelper.SetAssignmentFS(testCase); // ✅ call the method on the instance
+                await ClickBottomNavigationSpecialNameButtonAsync("Create");
 
 
 
+
+
+            }
         }
+
+        public async Task SetProgramFS(RootObject entity)
+        {
+           
+            try
+            {
+                
+
+                // Win32 MSI apps can autofill install and uninstall commands, so ProgramInfo may not be specified
+                if (entity.ProgramInfo != null)
+                {
+                    foreach (var item in entity.ProgramInfo.Keys)
+                    {
+                        if (item.Equals("Install command"))
+                        {
+                         await  IntuneWin32Apps.SetItemTextInCurrentBladeAsync( item, entity.ProgramInfo[item]);
+                        }
+                        else if (item.Equals("Uninstall command"))
+                        {
+                            await  IntuneWin32Apps.SetItemTextInCurrentBladeAsync( item, entity.ProgramInfo[item]);
+                        }
+                        else if (item.Equals("Install behavior"))
+                        {
+                            await  IntuneWin32Apps.SetItemTextInCurrentBladeAsync( item, entity.ProgramInfo[item]);
+                        }
+                    }
+                }
+                var nextButton2 = await ElementHelper.GetByRoleAndNameAsync(_page, AriaRole.Button, "Next");
+                await nextButton2.ClickAsync();
+            }
+            catch (Exception ex)
+            {
+                
+            }
+        }
+
 
 
         public static async Task SetMinimun_operatingSystem()
@@ -116,7 +167,7 @@ namespace Account_Management.Pages
             try
             {
                 Console.WriteLine("Trying to locate dropdown...");
-                var dropdown = await _page.WaitForSelectorAsync("#form-label-id-45textbox", new()
+                var dropdown = await _page.WaitForSelectorAsync("#form-label", new()
                 {
                     State = WaitForSelectorState.Visible,
                     Timeout = 5000
@@ -739,13 +790,13 @@ namespace Account_Management.Pages
 
             // Use your helper to find all <a> elements with role="button" and the correct aria-label
             var links = await ElementHelper.GetByLocatorAsync(page, $"a[role='button'][aria-label='{ariaLabelText}']", isNeedSleep: false);
-            var linkList = await links.AllAsync();
+            // var linkList = await links.AllAsync();
+            var linkList = await links.Filter(new() { HasTextString = linkText }).AllAsync();
 
             ILocator targetLink = null;
             foreach (var link in linkList)
             {
-                var text = (await link.InnerTextAsync()).Trim();
-                if (text == linkText)
+                if (await link.IsVisibleAsync())
                 {
                     targetLink = link;
                     break;
@@ -754,6 +805,13 @@ namespace Account_Management.Pages
 
             if (targetLink == null)
                 throw new Exception($"Link with aria-label '{ariaLabelText}' and text '{linkText}' not found.");
+            await targetLink.WaitForAsync(new() { State = WaitForSelectorState.Visible, Timeout = 10000 });
+
+            // Optionally scroll into view or hover
+            await targetLink.ScrollIntoViewIfNeededAsync();
+            await targetLink.HoverAsync();
+
+            Console.WriteLine("Clicking link...");
 
             await targetLink.ClickAsync();
         }
@@ -851,7 +909,8 @@ namespace Account_Management.Pages
                     foreach (var input in inputList)
                     {
                         var ariaLabel = await input.GetAttributeAsync("aria-label");
-                        if (ariaLabel == "Select")
+                        if (ariaLabel?.Trim() == "Search by name, publisher")
+
                         {
                             searchBox = input;
                             break;
@@ -866,13 +925,13 @@ namespace Account_Management.Pages
                         foreach (var row in rowList)
                         {
                             var text = (await row.InnerTextAsync()).Trim();
-                            if (text.Contains(dep.Name))
+                            if (text.Contains(dep.Name, StringComparison.OrdinalIgnoreCase))
                             {
                                 theRow = row;
                                 break;
                             }
                         }
-                        await searchBox.FillAsync(""); // Clear the search box
+                        //await searchBox.FillAsync(""); // Clear the search box
                     }
                 }
 
@@ -882,30 +941,56 @@ namespace Account_Management.Pages
                 await theRow.ClickAsync();
             }
 
-            IntuneWin32Apps.PressActionButtonAndWaitForBladeAsync(_page, "Select", "");
+            await IntuneWin32Apps.PressActionButtonAndWaitForBladeAsync(_page, "Select", "");
 
             foreach (var dependencyEntity in dependencyEntityList)
             {
-                Console.WriteLine($"Set the Automatically install Value is \"{(dependencyEntity.AutomaticallyInstall ? "Yes" : "No")}\" of \"{dependencyEntity.Name}\"");
+                Console.WriteLine($"Set Automatically Install to \"{(dependencyEntity.AutomaticallyInstall ? "Yes" : "No")}\" for \"{dependencyEntity.Name}\"");
 
-                // Find the row for the dependency app using your Playwright helper method
-                var theRow = await SelectAndReturnRowAsync(page, dependencyEntity.Name);
+                // Step 1: Locate the correct row
+                var row = await SelectAndReturnRowAsync(page, dependencyEntity.Name);
 
-                // Find all <li> elements inside the row using your helper
-                var liElements = await ElementHelper.GetByLocatorAsync(theRow, "li", isNeedSleep: false);
-                var liList = await liElements.AllAsync();
+                // Step 2: Find the radio list (ul) inside this row
+                var radioList = row.Locator("ul[role='radiogroup']");
 
-                // Find the <li> with the correct text ("Yes" or "No") and click it
-                foreach (var li in liList)
-                {
-                    var text = (await li.InnerTextAsync()).Trim();
-                    if (text.Equals(dependencyEntity.AutomaticallyInstall ? "Yes" : "No", StringComparison.OrdinalIgnoreCase))
-                    {
-                        await li.ClickAsync();
-                        break;
-                    }
-                }
+                if (!await radioList.IsVisibleAsync())
+                    throw new Exception("Radio group not found in the selected row.");
+
+                // Step 3: Find and click the correct <li> inside this radio group
+                var targetText = dependencyEntity.AutomaticallyInstall ? "Yes" : "No";
+
+                var targetLi = radioList.Locator("li", new() { HasTextString = targetText });
+
+                if (!await targetLi.IsVisibleAsync())
+                    throw new Exception($"'{targetText}' option not found for '{dependencyEntity.Name}'");
+
+                await targetLi.ClickAsync();
+                Console.WriteLine($"Clicked '{targetText}' for '{dependencyEntity.Name}'");
             }
+
+
+            //foreach (var dependencyEntity in dependencyEntityList)
+            //{
+            //    Console.WriteLine($"Set the Automatically install Value is \"{(dependencyEntity.AutomaticallyInstall ? "Yes" : "No")}\" of \"{dependencyEntity.Name}\"");
+
+            //    // Find the row for the dependency app using your Playwright helper method
+            //    var theRow = await SelectAndReturnRowAsync(page, dependencyEntity.Name);
+
+            //    // Find all <li> elements inside the row using your helper
+            //    var liElements = await ElementHelper.GetByLocatorAsync(theRow, "li", isNeedSleep: false);
+            //    var liList = await liElements.AllAsync();
+
+            //    // Find the <li> with the correct text ("Yes" or "No") and click it
+            //    foreach (var li in liList)
+            //    {
+            //        var text = (await li.InnerTextAsync()).Trim();
+            //        if (text.Equals(dependencyEntity.AutomaticallyInstall ? "Yes" : "No", StringComparison.OrdinalIgnoreCase))
+            //        {
+            //            await li.ClickAsync();
+            //            break;
+            //        }
+            //    }
+            //}
 
 
 
@@ -914,60 +999,100 @@ namespace Account_Management.Pages
 
 
 
-        public static async Task<ILocator> SelectAndReturnRowAsync(IPage page, string itemToSelect)
+        //public static async Task<ILocator> SelectAndReturnRowAsync(IPage page, string itemToSelect)
+        //{
+        //    Console.WriteLine($"[SelectAndReturnRow] Select value: \"{itemToSelect}\"");
+
+        //    if (page == null)
+        //        throw new ArgumentNullException(nameof(page));
+
+        //    for (int retries = 0; retries < 10; retries++)
+        //    {
+        //        try
+        //        {
+        //            // Try new UI: fxc-gc-table
+        //            var tables = await ElementHelper.GetByClassAsync(page, "fxc-gc-table", exact: false, waitUntilElementExist: false);
+        //            var tableList = await tables.AllAsync();
+        //            if (tableList.Count > 0)
+        //            {
+        //                var rows = await ElementHelper.GetByClassAsync(tableList.Last(), "fxc-gc-row", exact: false, waitUntilElementExist: false);
+        //                var rowList = await rows.AllAsync();
+        //                foreach (var row in rowList)
+        //                {
+        //                    var text = (await row.InnerTextAsync()).Trim();
+        //                    if (text.Contains(itemToSelect))
+        //                    {
+        //                        return row;
+        //                    }
+        //                }
+        //            }
+
+        //            // Try old UI: azc-grid-groupdata
+        //            tables = await ElementHelper.GetByClassAsync(page, "azc-grid-groupdata", exact: false, waitUntilElementExist: false);
+        //            tableList = await tables.AllAsync();
+        //            if (tableList.Count > 0)
+        //            {
+        //                var rows = await ElementHelper.GetByClassAsync(tableList.Last(), "azc-grid-row", exact: false, waitUntilElementExist: false);
+        //                var rowList = await rows.AllAsync();
+        //                foreach (var row in rowList)
+        //                {
+        //                    var text = (await row.InnerTextAsync()).Replace("\u00A0", " ").Trim();
+        //                    Console.WriteLine($"[DEBUG] Row content: '{text}'");
+
+        //                    if (text.Contains(itemToSelect.Trim(), StringComparison.OrdinalIgnoreCase))
+        //                    {
+        //                        return row;
+        //                    }
+        //                }
+
+        //                //foreach (var row in rowList)
+        //                //{
+        //                //    var text = (await row.InnerTextAsync()).Trim();
+        //                //    if (text.Contains(itemToSelect))
+        //                //    {
+        //                //        return row;
+        //                //    }
+        //                //}
+        //            }
+        //        }
+        //        catch
+        //        {
+        //            // Ignore and retry
+        //        }
+        //        await Task.Delay(500);
+        //    }
+
+        //    throw new InvalidOperationException("Unable to find item in grid: " + itemToSelect);
+        //}
+
+        public static async Task<ILocator> SelectAndReturnRowAsync(IPage page, string appName)
         {
-            Console.WriteLine($"[SelectAndReturnRow] Select value: \"{itemToSelect}\"");
+            Console.WriteLine($"[SelectAndReturnRow] Looking for: \"{appName}\"");
 
-            if (page == null)
-                throw new ArgumentNullException(nameof(page));
+            var rows = await page.Locator(".fxc-gc-row").AllAsync();
 
-            for (int retries = 0; retries < 10; retries++)
+            foreach (var row in rows)
             {
                 try
                 {
-                    // Try new UI: fxc-gc-table
-                    var tables = await ElementHelper.GetByClassAsync(page, "fxc-gc-table", exact: false, waitUntilElementExist: false);
-                    var tableList = await tables.AllAsync();
-                    if (tableList.Count > 0)
-                    {
-                        var rows = await ElementHelper.GetByClassAsync(tableList.Last(), "fxc-gc-row", exact: false, waitUntilElementExist: false);
-                        var rowList = await rows.AllAsync();
-                        foreach (var row in rowList)
-                        {
-                            var text = (await row.InnerTextAsync()).Trim();
-                            if (text.Contains(itemToSelect))
-                            {
-                                return row;
-                            }
-                        }
-                    }
+                    var nameCell = row.Locator(".fxc-gc-cell .fxc-gc-text"); // Target the text container
+                    var nameText = (await nameCell.InnerTextAsync()).Trim();
 
-                    // Try old UI: azc-grid-groupdata
-                    tables = await ElementHelper.GetByClassAsync(page, "azc-grid-groupdata", exact: false, waitUntilElementExist: false);
-                    tableList = await tables.AllAsync();
-                    if (tableList.Count > 0)
+                    if (nameText.Equals(appName, StringComparison.OrdinalIgnoreCase))
                     {
-                        var rows = await ElementHelper.GetByClassAsync(tableList.Last(), "azc-grid-row", exact: false, waitUntilElementExist: false);
-                        var rowList = await rows.AllAsync();
-                        foreach (var row in rowList)
-                        {
-                            var text = (await row.InnerTextAsync()).Trim();
-                            if (text.Contains(itemToSelect))
-                            {
-                                return row;
-                            }
-                        }
+                        Console.WriteLine($"[MATCH] Found row for: '{appName}'");
+                        return row;
                     }
                 }
-                catch
+                catch (Exception ex)
                 {
-                    // Ignore and retry
+                    Console.WriteLine($"[WARN] Error reading row: {ex.Message}");
                 }
-                await Task.Delay(500);
             }
 
-            throw new InvalidOperationException("Unable to find item in grid: " + itemToSelect);
+            throw new InvalidOperationException($"Unable to find row for: {appName}");
         }
+
 
         public static async Task<ILocator> FindItemStartingWithAsync(IPage page, string itemName, string itemClass)
         {
@@ -1051,7 +1176,7 @@ namespace Account_Management.Pages
             await ControlHelper.SetComBoxRoleTreeItemRoleValueAsync(_page, "Rule type", ruleType, 0, iFrameName: IFrameName);
         }
 
-        public static async Task SetRequirementsFS(RootObject entity)
+        public  async Task SetRequirementsFS(RootObject entity)
         {
             try
             {
@@ -1079,7 +1204,7 @@ namespace Account_Management.Pages
                     }
                     else if (propertyName == nameof(RequirementsInfo.MinimumOperatingSystem))
                     {
-                        await IntuneWin32Apps.SetMinimun_operatingSystem();
+                        await All_Apps.SetMinimumOperationSystemAsync(reqInfo.MinimumOperatingSystem);
                     }
                     else
                     {
@@ -1241,10 +1366,12 @@ namespace Account_Management.Pages
 
 
 
-                await IntuneWin32Apps.PressActionButtonAndWaitForBladeAsync(_page, "Next", "");
+               
 
 
             }
+
+            await IntuneWin32Apps.PressActionButtonAndWaitForBladeAsync(_page, "Next", "");
 
         }
 
@@ -1256,7 +1383,7 @@ namespace Account_Management.Pages
             {
 
 
-                IntuneWin32Apps.SelectSingleDropDownItemAsync(_page, "Rules format", entity.RulesFormat);
+               await IntuneWin32Apps.SelectSingleDropDownItemAsync(_page, "Rules format", entity.RulesFormat);
 
                 if (entity.RulesFormat.ToLower() == "use a custom detection script")
                 {
@@ -1292,11 +1419,11 @@ namespace Account_Management.Pages
                         {
                             if (ruleInfo.Equals("Detection method"))
                             {
-                                IntuneWin32Apps.SelectSingleDropDownItemAsync(_page, "Detection method", item.RuleInfo[ruleInfo]);
+                              await  IntuneWin32Apps.SelectSingleDropDownItemAsync(_page, "Detection method", item.RuleInfo[ruleInfo]);
                             }
                             else if (ruleInfo.Equals("Operator"))
                             {
-                                IntuneWin32Apps.SelectSingleDropDownItemAsync(_page, item.RuleInfo[ruleInfo], "Operator");
+                               await IntuneWin32Apps.SelectSingleDropDownItemAsync(_page, item.RuleInfo[ruleInfo], "Operator");
                             }
                             else if (ruleInfo.Equals("MSI product version check") || ruleInfo.Contains("Associated with a 32-bit"))
                             {
@@ -1318,18 +1445,18 @@ namespace Account_Management.Pages
                                     // Locate the time input inside the parent element
                                     var time = await ElementHelper.GetByClassAndHasTextAsync(parent, "azc-input", "h:mm:ss AM/PM");
 
-                                    IntuneWin32Apps.SetDateTimeClear(date);
-                                    IntuneWin32Apps.SendKeysToItemAsync(dateValue[0], date);
+                                    await IntuneWin32Apps.SetDateTimeClear(date);
+                                    await IntuneWin32Apps.SendKeysToItemAsync(dateValue[0], date);
                                     if (dateValue.Length > 1)
                                     {
                                         time.ClickAsync();
-                                        IntuneWin32Apps.SetDateTimeClear(time);
-                                        IntuneWin32Apps.SendKeysToItemAsync(dateValue[1], time);
+                                        await IntuneWin32Apps.SetDateTimeClear(time);
+                                        await IntuneWin32Apps.SendKeysToItemAsync(dateValue[1], time);
                                     }
                                 }
                                 else
                                 {
-                                    IntuneWin32Apps.SetItemTextInCurrentBladeAsync(ruleInfo, item.RuleInfo[ruleInfo]);
+                                   await IntuneWin32Apps.SetItemTextInCurrentBladeAsync(ruleInfo, item.RuleInfo[ruleInfo]);
                                 }
                             }
                         }
@@ -1376,7 +1503,7 @@ namespace Account_Management.Pages
                 {
 
                     // Framework.WaitElementLoaded("Software dependencies", "azc-formElementSubLabelContainer", "azc-formElementContainer");
-                    IntuneWin32Apps.SetDependencyFSAsync(_page, entity.TestCaseName, entity.DependencyEntities);
+                  await   IntuneWin32Apps.SetDependencyFSAsync(_page, entity.TestCaseName, entity.DependencyEntities);
                 }
                 catch (Exception ex)
                 {
@@ -1385,7 +1512,7 @@ namespace Account_Management.Pages
                     throw ex;
                 }
             }
-            IntuneWin32Apps.PressActionButtonAndWaitForBladeAsync(_page, "Next", "");
+            await IntuneWin32Apps.PressActionButtonAndWaitForBladeAsync(_page, "Next", "");
 
 
 
@@ -1437,7 +1564,7 @@ namespace Account_Management.Pages
                     throw ex;
                 }
             }
-            IntuneWin32Apps.PressActionButtonAndWaitForBladeAsync(_page, "Next", "");
+          await  IntuneWin32Apps.PressActionButtonAndWaitForBladeAsync(_page, "Next", "");
 
 
 

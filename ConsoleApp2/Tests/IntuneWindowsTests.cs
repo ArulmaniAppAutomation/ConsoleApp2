@@ -13,12 +13,12 @@ namespace Account_Management.Tests
 {
     [TestFixture]
     [Category("Windows")]
-    [Category("Win32")]
+   
     public class IntuneWindowsTests:BaseTest
     {
         public static IEnumerable<TestCaseData> GetAppTestCases()
         {
-            var jsonFilePath = Path.Combine(AppContext.BaseDirectory, "TestData", "Win32App.txt");
+            var jsonFilePath = Path.Combine(AppContext.BaseDirectory, "TestData", "WinClassic_SanityTestPass.txt");
             var testCases = DataLoader.LoadFromFile(jsonFilePath);
 
             foreach (var testCase in testCases)

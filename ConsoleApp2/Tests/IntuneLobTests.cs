@@ -17,7 +17,7 @@ namespace Account_Management.Tests
     {
         public static IEnumerable<TestCaseData> GetLobTestCases()
         {
-            var jsonFilePath = Path.Combine(AppContext.BaseDirectory, "TestData", "LobApps.json");
+            var jsonFilePath = Path.Combine(AppContext.BaseDirectory, "TestData", "Windows_RegressionTestA&TestB.txt");
             var testCases = DataLoader.LoadFromFile(jsonFilePath);
 
             foreach (var testCase in testCases)

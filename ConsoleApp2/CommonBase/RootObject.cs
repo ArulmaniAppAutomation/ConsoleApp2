@@ -28,6 +28,8 @@ namespace Account_Management.Framework
         public List<SupersedenceEntity> UpdatedSupersedenceEntities { get; set; }
         public List<DependencyEntity> DependencyEntities { get; set; }
         public List<DependencyEntity> UpdatedDependencyEntities { get; set; }
+
+        public Dictionary<string, string> ProgramInfo { get; set; } // <-- Add this line
     }
 
     public class AppInfo
@@ -73,7 +75,7 @@ namespace Account_Management.Framework
         public string AllowedArchitectures { get; set; }
 
         [JsonPropertyName("Minimum operating system")]
-        public string MinimumOperatingSystem { get; set; }
+        public  string MinimumOperatingSystem { get; set; }
 
         [JsonPropertyName("Disk space required (MB)")]
         public string DiskSpaceRequiredMB { get; set; }
@@ -163,6 +165,18 @@ namespace Account_Management.Framework
     public class IosStoreAppAssignmentSetting
     {
         public bool UninstallOnDeviceRemoval { get; set; }
+    }
+
+    public class ProgramInfo
+    {
+        [JsonPropertyName("Install command")]
+        public string InstallCommand { get; set; }
+
+        [JsonPropertyName("Uninstall command")]
+        public string UninstallCommand { get; set; }
+
+        [JsonPropertyName("Install behavior")]
+        public string InstallBehavior { get; set; }
     }
 
     // Converter that accepts either a JSON string or JSON array and returns List<T>

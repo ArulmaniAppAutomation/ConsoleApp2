@@ -59,6 +59,10 @@ namespace Account_Management.CommonBase
                 Console.WriteLine($"Warning: failed to upload package file: {ex.Message}");
             }
         }
+        public async Task SetMinimumOperationSystemAsync(List<string> operationSystem)
+        {
+            await ControlHelper.SetComBoxRoleTreeItemRoleValueAsync(_page, "Minimum operating system", operationSystem, 0, iFrameName: IFrameName);
+        }
         private int GetAssignmentBehaveNth(string behaveName)
         {
             List<string> behaveTextList = new List<string>() { "Required", "Available for enrolled devices" };
@@ -219,7 +223,7 @@ namespace Account_Management.CommonBase
         {
             await SetAppInformationComboxWithAriaLabelAsync("Targeted platform", new List<string> { value });
         }
-        public async Task SetMinimumOperationSystemAsync(string operationSystem)
+        public  async Task SetMinimumOperationSystemAsync(string operationSystem)
         {
             await ControlHelper.SetComBoxRoleTreeItemRoleValueAsync(_page, "Minimum operating system", operationSystem, 0, iFrameName: IFrameName);
         }

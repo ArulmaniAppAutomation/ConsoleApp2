@@ -103,7 +103,7 @@ namespace Account_Management.Pages
             if (testCase.RequirementsInfo != null)
             {
                 Console.WriteLine("Found RequirementsInfo in JSON - applying requirements.");
-                await IntuneWin32Apps.SetRequirementsFS(testCase);
+               // await IntuneWin32Apps.SetRequirementsFS(testCase);
                 // move to next if UI requires
                 await All_Apps.ClickBottomNavigationSpecialNameButtonAsync("Next");
             }
@@ -155,6 +155,8 @@ namespace Account_Management.Pages
             {
                 Console.WriteLine("No assignments in JSON - skipping assignment step.");
             }
+
+
 
             // Finalize - create
             await All_Apps.ClickBottomNavigationSpecialNameButtonAsync("Create");
