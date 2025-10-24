@@ -1,0 +1,26 @@
+[
+ 
+ 
+  
+  {
+    "TestCaseName": "LobApkRegression",
+    "TestCaseID": 25533387,
+    "AppType": ["Line-of-business app"],
+    "FilePath": ".\\SampleApps\\VersionOne\\Online_Radio.apk",
+    "AppInfo": {
+      "Name": null,
+      "Description": "UI Automation testing",
+      "Targeted platform": "Android device administrator",
+      "Publisher": "AppLifeEx"
+    },
+    "AssignmentEntities": [
+      {
+        "AssignmentType": "Available_for_enrolled_devices",
+        "GroupSelectType": "IncludedGroups",
+        "AssignAllUsers": true,
+        "AssignAllDevices": false,
+        "AssignGroups": null
+      }
+    ]
+  }  
+]

@@ -196,6 +196,19 @@ namespace Account_Management.CommonBase
         {
             await SetAppInformationTextAreaByBannerAsync("Description", description);
         }
+        public async Task SetInstallCommandAsync(string Install_command)
+        {
+            await SetAppInformationTextAreaByBannerAsync("Install command", Install_command);
+        }
+        public async Task SetUninstallCommandAsync(string Uninstall_command)
+        {
+            await SetAppInformationTextAreaByBannerAsync("Uninstall command", Uninstall_command);
+        }
+        public async Task SetInstallbehaviorAsync(string Install_behavior)
+        {
+            await SetAppInformationTextAreaByBannerAsync("Install behavior", Install_behavior);
+        }
+
         public async Task SetAppInformationTextAreaByBannerAsync(string title, string value)
         {
             var DescriptionBannerLocator = await GetAppInformationBannerLocatorByTitleAsync(title);

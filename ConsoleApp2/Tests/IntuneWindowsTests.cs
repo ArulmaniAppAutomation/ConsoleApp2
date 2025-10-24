@@ -18,7 +18,7 @@ namespace Account_Management.Tests
     {
         public static IEnumerable<TestCaseData> GetAppTestCases()
         {
-            var jsonFilePath = Path.Combine(AppContext.BaseDirectory, "TestData", "WinClassic_SanityTestPass.txt");
+            var jsonFilePath = Path.Combine(AppContext.BaseDirectory, "TestData", "WinClassic_SanityTestPass  dependency.txt");
             var testCases = DataLoader.LoadFromFile(jsonFilePath);
 
             foreach (var testCase in testCases)
@@ -31,8 +31,8 @@ namespace Account_Management.Tests
         [Test, TestCaseSource(nameof(GetAppTestCases))]
         public async Task CanNavigateToIntunePortalAndDevicesSection(RootObject testCase)
         {
-            var portalUrl = GetPortalUrl("CTiP");
-            var account = GetAccount("CTiP");
+            var portalUrl = GetPortalUrl("SH");
+            var account = GetAccount("SH");
 
             // Require certificate info
             if (string.IsNullOrEmpty(account?.CertName) || string.IsNullOrEmpty(account?.CertCode))

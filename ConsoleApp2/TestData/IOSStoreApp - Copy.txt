@@ -1,0 +1,72 @@
+[
+	{
+		"TestCaseName": "iOS store app update regression test",
+		"TestCaseID": 25533267,
+		"AppType": "iOS",
+		"AppSearchString": "YouTube",
+		"AppInfo": {
+			"Name": "Generated from TestCaseName",
+			"Description": "UI Automation testing"
+		},
+		"AppUpdateInfo": {
+			"Description": "Changed: UI Automation testing",
+			"Publisher": "Changed: AppLifeEx",
+			"Display this as a featured app in the Company Portal": "Yes",
+			"Minimum operating system": "iOS 10.0",
+			"Category": "Data management",
+			"Information URL": "http://info.url",
+			"Privacy URL": "https://privacy.url",
+			"Developer": "Changed: AppLifeEx Developer Field",
+			"Owner": "Changed: AppLifeEx Owner Field",
+			"Notes": "Changed: AppLifeEx Notes Field",
+			"Logo": ".\\TestConfig\\image\\logo1.jpg"
+		},
+		"AssignmentEntities": [{
+			"AssignmentType": "Available_for_enrolled_devices",
+			"GroupSelectType": "IncludedGroups",
+			"AssignAllUsers": false,
+			"AssignAllDevices": false,
+			"AssignGroups": [{
+				"GroupName": "IOS_Group"
+			}]
+		}]
+	}
+
+,
+
+{
+		"TestCaseName": "iOS store app update regression test",
+		"TestCaseID": 25533267,
+		"AppType": "iOS",
+		"AppSearchString": "YouTube",
+		"AppInfo": {
+			"Name": "Generated from TestCaseName",
+			"Description": "UI Automation testing"
+		},
+		"AppUpdateInfo": {
+			"Description": "Changed: UI Automation testing",
+			"Publisher": "Changed: AppLifeEx",
+			"Display this as a featured app in the Company Portal": "Yes",
+			"Minimum operating system": "iOS 10.0",
+			"Category": "Data management",
+			"Information URL": "http://info.url",
+			"Privacy URL": "https://privacy.url",
+			"Developer": "Changed: AppLifeEx Developer Field",
+			"Owner": "Changed: AppLifeEx Owner Field",
+			"Notes": "Changed: AppLifeEx Notes Field",
+			"Logo": ".\\TestConfig\\image\\logo1.jpg"
+		},
+		"AssignmentEntities": [{
+			"AssignmentType": "Available_for_enrolled_devices",
+			"GroupSelectType": "IncludedGroups",
+			"AssignAllUsers": false,
+			"AssignAllDevices": false,
+			"AssignGroups": [{
+				"GroupName": "IOS_Group"
+			}]
+		}]
+	}
+
+
+
+]

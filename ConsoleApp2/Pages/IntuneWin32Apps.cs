@@ -13,6 +13,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Reflection;
+using System.Reflection.Emit;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json.Serialization;
@@ -111,9 +112,9 @@ namespace Account_Management.Pages
                 await nextButton1.ClickAsync();
                 await SetProgramFS(testCase);
                 await SetRequirementsFS(testCase);
-                await IntuneWin32Apps.SetDetectionFS(testCase);
-                await IntuneWin32Apps.SetDependenciesFS(testCase);
-                await IntuneWin32Apps.SetSupersedenceFS(testCase);
+                await SetDetectionFS(testCase);
+                await SetDependenciesFS(testCase);
+                await SetSupersedenceFS(testCase);
                 var appHelper = new IntuneWin32Apps(_page, _portalUrl); // ✅ create an instance
                 await appHelper.SetAssignmentFS(testCase); // ✅ call the method on the instance
                 await ClickBottomNavigationSpecialNameButtonAsync("Create");
@@ -139,15 +140,19 @@ namespace Account_Management.Pages
                     {
                         if (item.Equals("Install command"))
                         {
-                         await  IntuneWin32Apps.SetItemTextInCurrentBladeAsync( item, entity.ProgramInfo[item]);
+                            await IntuneWin32Apps.SetItemTextInCurrentBladeAsync(item, entity.ProgramInfo[item]);
+
+                            //await All_Apps.SetInstallCommandAsync(entity.ProgramInfo[item]);
                         }
                         else if (item.Equals("Uninstall command"))
                         {
+                           // await All_Apps.SetUninstallCommandAsync(entity.ProgramInfo[item]);
                             await  IntuneWin32Apps.SetItemTextInCurrentBladeAsync( item, entity.ProgramInfo[item]);
                         }
                         else if (item.Equals("Install behavior"))
                         {
-                            await  IntuneWin32Apps.SetItemTextInCurrentBladeAsync( item, entity.ProgramInfo[item]);
+                           // await All_Apps.SetInstallbehaviorAsync(entity.ProgramInfo[item]);
+                             await  IntuneWin32Apps.SetItemTextInCurrentBladeAsync( item, entity.ProgramInfo[item]);
                         }
                     }
                 }
@@ -1377,20 +1382,21 @@ namespace Account_Management.Pages
 
 
 
-        public static async Task SetDetectionFS(RootObject entity)
+        public static async Task SetDetectionFS(RootObject entity,String label= "Rules format")
         {
             try
             {
+                var labelLocator = _page.Locator($"label:has-text('{label}')");
+                await labelLocator.WaitForAsync(new() { Timeout = 15000 });
 
-
-               await IntuneWin32Apps.SelectSingleDropDownItemAsync(_page, "Rules format", entity.RulesFormat);
+                await IntuneWin32Apps.SelectSingleDropDownItemAsync(_page, "Rules format", entity.RulesFormat);
 
                 if (entity.RulesFormat.ToLower() == "use a custom detection script")
                 {
                     var item = entity.DetectionRules[0];
                     //Select Rules format
                     string appFileFullPath = System.Text.RegularExpressions.Regex.Replace(Path.Combine(Environment.CurrentDirectory, item.RuleInfo["Script file"].Replace(".\\", "")), "[+^%~()]", "{$0}");
-                    IntuneWin32Apps.File_Browser(appFileFullPath);
+                    await IntuneWin32Apps.File_Browser(appFileFullPath);
 
                     //foreach (var ruleInfo in item.RuleInfo.Keys)
                     //{

@@ -38,15 +38,8 @@ namespace ConsoleApp2.Framework
         [SetUp]
         public async Task SetUpAsync()
         {
-           // var contextOptions = new BrowserNewContextOptions();
-            //if (File.Exists(StorageStatePath))
-           // {
-           //     contextOptions.StorageStatePath = StorageStatePath;
-          //  }
-
             Context = await Browser.NewContextAsync();
             Page = await Context.NewPageAsync();
-        //    await Page.SetViewportSizeAsync(1900, 1080);
 
             await Context.Tracing.StartAsync(new TracingStartOptions
             {
@@ -54,22 +47,46 @@ namespace ConsoleApp2.Framework
                 Snapshots = true,
                 Sources = true
             });
+        }
 
+        private static bool IsRunningOnCi()
+        {
+            // Common CI environment variables
+            string[] ciVars = new[] { "CI", "GITHUB_ACTIONS", "TF_BUILD", "AZP", "BUILD_BUILDID", "TEAMCITY_VERSION" };
+            return ciVars.Any(v => !string.IsNullOrEmpty(Environment.GetEnvironmentVariable(v)));
+        }
+
+        private bool GetKeepBrowserOpenDecision()
+        {
+            // 1) explicit env var overrides everything
+            var envVal = Environment.GetEnvironmentVariable("KEEP_BROWSER_OPEN");
+            if (!string.IsNullOrEmpty(envVal))
+            {
+                if (envVal == "1" || envVal.Equals("true", StringComparison.OrdinalIgnoreCase))
+                    return true;
+                if (envVal == "0" || envVal.Equals("false", StringComparison.OrdinalIgnoreCase))
+                    return false;
+                // any other non-empty value -> treat as true
+                return true;
+            }
+
+            // 2) account setting if present (nullable bool)
+            if (_activeAccount?.KeepBrowserOpen != null)
+            {
+                return _activeAccount.KeepBrowserOpen.Value;
+            }
+
+            // 3) default: keep browser open for local runs; close on CI
+            return !IsRunningOnCi();
         }
 
         [TearDown]
         public async Task TearDownAsync()
         {
-
             Console.WriteLine("Current working directory: " + Directory.GetCurrentDirectory());
-
 
             if (Context != null)
             {
-
-
-
-
                 await Context.Tracing.StopAsync(new TracingStopOptions
                 {
                     Path = "trace.zip"
@@ -82,24 +99,67 @@ namespace ConsoleApp2.Framework
                 }
                 catch { }
 
-                if (!(_activeAccount?.KeepBrowserOpen ?? true))
+                bool keepOpen = GetKeepBrowserOpenDecision();
+
+                if (keepOpen)
                 {
-                    await Context.CloseAsync(); // ? Now this only runs if KeepBrowserOpen is false
-                } }
-
-                
+                    Console.WriteLine($"Keep browser open after test (decision:{keepOpen}). Skipping Context.CloseAsync().");
+                    // Do not close context - leave it for debugging/inspection
+                }
+                else
+                {
+                    try
+                    {
+                        await Context.CloseAsync(); // close context when not preserving
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Warning: failed to close context: " + ex.Message);
+                    }
+                }
             }
-        
+        }
 
-        
+        [OneTimeTearDown]
         public async Task OneTimeTearDownAsync()
         {
-            if (Browser != null)
+            bool keepOpen = GetKeepBrowserOpenDecision();
+
+            if (keepOpen)
             {
-             //   await Browser.CloseAsync();
+                Console.WriteLine($"Keeping Browser and Playwright instances open for debugging (decision:{keepOpen}).");
+                Console.WriteLine("Press ENTER to close browser and exit tests...");
+                try
+                {
+                    Console.ReadLine(); // block so browser process stays alive for inspection
+                }
+                catch { }
+                // after user hits Enter, proceed to clean up and close
             }
 
-           // PlaywrightInstance?.Dispose();
+            try
+            {
+                if (Context != null)
+                {
+                    await Context.CloseAsync();
+                }
+            }
+            catch { }
+
+            try
+            {
+                if (Browser != null)
+                {
+                    await Browser.CloseAsync();
+                }
+            }
+            catch { }
+
+            try
+            {
+                PlaywrightInstance?.Dispose();
+            }
+            catch { }
         }
 
         /// <summary>
