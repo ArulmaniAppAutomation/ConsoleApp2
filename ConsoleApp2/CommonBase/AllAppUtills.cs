@@ -12,19 +12,19 @@ using System.Threading.Tasks;
 
 namespace Account_Management.CommonBase
 {
-   public  class AllAppUtills:BaseCommonUtils
+    public class AllAppUtills : BaseCommonUtils
     {
 
         public ICommandBar commandBar;
         public static IPage Page { get; private set; }
         private readonly string _portalUrl;
         public static string? IFrameName = null;
-
-        public AllAppUtills(IPage page, string env):base (page,env) 
+        private ILocator? Grid_Locator { get { return GetGridLocatorAsync().Result; } }
+        public AllAppUtills(IPage page, string env) : base(page, env)
         {
-            Page=page;
+            Page = page;
             _portalUrl = env;
-           
+
 
         }
         /// <summary>
@@ -58,6 +58,24 @@ namespace Account_Management.CommonBase
             {
                 Console.WriteLine($"Warning: failed to upload package file: {ex.Message}");
             }
+        }
+
+        public async Task ClickSelectFileToUpdateButtonAsync()
+        {
+            await ControlHelper.ClickByClassAsync(await GetAppInformationBannerLocatorByTitleAsync("Select file to update"), "ext-controls-selectLink fxs-fxclick", 0);
+        }
+
+        private async Task<ILocator> GetGridLocatorAsync()
+        {
+            if (ParentLocator == null)
+            {
+                return (await ControlHelper.GetByClassAsync(_page, "azc-grid-root", iFrameName: this.CurrentIFrameName)).currentLocator;
+            }
+            else
+            {
+                return (await ControlHelper.GetByClassAsync(ParentLocator, "azc-grid-root")).currentLocator;
+            }
+
         }
         public async Task SetMinimumOperationSystemAsync(List<string> operationSystem)
         {
@@ -134,7 +152,7 @@ namespace Account_Management.CommonBase
             await ControlHelper.ClickByClassAsync(dataCellLocator, "fxs-fxclick", 0);
         }
 
-        public  async Task ClickRequiredAddAllDevicesAsync()
+        public async Task ClickRequiredAddAllDevicesAsync()
         {
             await ClickAddAllDevicesButtonAsync(GetAssignmentsRequiredNth());
         }
@@ -173,9 +191,9 @@ namespace Account_Management.CommonBase
 
         public async Task<(bool, Dictionary<string, string>)> SetAppinformationNameAsync(string operationValue, Func<string, Task> setFunction)
         {
-           // var appName = BaseCreateUniqueProfileName(operationValue);
-            var appName=operationValue.ToLower();
-            
+            // var appName = BaseCreateUniqueProfileName(operationValue);
+            var appName = operationValue.ToLower();
+
             await setFunction(appName);
 
             var parameter = new Dictionary<string, string>();
@@ -227,7 +245,42 @@ namespace Account_Management.CommonBase
         {
             await SetAppInformationInputWithAriaLabelAsync("Information URL", value);
         }
+        public async Task ClickAppsNameToShowDetailAsync(string name)
+        {
+            await SetSearchBoxAsync(name);
+            var result = await ControlHelper.RetryAsync(retryCount: 3, async () =>
+            {
+                await commandBar.ClickCommandBarRefreshButtonAsync();
+                await ClickRowHeaderToShowDetailAsync(name);
+            });
+        }
+        public async Task SetSearchBoxAsync(string value)
+        {
+            await SetSearchBoxValueAsync(value);
+        }
+        public async Task ClickRowHeaderToShowDetailAsync(string RowHeader)
+        {
+            var rowLocator = await ControlHelper.GetByRoleAndHasTextAsync(Grid_Locator, AriaRole.Row, RowHeader, 0);
+            await ControlHelper.ClickByClassAndHasTextAsync(rowLocator, "azc-grid-cellContent", RowHeader, 0);
+        }
 
+        public async Task SetSearchBoxValueAsync(string value)
+        {
+            await ControlHelper.SetInputByClassAndPlaceholderAsync(SearchBoxLocator, "ms-SearchBox-field", GetCurrentLanguageText("Search"), value, 0);
+        }
+        private ILocator SearchBoxLocator
+        {
+            get
+            {
+                return GetSearchBoxLocator();
+            }
+        }
+
+        private ILocator GetSearchBoxLocator()
+        {
+            var iconLocator = ControlHelper.GetLocatorByClassAsync(_page, "ms-SearchBox-iconContainer", -1, iFrameName: this.CurrentIFrameName).Result;
+            return ControlHelper.GetParentLocatorBySonLocatorAsync(iconLocator, 1).Result;
+        }
         public async Task SetAppInformationInputWithAriaLabelAsync(string ariaLabel, string value)
         {
             await ControlHelper.SetInputByClassAndAriaLabelAsync(_page, "azc-input azc-formControl", ariaLabel, value, 0, iFrameName: IFrameName);
@@ -236,7 +289,7 @@ namespace Account_Management.CommonBase
         {
             await SetAppInformationComboxWithAriaLabelAsync("Targeted platform", new List<string> { value });
         }
-        public  async Task SetMinimumOperationSystemAsync(string operationSystem)
+        public async Task SetMinimumOperationSystemAsync(string operationSystem)
         {
             await ControlHelper.SetComBoxRoleTreeItemRoleValueAsync(_page, "Minimum operating system", operationSystem, 0, iFrameName: IFrameName);
         }
@@ -307,17 +360,17 @@ namespace Account_Management.CommonBase
         {
             return await ControlHelper.GetByRoleAndHasTextAsync(_page, AriaRole.Complementary, paneName, 0, iFrameName: IFrameName);
         }
-        public  async Task SetRulePathAsync(string path)
+        public async Task SetRulePathAsync(string path)
         {
             await SetAzcInputBoxAsync("Path", path);
         }
 
-        public  async Task SetAzcInputBoxAsync(string name, string value, string noText = null)
+        public async Task SetAzcInputBoxAsync(string name, string value, string noText = null)
         {
             var locator = await ControlHelper.GetLocatorByClassAndHasTextAsync(Page, "fxc-weave-pccontrol fxc-section-control fxc-base msportalfx-form-formelement fxc-has-label azc-textField fxc-TextField azc-fabric azc-validationBelowCtrl", name, 0, hasNotText: noText, iframeName: IFrameName);
             await ControlHelper.SetInputByClassAndTypeAsync(locator, "azc-input azc-formControl", "text", value, 0);
         }
-        public  async Task SetRuleFileOrFolderAsync(string file)
+        public async Task SetRuleFileOrFolderAsync(string file)
         {
             await SetAzcInputBoxAsync("File or folder", file);
         }
@@ -334,6 +387,24 @@ namespace Account_Management.CommonBase
         {
             await ControlHelper.SetComBoxRoleTreeItemRoleValueAsync(_page, "Update channel", value, 0, iFrameName: IFrameName);
         }
+
+        public async Task ClickAppInformationEditButtonAsync()
+        {
+            await ControlHelper.RetryAsync(3, async () =>
+            {
+                await siteBarMenu.ClickPropertiesAsync();
+                await siteBarMenu.ClickOverviewAsync();
+                await siteBarMenu.ClickPropertiesAsync();
+                await ClickEditButtonAsync("Edit App information");
+            });
+        }
+
+        private async Task ClickEditButtonAsync(string sectionArialable)
+        {
+            await ControlHelper.ClickByClassWithAriaLableAsync(this.CurrentIPage, "ext-summary-editSectionHeader", sectionArialable, 0, iFrameName: IFrameName);
+        }
+
+
 
     }
 }
